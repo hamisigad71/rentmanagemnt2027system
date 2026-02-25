@@ -21,6 +21,30 @@ type ActionContextType = {
 
 const ActionContext = createContext<ActionContextType | undefined>(undefined);
 
+function SearchParamsHandler({ 
+  isReady, 
+  setGlobalLoading 
+}: { 
+  isReady: boolean; 
+  setGlobalLoading: (loading: boolean) => void 
+}) {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  // Trigger loader on navigation
+  useEffect(() => {
+    if (isReady) {
+      setGlobalLoading(true);
+      const timer = setTimeout(() => {
+        setGlobalLoading(false);
+      }, 600); // 600ms for a snappy, smooth feel
+      return () => clearTimeout(timer);
+    }
+  }, [pathname, searchParams, isReady, setGlobalLoading]);
+
+  return null;
+}
+
 export function ActionProvider({ children }: { children: ReactNode }) {
   const [show, setShow] = useState(false);
   const [globalLoading, setGlobalLoading] = useState(false);
@@ -32,23 +56,9 @@ export function ActionProvider({ children }: { children: ReactNode }) {
     icon: "sync",
   });
 
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
   useEffect(() => {
     setIsReady(true);
   }, []);
-
-  // Trigger loader on navigation
-  useEffect(() => {
-    if (isReady) {
-      setGlobalLoading(true);
-      const timer = setTimeout(() => {
-        setGlobalLoading(false);
-      }, 600); // 600ms for a snappy, smooth feel
-      return () => clearTimeout(timer);
-    }
-  }, [pathname, searchParams, isReady]);
 
   const showAction = (newConfig: ActionConfig) => {
     setConfig(newConfig);
@@ -65,6 +75,9 @@ export function ActionProvider({ children }: { children: ReactNode }) {
 
   return (
     <ActionContext.Provider value={{ showAction, hideAction, updateAction, setGlobalLoading }}>
+      <React.Suspense fallback={null}>
+        <SearchParamsHandler isReady={isReady} setGlobalLoading={setGlobalLoading} />
+      </React.Suspense>
       {children}
       <Loader show={!isReady || globalLoading} />
       <ActionOverlay
