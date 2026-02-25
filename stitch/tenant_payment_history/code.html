@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tenant Payment History</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#135bec",
+                "background-light": "#f6f6f8",
+                "background-dark": "#101622",
+              },
+              fontFamily: {
+                "display": ["Inter"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+          },
+        }
+      </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .ios-blur {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<!-- iOS Status Bar Placeholder -->
+<div class="h-12 w-full flex items-center justify-between px-6 bg-background-light dark:bg-background-dark sticky top-0 z-50">
+<span class="text-sm font-semibold">9:41</span>
+<div class="flex items-center gap-1.5">
+<span class="material-icons text-sm">signal_cellular_alt</span>
+<span class="material-icons text-sm">wifi</span>
+<span class="material-icons text-sm">battery_full</span>
+</div>
+</div>
+<!-- Navigation Header -->
+<header class="px-6 py-4 flex items-center justify-between bg-background-light dark:bg-background-dark sticky top-12 z-40 border-b border-primary/5">
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 shadow-sm">
+<span class="material-icons text-primary">chevron_left</span>
+</button>
+<h1 class="text-lg font-bold">Payment History</h1>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 shadow-sm">
+<span class="material-icons text-primary">file_download</span>
+</button>
+</header>
+<main class="px-6 py-6 space-y-6 max-w-md mx-auto">
+<!-- Summary Cards Grid -->
+<div class="grid grid-cols-2 gap-4">
+<!-- Total Paid Card -->
+<div class="bg-primary rounded-xl p-4 shadow-lg shadow-primary/20 text-white">
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs font-medium opacity-80 uppercase tracking-wider">Total Paid</span>
+<span class="material-icons text-sm opacity-80">account_balance_wallet</span>
+</div>
+<div class="text-2xl font-bold">$12,450.00</div>
+<div class="mt-2 text-[10px] bg-white/20 inline-block px-2 py-0.5 rounded-full">All time</div>
+</div>
+<!-- Outstanding Card -->
+<div class="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm border border-primary/5">
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Outstanding</span>
+<span class="material-icons text-sm text-red-500">priority_high</span>
+</div>
+<div class="text-2xl font-bold text-slate-900 dark:text-white">$1,200.00</div>
+<div class="mt-2 text-[10px] text-red-500 font-semibold uppercase">Due in 5 days</div>
+</div>
+</div>
+<!-- Filter & Search Bar -->
+<div class="flex items-center gap-3">
+<div class="relative flex-1">
+<span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+<input class="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-slate-800 border-none rounded-xl text-sm focus:ring-2 focus:ring-primary shadow-sm placeholder:text-slate-400" placeholder="Search payments..." type="text"/>
+</div>
+<button class="bg-white dark:bg-slate-800 p-2.5 rounded-xl border-none shadow-sm flex items-center justify-center">
+<span class="material-icons text-slate-600 dark:text-slate-300">tune</span>
+</button>
+</div>
+<!-- Detailed Transaction Table / List -->
+<div class="space-y-4 pb-20">
+<div class="flex items-center justify-between px-1">
+<h2 class="font-bold text-slate-800 dark:text-white">Recent Transactions</h2>
+<button class="text-primary text-xs font-semibold">View All</button>
+</div>
+<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-primary/5 overflow-hidden">
+<div class="divide-y divide-slate-100 dark:divide-slate-700">
+<!-- Transaction Row 1 -->
+<div class="p-4 flex items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+<div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+<span class="material-icons text-primary">credit_card</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<p class="font-semibold text-sm text-slate-900 dark:text-white truncate">Rent - October 2023</p>
+<p class="font-bold text-sm text-slate-900 dark:text-white shrink-0">$1,500.00</p>
+</div>
+<div class="flex justify-between items-center mt-1">
+<p class="text-xs text-slate-500 dark:text-slate-400">Oct 12 • Visa •••• 4242</p>
+<span class="px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold uppercase tracking-wide">Success</span>
+</div>
+</div>
+</div>
+<!-- Transaction Row 2 -->
+<div class="p-4 flex items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+<div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+<span class="material-icons text-primary">account_balance</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<p class="font-semibold text-sm text-slate-900 dark:text-white truncate">Maintenance Fee</p>
+<p class="font-bold text-sm text-slate-900 dark:text-white shrink-0">$85.00</p>
+</div>
+<div class="flex justify-between items-center mt-1">
+<p class="text-xs text-slate-500 dark:text-slate-400">Oct 08 • Bank Transfer</p>
+<span class="px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold uppercase tracking-wide">Success</span>
+</div>
+</div>
+</div>
+<!-- Transaction Row 3 -->
+<div class="p-4 flex items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+<div class="w-12 h-12 rounded-lg bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center shrink-0">
+<span class="material-icons text-amber-600">bolt</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<p class="font-semibold text-sm text-slate-900 dark:text-white truncate">Electricity Bill</p>
+<p class="font-bold text-sm text-slate-900 dark:text-white shrink-0">$142.50</p>
+</div>
+<div class="flex justify-between items-center mt-1">
+<p class="text-xs text-slate-500 dark:text-slate-400">Oct 01 • Auto-pay</p>
+<span class="px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-600 text-[10px] font-bold uppercase tracking-wide">Pending</span>
+</div>
+</div>
+</div>
+<!-- Transaction Row 4 -->
+<div class="p-4 flex items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+<div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+<span class="material-icons text-primary">credit_card</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<p class="font-semibold text-sm text-slate-900 dark:text-white truncate">Rent - September 2023</p>
+<p class="font-bold text-sm text-slate-900 dark:text-white shrink-0">$1,500.00</p>
+</div>
+<div class="flex justify-between items-center mt-1">
+<p class="text-xs text-slate-500 dark:text-slate-400">Sep 12 • Visa •••• 4242</p>
+<span class="px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold uppercase tracking-wide">Success</span>
+</div>
+</div>
+</div>
+<!-- Transaction Row 5 -->
+<div class="p-4 flex items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+<div class="w-12 h-12 rounded-lg bg-red-100 dark:bg-red-900/30 flex items-center justify-center shrink-0">
+<span class="material-icons text-red-600">error_outline</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<p class="font-semibold text-sm text-slate-900 dark:text-white truncate">Amenity Booking Fee</p>
+<p class="font-bold text-sm text-slate-900 dark:text-white shrink-0">$50.00</p>
+</div>
+<div class="flex justify-between items-center mt-1">
+<p class="text-xs text-slate-500 dark:text-slate-400">Aug 28 • Visa •••• 4242</p>
+<span class="px-2 py-0.5 rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-[10px] font-bold uppercase tracking-wide">Failed</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Additional Insight Card -->
+<div class="bg-primary/5 rounded-xl p-4 border border-primary/10">
+<div class="flex gap-3">
+<span class="material-icons text-primary">info</span>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white">Upcoming Payment</p>
+<p class="text-xs text-slate-600 dark:text-slate-400 mt-0.5 leading-relaxed">Your next rent payment of $1,500.00 is scheduled for Nov 01, 2023 via Auto-pay.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Navigation Tab Bar -->
+<nav class="fixed bottom-0 left-0 right-0 bg-white/80 dark:bg-slate-900/80 ios-blur border-t border-slate-200 dark:border-slate-800 px-8 py-3 flex justify-between items-center z-50">
+<div class="flex flex-col items-center gap-1 opacity-50">
+<span class="material-icons text-xl">home</span>
+<span class="text-[10px] font-medium">Home</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-primary">
+<span class="material-icons text-xl">history</span>
+<span class="text-[10px] font-bold">History</span>
+</div>
+<div class="flex flex-col items-center gap-1 opacity-50 relative">
+<span class="material-icons text-xl">notifications</span>
+<span class="absolute top-0 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+<span class="text-[10px] font-medium">Alerts</span>
+</div>
+<div class="flex flex-col items-center gap-1 opacity-50">
+<span class="material-icons text-xl">person</span>
+<span class="text-[10px] font-medium">Profile</span>
+</div>
+</nav>
+<!-- Screen Bottom Safe Area -->
+<div class="h-8 bg-white dark:bg-slate-900 fixed bottom-0 w-full z-40"></div>
+</body></html>

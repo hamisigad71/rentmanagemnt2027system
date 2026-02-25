@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tenant Submit Complaint</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .ios-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+        .status-pill {
+            padding: 2px 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 9999px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="max-w-[430px] mx-auto bg-white dark:bg-slate-900 min-h-screen flex flex-col shadow-2xl relative">
+<!-- Status Bar Placeholder (iOS Style) -->
+<div class="h-12 w-full flex justify-between items-end px-8 pb-2">
+<span class="text-sm font-semibold">9:41</span>
+<div class="flex space-x-1.5 items-center">
+<span class="material-icons text-xs">signal_cellular_alt</span>
+<span class="material-icons text-xs">wifi</span>
+<span class="material-icons text-xs">battery_full</span>
+</div>
+</div>
+<!-- Header -->
+<header class="sticky top-0 z-10 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md px-5 py-4 flex items-center border-b border-slate-100 dark:border-slate-800">
+<button class="p-1 -ml-1 text-primary">
+<span class="material-icons">arrow_back_ios</span>
+</button>
+<h1 class="flex-1 text-center font-bold text-lg mr-6">Submit Complaint</h1>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto px-5 pt-6 pb-10">
+<!-- Complaint Form -->
+<section class="space-y-6 mb-10">
+<div class="space-y-2">
+<label class="text-sm font-semibold text-slate-600 dark:text-slate-400">Issue Title</label>
+<input class="w-full px-4 py-3 rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none" placeholder="e.g. Leaking Faucet in Kitchen" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-semibold text-slate-600 dark:text-slate-400">Detailed Description</label>
+<textarea class="w-full px-4 py-3 rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none resize-none" placeholder="Please provide as much detail as possible..." rows="4"></textarea>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-semibold text-slate-600 dark:text-slate-400">Attachments</label>
+<div class="w-full h-32 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl flex flex-col items-center justify-center space-y-2 bg-slate-50/50 dark:bg-slate-800/50 group cursor-pointer hover:border-primary transition-colors">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-icons">add_a_photo</span>
+</div>
+<span class="text-sm text-slate-500 font-medium">Upload Photos or Video</span>
+</div>
+</div>
+<button class="w-full bg-primary text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 active:scale-[0.98] transition-transform">
+                    Submit Complaint
+                </button>
+</section>
+<!-- Past Complaints Section -->
+<section class="space-y-4">
+<div class="flex justify-between items-center px-1">
+<h2 class="font-bold text-lg">My Past Complaints</h2>
+<button class="text-primary text-sm font-semibold">View All</button>
+</div>
+<div class="space-y-3">
+<!-- Complaint Card 1 -->
+<div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800 flex items-start gap-4">
+<div class="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Close up of a leaking kitchen faucet" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAh3dqX4l-LgmQsiFxkvWLOTjNkJsRioA_h4yq99A4enlrnGHeQJFtHZiXLNoR10OD_-lBTTKuOXa1_4PfgMn0rb1HPCQtrVfg27IGu3Ewu2n-1inJybEA-2dgHuYWlgTX8IixtoY2nnBIIl9gpkwAhX6jw5WfIg_31UsE_a8mWOWnK2pvklzBfNCm5ddQgnxM_J0Rnb102l4sWaJ-I5Uu0miDyp3yKHE0NggDCBb_jtfenkNQ7OX7kGjcJrFbGaik6jxvPP-tkAQv"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="font-semibold text-sm truncate pr-2">Kitchen Sink Leakage</h3>
+<span class="status-pill bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400">Pending</span>
+</div>
+<p class="text-xs text-slate-500 mt-1">Submitted Oct 24, 2023</p>
+</div>
+</div>
+<!-- Complaint Card 2 -->
+<div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800 flex items-start gap-4">
+<div class="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Electrical outlet with minor burn marks" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjcHbTl5kkSMcW_udHLhZLrsX03SdnkZxDwEhW3UAI8aOXK7TDtV9CaG1r9lPZlqNxETC5s57bzf_wf6LZAXVyIrigUuyGULuvtTmf8VAIiEtCNqQ26p3NxJGdhsYWVG9wQfMDD4-oQmwHENbr-imH3_alLYU-eH1PyGbTgR-FzlUrs5IvEd7KBZ9GOEsB8FdcM2fT66qJXbgOwOUFBw5qKEkpn6-o5IS6JKg62oHG0All32iGiaqbiJBJMeRznvmBLv4Mp0E6z2mK"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="font-semibold text-sm truncate pr-2">Broken Living Room Outlet</h3>
+<span class="status-pill bg-primary/10 text-primary dark:bg-primary/20">In Progress</span>
+</div>
+<p class="text-xs text-slate-500 mt-1">Submitted Oct 20, 2023</p>
+</div>
+</div>
+<!-- Complaint Card 3 -->
+<div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800 flex items-start gap-4">
+<div class="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Modern air conditioning unit on wall" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA53MSWR4Ca29Gs3kpe2PPwLxc0Z5HWk5lgX8hqF_T9k2bEyyssYXERUK6s0ZnXoLSMXVEueqdlo82aamWNusvENwPUo-8FS2nyAirwhvqViZvbyV1MavSpxjO4I1ST-bnAOM68RhTIKHhxrZkQbheFEeBOZOVKuEzyI7skwFGUUJHK8BYOV8t8xoWPCLUY5bn9kfr267ecwIEIq5sLZEV1JDxf2bSNp3vPa_W5AGs-L2JXCVUNnD9cb3DYVLeDoiz4AZ9Mlat0lyto"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="font-semibold text-sm truncate pr-2">AC Unit Service</h3>
+<span class="status-pill bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">Resolved</span>
+</div>
+<p class="text-xs text-slate-500 mt-1">Submitted Oct 12, 2023</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Tab Bar (iOS Style) -->
+<nav class="h-20 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 flex justify-around items-center px-6 pb-2">
+<div class="flex flex-col items-center text-slate-400">
+<span class="material-icons">home</span>
+<span class="text-[10px] mt-1">Home</span>
+</div>
+<div class="flex flex-col items-center text-primary">
+<span class="material-icons">assignment_late</span>
+<span class="text-[10px] mt-1 font-medium">Complaints</span>
+</div>
+<div class="flex flex-col items-center text-slate-400">
+<span class="material-icons">payments</span>
+<span class="text-[10px] mt-1">Rent</span>
+</div>
+<div class="flex flex-col items-center text-slate-400">
+<span class="material-icons">person</span>
+<span class="text-[10px] mt-1">Profile</span>
+</div>
+</nav>
+<!-- Home Indicator (iOS Style) -->
+<div class="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-32 h-1 bg-slate-200 dark:bg-slate-700 rounded-full"></div>
+</div>
+</body></html>

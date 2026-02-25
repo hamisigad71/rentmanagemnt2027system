@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Landlord Dashboard Overview</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .custom-shadow {
+            box-shadow: 0 4px 20px -2px rgba(19, 91, 236, 0.08);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-800 dark:text-slate-200 antialiased">
+<!-- Mobile Header -->
+<header class="sticky top-0 z-50 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md px-4 py-4 flex items-center justify-between border-b border-primary/10">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white">
+<span class="material-icons">business</span>
+</div>
+<div>
+<h1 class="text-lg font-bold text-slate-900 dark:text-white leading-tight">Overview</h1>
+<p class="text-xs text-slate-500">Welcome back, Alex</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
+<span class="material-icons">notifications</span>
+</button>
+<button class="w-10 h-10 overflow-hidden rounded-full border-2 border-primary/20">
+<img alt="Profile" data-alt="Portrait of a smiling professional male landlord" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYFes73c41rX7iwLj92RXOAtAs7QJ5nbQgR4ZeqFKSekg5B3vSHOgd-EozwWSbHJkdFpSQf66VCvDfpWf7vw2WQl2wg9ObFuPgQHgPBPbbdVsVHr6gi4LNcUrQXUmSVHNVol3RxrdRTJpBDTomOo5Hh_JVINrfpS4vgLIvHNK-VYul5kN98a8kLt23G7eynaG4o1NgoWVSo4zNczXcE7NjjkO6pi3Wzt37z5hw8ANBJYILRgM2fHNyahLqmKUCGy19P_mqVx-UeNbf"/>
+</button>
+</div>
+</header>
+<main class="px-4 py-6 mb-24 max-w-md mx-auto">
+<!-- Stats Grid -->
+<div class="grid grid-cols-2 gap-3 mb-6">
+<div class="bg-white dark:bg-slate-900 p-4 rounded-xl custom-shadow">
+<div class="flex items-center gap-2 mb-2">
+<div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+<span class="material-icons text-primary text-sm">apartment</span>
+</div>
+<span class="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Buildings</span>
+</div>
+<div class="flex items-end gap-1">
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white leading-none">12</h2>
+<span class="text-[10px] text-green-500 mb-0.5">+1</span>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 p-4 rounded-xl custom-shadow">
+<div class="flex items-center gap-2 mb-2">
+<div class="w-8 h-8 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+<span class="material-icons text-green-600 text-sm">check_circle</span>
+</div>
+<span class="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Occupied</span>
+</div>
+<div class="flex items-end gap-1">
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white leading-none">84</h2>
+<span class="text-[10px] text-slate-400 mb-0.5">92%</span>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 p-4 rounded-xl custom-shadow">
+<div class="flex items-center gap-2 mb-2">
+<div class="w-8 h-8 rounded-lg bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center">
+<span class="material-icons text-orange-600 text-sm">error_outline</span>
+</div>
+<span class="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Vacant</span>
+</div>
+<div class="flex items-end gap-1">
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white leading-none">8</h2>
+<span class="text-[10px] text-orange-500 mb-0.5">Alert</span>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 p-4 rounded-xl custom-shadow">
+<div class="flex items-center gap-2 mb-2">
+<div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+<span class="material-icons text-primary text-sm">payments</span>
+</div>
+<span class="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Revenue</span>
+</div>
+<div class="flex items-end gap-1">
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white leading-none">$42.5k</h2>
+<span class="text-[10px] text-green-500 mb-0.5">+4%</span>
+</div>
+</div>
+</div>
+<!-- Revenue Trends Chart (Simulated with CSS) -->
+<section class="mb-6">
+<div class="flex items-center justify-between mb-3">
+<h3 class="text-base font-bold text-slate-900 dark:text-white">Revenue Trends</h3>
+<button class="text-xs font-semibold text-primary">Last 6 Months</button>
+</div>
+<div class="bg-white dark:bg-slate-900 p-4 rounded-xl custom-shadow">
+<div class="h-32 w-full flex items-end justify-between gap-2 px-1">
+<div class="w-full bg-primary/10 rounded-t-sm relative group">
+<div class="absolute bottom-0 left-0 right-0 bg-primary/40 rounded-t-sm h-[40%]"></div>
+<div class="absolute bottom-0 left-0 right-0 bg-primary rounded-t-sm h-[20%]"></div>
+</div>
+<div class="w-full bg-primary/10 rounded-t-sm relative group">
+<div class="absolute bottom-0 left-0 right-0 bg-primary/40 rounded-t-sm h-[55%]"></div>
+<div class="absolute bottom-0 left-0 right-0 bg-primary rounded-t-sm h-[35%]"></div>
+</div>
+<div class="w-full bg-primary/10 rounded-t-sm relative group">
+<div class="absolute bottom-0 left-0 right-0 bg-primary/40 rounded-t-sm h-[65%]"></div>
+<div class="absolute bottom-0 left-0 right-0 bg-primary rounded-t-sm h-[45%]"></div>
+</div>
+<div class="w-full bg-primary/10 rounded-t-sm relative group">
+<div class="absolute bottom-0 left-0 right-0 bg-primary/40 rounded-t-sm h-[80%]"></div>
+<div class="absolute bottom-0 left-0 right-0 bg-primary rounded-t-sm h-[60%]"></div>
+</div>
+<div class="w-full bg-primary/10 rounded-t-sm relative group">
+<div class="absolute bottom-0 left-0 right-0 bg-primary/40 rounded-t-sm h-[90%]"></div>
+<div class="absolute bottom-0 left-0 right-0 bg-primary rounded-t-sm h-[75%]"></div>
+</div>
+<div class="w-full bg-primary/10 rounded-t-sm relative group">
+<div class="absolute bottom-0 left-0 right-0 bg-primary/40 rounded-t-sm h-[100%]"></div>
+<div class="absolute bottom-0 left-0 right-0 bg-primary rounded-t-sm h-[85%]"></div>
+</div>
+</div>
+<div class="flex justify-between mt-2 px-1 text-[10px] font-medium text-slate-400">
+<span>JAN</span>
+<span>FEB</span>
+<span>MAR</span>
+<span>APR</span>
+<span>MAY</span>
+<span>JUN</span>
+</div>
+</div>
+</section>
+<!-- Recent Payments -->
+<section class="mb-6">
+<div class="flex items-center justify-between mb-3">
+<h3 class="text-base font-bold text-slate-900 dark:text-white">Recent Payments</h3>
+<button class="text-xs font-semibold text-primary">View All</button>
+</div>
+<div class="space-y-3">
+<div class="bg-white dark:bg-slate-900 p-3 rounded-xl custom-shadow flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center overflow-hidden">
+<img alt="Tenant" data-alt="Portrait of a young male tenant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBk-iYP06VzCv0j7fAB2uIbLgwquB2lJwEu5f51IILWg4qlwu97YtI3QbOBrmdI5OCLoQI8By__vHtQg5m05dC8-s7f_5-ITUFKWMZvMqC13hsr4oR8K0xQj2FnuZJZx7gMclKmRuKUf-UOb3eol8uGyO_QfF0EFlSs5VHb82GaktTL535-hXIYokrrhL5YJfTG0hzh0EA35Q7A0D6qnlwkyXTtLYH_TErl9bJt6f_S-kv8tpJvY4Gh-SK6CbcC0amxFDng5C9vEqVd"/>
+</div>
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white leading-none">James Wilson</p>
+<p class="text-[10px] text-slate-500 mt-1">Unit 4A • 2 mins ago</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-green-600">+$1,850.00</p>
+<span class="inline-block px-1.5 py-0.5 rounded text-[9px] font-bold bg-green-100 dark:bg-green-900/40 text-green-600 mt-1">PAID</span>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 p-3 rounded-xl custom-shadow flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center overflow-hidden">
+<img alt="Tenant" data-alt="Portrait of a young female tenant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBV_20UvTtNpHw8HLBThMx3SUbaX_kv1q7t2VXOlh3yd99hPBBcFEw9HlV_zvxQDzhAtRSopzVzpnAJVqrJQ40d7ZuEytbwims83309-LSGbgFpls1FOKglo_KxCauJVA85MzRQlSGwAsqOTfU_g56ti4xLGOw4mCUOm5ezNNbhUTQBEzbUQnu6VlT5PiYm3aZCepf40SR7ynE_5-WujeksG1cdY4C84y_o7qCAeKDxSFvgyU7vl0iHxsQCwD7-7hiebEyOj0tWu69R"/>
+</div>
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white leading-none">Sarah Chen</p>
+<p class="text-[10px] text-slate-500 mt-1">Unit 12C • 1 hour ago</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-slate-900 dark:text-white">+$2,100.00</p>
+<span class="inline-block px-1.5 py-0.5 rounded text-[9px] font-bold bg-primary/10 text-primary mt-1">PENDING</span>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 p-3 rounded-xl custom-shadow flex items-center justify-between opacity-70">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center overflow-hidden">
+<img alt="Tenant" data-alt="Portrait of a middle aged male tenant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZG-9aPt088BauDMaqbAel040vA_8SNwgO7UT-kDP-o3qehSPAPBapUTyHy7SbyS7ff-gF4-U6LDVrE_UULx0BqOxcoUtJOPIJLCjKRuVeMrnE0J0UHPZYM67VfDvz86JKjwsQylGymJEX8v6dq0oAZWohhQFeZUf1XgvjG73IMvs2hoAawDUug6nMylyxSHPXZPWKyhoC81dxnlcIP2k4s-BKy4b8k8TTwnM2FnP88l4eUvTY4Jb-iJPpqQk53SoTxvDRn9uQGztR"/>
+</div>
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white leading-none">Robert Miller</p>
+<p class="text-[10px] text-slate-500 mt-1">Unit 7B • 3 hours ago</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-green-600">+$1,400.00</p>
+<span class="inline-block px-1.5 py-0.5 rounded text-[9px] font-bold bg-green-100 dark:bg-green-900/40 text-green-600 mt-1">PAID</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Recent Complaints -->
+<section>
+<div class="flex items-center justify-between mb-3">
+<h3 class="text-base font-bold text-slate-900 dark:text-white">Active Complaints</h3>
+<span class="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">3</span>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-xl custom-shadow overflow-hidden">
+<div class="p-4 border-b border-slate-100 dark:border-slate-800">
+<div class="flex items-start justify-between">
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="text-[10px] font-bold text-red-500 bg-red-50 dark:bg-red-900/20 px-1.5 py-0.5 rounded">URGENT</span>
+<span class="text-[10px] text-slate-400">Unit 102 • Heights Tower</span>
+</div>
+<h4 class="text-sm font-semibold text-slate-900 dark:text-white">Water leakage in master bathroom</h4>
+</div>
+<button class="text-slate-400"><span class="material-icons text-xl">chevron_right</span></button>
+</div>
+</div>
+<div class="p-4 bg-slate-50/50 dark:bg-slate-800/50">
+<div class="flex items-start justify-between">
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="text-[10px] font-bold text-orange-500 bg-orange-50 dark:bg-orange-900/20 px-1.5 py-0.5 rounded">MEDIUM</span>
+<span class="text-[10px] text-slate-400">Unit 305 • Sunset Apts</span>
+</div>
+<h4 class="text-sm font-semibold text-slate-900 dark:text-white">Broken kitchen cabinet door hinge</h4>
+</div>
+<button class="text-slate-400"><span class="material-icons text-xl">chevron_right</span></button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Navigation Bar -->
+<nav class="fixed bottom-0 left-0 right-0 bg-white dark:bg-background-dark border-t border-slate-100 dark:border-slate-800 px-6 py-3 pb-6 flex items-center justify-between z-50">
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-icons">dashboard</span>
+<span class="text-[10px] font-bold">Dashboard</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors">
+<span class="material-icons">apartment</span>
+<span class="text-[10px] font-medium">Units</span>
+</button>
+<button class="relative -top-6 bg-primary w-14 h-14 rounded-full shadow-lg shadow-primary/40 flex items-center justify-center text-white border-4 border-white dark:border-background-dark">
+<span class="material-icons text-3xl">add</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors">
+<span class="material-icons">groups</span>
+<span class="text-[10px] font-medium">Tenants</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors">
+<span class="material-icons">more_horiz</span>
+<span class="text-[10px] font-medium">More</span>
+</button>
+</nav>
+</body></html>

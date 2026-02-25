@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Role Selection - Rental Management SaaS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col items-center justify-center p-6">
+<!-- Mobile Screen Container (Simulating iOS Phone Factor) -->
+<div class="w-full max-w-[390px] mx-auto flex flex-col min-h-screen justify-between py-12">
+<!-- Header Section -->
+<header class="text-center mb-10">
+<div class="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-xl mb-6">
+<span class="material-icons text-primary text-3xl">apartment</span>
+</div>
+<h1 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Welcome Back</h1>
+<p class="mt-2 text-slate-500 dark:text-slate-400 text-sm">Please select your role to continue</p>
+</header>
+<!-- Main Content: Role Cards -->
+<main class="space-y-6 flex-grow flex flex-col justify-center">
+<!-- Landlord Card -->
+<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200/50 dark:border-slate-700/50 p-6 flex flex-col items-center text-center transition-all active:scale-[0.98] group">
+<div class="w-16 h-16 bg-primary/5 dark:bg-primary/20 rounded-full flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
+<span class="material-icons text-primary text-4xl">home</span>
+</div>
+<h2 class="text-xl font-semibold text-slate-900 dark:text-white mb-2">Landlord</h2>
+<p class="text-slate-500 dark:text-slate-400 text-sm mb-6 leading-relaxed">
+                    Manage properties, track payments, and find your next tenants.
+                </p>
+<button class="w-full bg-primary text-white font-medium py-3.5 rounded-lg shadow-lg shadow-primary/20 hover:bg-primary/90 transition-colors active:ring-4 active:ring-primary/20">
+                    Login as Landlord
+                </button>
+</div>
+<!-- Tenant Card -->
+<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200/50 dark:border-slate-700/50 p-6 flex flex-col items-center text-center transition-all active:scale-[0.98] group">
+<div class="w-16 h-16 bg-primary/5 dark:bg-primary/20 rounded-full flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
+<span class="material-icons text-primary text-4xl">vpn_key</span>
+</div>
+<h2 class="text-xl font-semibold text-slate-900 dark:text-white mb-2">Tenant</h2>
+<p class="text-slate-500 dark:text-slate-400 text-sm mb-6 leading-relaxed">
+                    Pay rent securely, request maintenance, and view your lease.
+                </p>
+<button class="w-full bg-primary text-white font-medium py-3.5 rounded-lg shadow-lg shadow-primary/20 hover:bg-primary/90 transition-colors active:ring-4 active:ring-primary/20">
+                    Login as Tenant
+                </button>
+</div>
+</main>
+<!-- Footer Section -->
+<footer class="mt-10 text-center">
+<a class="text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-primary transition-colors inline-flex items-center gap-1" href="#">
+                Need help with your account?
+                <span class="material-icons text-xs">arrow_forward</span>
+</a>
+<div class="mt-8 flex justify-center gap-4">
+<div class="w-32 h-1 bg-slate-200 dark:bg-slate-700 rounded-full"></div>
+</div>
+</footer>
+</div>
+<!-- Hidden visual elements for background decoration -->
+<div class="fixed top-0 left-0 w-full h-full -z-10 overflow-hidden pointer-events-none">
+<div class="absolute -top-24 -right-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+<div class="absolute -bottom-24 -left-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+</div>
+</body></html>
