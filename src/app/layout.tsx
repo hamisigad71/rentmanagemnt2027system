@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
-import { Young_Serif, Geist } from "next/font/google";
+import { Rethink_Sans, Geist } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { AuthProvider } from "@/context/AuthContext";
 import { ActionProvider } from "@/context/ActionContext";
 
-const youngSerif = Young_Serif({
-  weight: "400",
+const rethinkSans = Rethink_Sans({
   subsets: ["latin"],
-  variable: "--font-young-serif",
+  variable: "--font-rethink-sans",
 });
 
 const geist = Geist({
@@ -27,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${youngSerif.variable} ${geist.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${rethinkSans.variable} ${geist.variable}`}>
       <head>
         <link
           href="https://fonts.googleapis.com/icon?family=Material+Icons"

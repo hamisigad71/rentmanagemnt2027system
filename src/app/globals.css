@@ -29,12 +29,12 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-young-serif), serif;
-  letter-spacing: -0.02em;
+  font-family: var(--font-rethink-sans), sans-serif;
+  letter-spacing: -0.03em;
 }
 
 .font-serif {
-  font-family: var(--font-young-serif), serif;
+  font-family: var(--font-rethink-sans), sans-serif;
 }
 
 .font-sans {
