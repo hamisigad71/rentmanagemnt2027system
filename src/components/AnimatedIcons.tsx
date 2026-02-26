@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Shield, CreditCard, TrendingUp } from "lucide-react";
+import { ShieldCheck, CreditCard, TrendingUp } from "lucide-react";
 
 export const AnimatedShield = () => {
   return (
@@ -16,7 +16,7 @@ export const AnimatedShield = () => {
       }}
       className="p-6 bg-blue-50/80 backdrop-blur-sm rounded-[2rem] border border-blue-100 shadow-sm flex items-center justify-center"
     >
-      <Shield className="w-12 h-12 text-blue-600" />
+      <ShieldCheck className="w-12 h-12 text-blue-600" />
     </motion.div>
   );
 };

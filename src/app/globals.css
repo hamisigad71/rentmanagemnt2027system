@@ -21,11 +21,24 @@
 }
 
 body {
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
   -webkit-tap-highlight-color: transparent;
   background-color: var(--background-light);
   color: #1a1a1a;
   overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-young-serif), serif;
+  letter-spacing: -0.02em;
+}
+
+.font-serif {
+  font-family: var(--font-young-serif), serif;
+}
+
+.font-sans {
+  font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
 }
 
 /* Premium Animations */

@@ -6,7 +6,7 @@ import Button from "@/components/Button";
 import { useAuth } from "@/context/AuthContext";
 import { 
   Mail, Phone, MapPin, Calendar, Save, Camera, X, 
-  Shield, Building, Home, TrendingUp, Users, Briefcase,
+  ShieldCheck, Building, Home, TrendingUp, Users, Briefcase,
   Lock, Bell, Globe
 } from "lucide-react";
 import { getLandlordStats } from "@/data/mockData";

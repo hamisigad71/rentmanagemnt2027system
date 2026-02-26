@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { Shield } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 
 export default function Loader({ show }: { show: boolean }) {
   return (
@@ -44,7 +44,7 @@ export default function Loader({ show }: { show: boolean }) {
                 }}
                 className="relative z-10 p-10 bg-white/80 backdrop-blur-xl rounded-[3rem] border border-white shadow-[0_20px_40px_-12px_rgba(59,130,246,0.1)] flex items-center justify-center will-change-transform"
               >
-                <Shield className="w-20 h-20 text-blue-600" strokeWidth={1} />
+                <ShieldCheck className="w-20 h-20 text-blue-600" strokeWidth={1} />
                 <div className="absolute inset-0 bg-linear-to-tr from-blue-600/5 to-transparent rounded-[3rem]" />
               </motion.div>
             </div>

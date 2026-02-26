@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { mockPayments, mockTenants } from "@/data/mockData";
 import { ActionProvider, useAction } from "@/context/ActionContext";
+import { LOADER_DURATION } from "@/utils/constants";
 
 export default function TenantPaymentsPage() {
   const currentTenant = mockTenants[0];
@@ -41,7 +42,8 @@ export default function TenantPaymentsPage() {
       color: "blue",
       icon: "published_with_changes"
     });
-
+  
+    // Initial verification delay (e.g., 3s)
     setTimeout(() => {
       updateAction({
         title: "Payment Successful",
@@ -50,8 +52,10 @@ export default function TenantPaymentsPage() {
         icon: "check_circle"
       });
       
+      // Secondary delay to show success icon (e.g., 1s)
+      // Total = 4s (LOADER_DURATION)
       setTimeout(() => hideAction(), 1000);
-    }, 2000);
+    }, LOADER_DURATION - 1000);
   };
 
   // M-Pesa Logo

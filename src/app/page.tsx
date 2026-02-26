@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAction } from "@/context/ActionContext";
+import { LOADER_DURATION } from "@/utils/constants";
 import { ChevronRight } from "lucide-react";
 import Button from "@/components/Button";
 import { AnimatedShield, AnimatedCreditCard, AnimatedTrendingUp } from "@/components/AnimatedIcons";
@@ -59,7 +60,7 @@ export default function OnboardingPage() {
       setTimeout(() => {
         setImagesLoaded(true);
         setGlobalLoading(false);
-      }, 3000);
+      }, LOADER_DURATION);
     };
 
     preloadImages();

@@ -68,9 +68,9 @@ export default function DashboardCard({
       
       <div className="relative z-10 flex items-start justify-between gap-4">
         <div className="space-y-1 min-w-0 flex-1">
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] truncate">{title}</p>
+          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] truncate font-sans">{title}</p>
           <div className="flex flex-col">
-            <span className="text-xl md:text-2xl font-black text-slate-900 tracking-tighter transition-transform duration-300 group-hover:scale-[1.02] origin-left break-words">
+            <span className="text-xl md:text-3xl font-normal text-slate-900 tracking-tight transition-transform duration-300 group-hover:scale-[1.02] origin-left break-words font-serif">
               {value}
             </span>
           </div>

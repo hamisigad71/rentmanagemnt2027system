@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import TenantLayout from "@/components/TenantLayout";
 import Button from "@/components/Button";
 import { useAuth } from "@/context/AuthContext";
-import { Mail, Phone, Home, Calendar, Save, Camera, X, Shield, Clock, CreditCard, Star } from "lucide-react";
+import { Mail, Phone, Home, Calendar, Save, Camera, X, ShieldCheck, Clock, CreditCard, Star } from "lucide-react";
 import { mockTenants } from "@/data/mockData";
 
 
@@ -119,7 +119,7 @@ export default function TenantProfilePage() {
                     <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
                       <div className="flex items-center gap-3 mb-1">
                         <div className="p-1.5 bg-blue-100 text-blue-600 rounded-lg">
-                          <Shield className="w-4 h-4" />
+                          <ShieldCheck className="w-4 h-4" />
                         </div>
                         <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Deposit</span>
                       </div>
@@ -193,7 +193,7 @@ export default function TenantProfilePage() {
                   <div className="group/emergency">
                     <div className="flex items-center gap-4 mb-8">
                       <div className="w-10 h-10 rounded-xl bg-brand-red flex items-center justify-center text-white shadow-lg shadow-brand-red/10 group-hover/emergency:scale-110 transition-transform">
-                        <Shield className="w-5 h-5" />
+                        <ShieldCheck className="w-5 h-5" />
                       </div>
                       <div className="space-y-0.5">
                         <h3 className="text-lg font-black text-slate-900 tracking-tighter uppercase">Fail-safe <span className="text-slate-400">Contact</span></h3>

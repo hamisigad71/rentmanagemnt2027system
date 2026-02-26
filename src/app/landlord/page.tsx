@@ -32,9 +32,9 @@ export default function LandlordDashboard() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-3xl font-bold text-gray-900">Dashboard</h2>
-            <p className="text-gray-600 mt-1">
-              Welcome back! Here's an overview of your properties.
+            <h1 className="text-4xl text-gray-900">Dashboard</h1>
+            <p className="text-gray-500 mt-1 font-sans font-medium">
+              Welcome back! Here&apos;s an overview of your properties.
             </p>
           </div>
           <Button onClick={() => setShowAddBuilding(true)}>
@@ -103,10 +103,10 @@ export default function LandlordDashboard() {
         {/* Recent Activity */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Recent Payments */}
-          <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-6">
-            <h3 className="text-lg font-bold text-gray-900 mb-4">
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+            <h2 className="text-xl text-gray-900 mb-6 font-serif">
               Recent Payments
-            </h3>
+            </h2>
             <div className="space-y-3">
               {recentPayments.map((payment) => (
                 <div
@@ -137,10 +137,10 @@ export default function LandlordDashboard() {
           </div>
 
           {/* Recent Complaints */}
-          <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-6">
-            <h3 className="text-lg font-bold text-gray-900 mb-4">
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+            <h2 className="text-xl text-gray-900 mb-6 font-serif">
               Recent Complaints
-            </h3>
+            </h2>
             <div className="space-y-3">
               {recentComplaints.map((complaint) => (
                 <div

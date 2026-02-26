@@ -8,6 +8,7 @@ import Modal from "@/components/Modal";
 import { mockPayments } from "@/data/mockData";
 import { Download, CreditCard, Search, ArrowUpRight, TrendingUp, Clock, AlertCircle, Calendar, Plus, ExternalLink, Filter } from "lucide-react";
 import { useAction } from "@/context/ActionContext";
+import { LOADER_DURATION } from "@/utils/constants";
 
 export default function PaymentsPage() {
   const [showModal, setShowModal] = useState(false);
@@ -25,7 +26,7 @@ export default function PaymentsPage() {
 
     setTimeout(() => {
       hideAction();
-    }, 3000);
+    }, LOADER_DURATION);
   };
 
   const totalCollected = mockPayments.reduce(
