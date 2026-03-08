@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import LandlordLayout from '@/components/LandlordLayout';
 import Badge from '@/components/Badge';
 import Button from '@/components/Button';
@@ -13,6 +13,11 @@ export default function ComplaintsPage() {
   const [showModal, setShowModal] = useState(false);
   const [selectedComplaint, setSelectedComplaint] = useState<any>(null);
   const [filterStatus, setFilterStatus] = useState<'all' | 'pending' | 'in-progress' | 'resolved'>('all');
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const filteredComplaints =
     filterStatus === 'all' ? mockComplaints : mockComplaints.filter((c) => c.status === filterStatus);
@@ -27,7 +32,7 @@ export default function ComplaintsPage() {
 
   return (
     <LandlordLayout>
-      <div className="p-6 md:p-10 space-y-10 selection:bg-blue-100">
+      <div className="p-6 md:p-10 space-y-10 ">
         {/* Header - Editorial Style */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-slate-100">
           <div className="space-y-2">
@@ -39,11 +44,11 @@ export default function ComplaintsPage() {
           </div>
           <div className="flex items-center gap-4">
              <div className="relative group hidden sm:block">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-blue-600 transition-colors" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-[#1B5E45] transition-colors" />
               <input 
                 type="text" 
                 placeholder="Search report..." 
-                className="pl-11 pr-6 py-3 bg-slate-50 border border-slate-100 rounded-2xl w-64 text-sm font-bold focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:bg-white transition-all shadow-sm"
+                className="pl-11 pr-6 py-3 bg-slate-50 border border-slate-100 rounded-2xl w-64 text-sm font-bold focus:outline-none focus:ring-4 focus:ring-[#1B5E45]/10 focus:bg-white transition-all shadow-sm"
               />
             </div>
             <Button variant="premium" className="h-12 rounded-xl">Manual Incident</Button>
@@ -57,9 +62,9 @@ export default function ComplaintsPage() {
                 <button 
                   key={status}
                   onClick={() => setFilterStatus(status as any)}
-                  className={`px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${filterStatus === status ? 'bg-white text-slate-900 shadow-md' : 'text-slate-500 hover:text-slate-900'}`}
+                  className={`px-3 md:px-6 py-2 rounded-xl text-[9px] md:text-[10px] font-medium uppercase tracking-wider transition-all ${filterStatus === status ? 'bg-white text-slate-900 shadow-md' : 'text-slate-500 hover:text-slate-900'}`}
                 >
-                  {status.replace('-', ' ')} ({status === 'all' ? mockComplaints.length : mockComplaints.filter(c => c.status === status).length})
+                  {status.replace('-', ' ')} {isMounted && `(${status === 'all' ? mockComplaints.length : mockComplaints.filter(c => c.status === status).length})`}
                 </button>
               ))}
            </div>
@@ -88,21 +93,21 @@ export default function ComplaintsPage() {
               <div
                 key={complaint.id}
                 onClick={() => { setSelectedComplaint(complaint); setShowModal(true); }}
-                className="group relative bg-white rounded-[2.5rem] border border-slate-200/60 p-8 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 cursor-pointer overflow-hidden"
+                className="group relative bg-white rounded-[2.5rem] border border-slate-200/60 p-4 md:p-8 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 cursor-pointer overflow-hidden"
               >
                 {/* Severity Indicator Line */}
-                <div className={`absolute top-0 left-0 w-2 h-full bg-${getSeverityColor(complaint.priority)}-500`} />
+                <div className={`absolute top-0 left-0 w-1.5 h-full bg-${getSeverityColor(complaint.priority)}-500`} />
                 
                 <div className="flex flex-col gap-6">
                    <div className="flex items-start justify-between">
                       <div className="space-y-1">
-                         <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Incident Report</p>
-                         <h3 className="text-xl font-black text-slate-900 tracking-tight leading-tight group-hover:text-blue-600 transition-colors uppercase">
+                         <p className="text-[8px] font-medium text-slate-400 uppercase tracking-wide leading-none mb-1">Incident Report</p>
+                         <h3 className="text-lg md:text-xl font-medium text-slate-900 tracking-tight leading-tight group-hover:text-[#1B5E45] transition-colors">
                             {complaint.title}
                          </h3>
                       </div>
-                      <div className={`w-10 h-10 rounded-xl bg-${getSeverityColor(complaint.priority)}-50 flex items-center justify-center text-${getSeverityColor(complaint.priority)}-600 group-hover:scale-110 transition-transform`}>
-                         <AlertCircle className="w-5 h-5" />
+                      <div className={`w-8 h-8 rounded-xl bg-${getSeverityColor(complaint.priority)}-50 flex items-center justify-center text-${getSeverityColor(complaint.priority)}-600 group-hover:scale-110 transition-transform`}>
+                         <AlertCircle className="w-4 h-4" />
                       </div>
                    </div>
 
@@ -110,31 +115,31 @@ export default function ComplaintsPage() {
                       {complaint.description}
                    </p>
 
-                   <div className="grid grid-cols-2 gap-4 pb-6 border-b border-slate-50">
+                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-4 sm:pb-6 border-b border-slate-50">
                       <div className="space-y-1">
-                         <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Stakeholder</p>
+                         <p className="text-[8px] font-medium text-slate-400 uppercase tracking-wide">Stakeholder</p>
                          <div className="flex items-center gap-2">
                             <div className="w-5 h-5 rounded-full bg-slate-100 overflow-hidden">
                                <img src={getAvatarUrl(complaint.tenantName)} alt={complaint.tenantName} />
                             </div>
-                            <span className="text-[11px] font-bold text-slate-900">{complaint.tenantName}</span>
+                            <span className="text-[11px] font-medium text-slate-900">{complaint.tenantName}</span>
                          </div>
                       </div>
                       <div className="space-y-1">
-                         <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Assignment</p>
-                         <p className="text-[11px] font-bold text-slate-900">Unit {complaint.unitId.split('-').pop()}</p>
+                         <p className="text-[8px] font-medium text-slate-400 uppercase tracking-wide">Assignment</p>
+                         <p className="text-[11px] font-medium text-slate-900">Unit {complaint.unitId.split('-').pop()}</p>
                       </div>
                    </div>
 
                    <div className="flex items-center justify-between">
                       <div className="flex gap-2">
-                         <div className={`px-4 py-1.5 rounded-full font-black text-[9px] uppercase tracking-widest ${
+                         <div className={`px-3 py-1 rounded-full font-medium text-[9px] uppercase tracking-wider ${
                             complaint.status === 'resolved' ? 'bg-emerald-100 text-emerald-700 shadow-[0_4px_12px_rgba(16,185,129,0.15)]' : 
-                            complaint.status === 'in-progress' ? 'bg-blue-100 text-blue-700' : 'bg-brand-red text-rose-700'
+                            complaint.status === 'in-progress' ? 'bg-[#E8F5EE] text-[#1B5E45]' : 'bg-brand-red text-white'
                          }`}>
                             {complaint.status.replace('-', ' ')}
                          </div>
-                         <div className="px-4 py-1.5 rounded-full font-black text-[9px] uppercase tracking-widest bg-slate-900 text-white">
+                         <div className="px-3 py-1 rounded-full font-medium text-[9px] uppercase tracking-wider bg-slate-900 text-white">
                             {complaint.priority}
                          </div>
                       </div>
@@ -198,7 +203,7 @@ export default function ComplaintsPage() {
                    <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Action Protocol</h4>
                    <div className="p-8 bg-slate-900 rounded-[2.5rem] text-white shadow-2xl shadow-slate-900/40 space-y-8">
                       <div className="space-y-1">
-                         <p className="text-[9px] font-black text-blue-400 uppercase tracking-widest">Resolution Cycle</p>
+                         <p className="text-[9px] font-black text-[#3DBE7A] uppercase tracking-widest">Resolution Cycle</p>
                          <p className="text-2xl font-black tracking-tighter">PHASE: {selectedComplaint?.status.toUpperCase()}</p>
                       </div>
                       
@@ -208,7 +213,7 @@ export default function ComplaintsPage() {
                             <span className="text-white">{selectedComplaint?.status === 'resolved' ? '100%' : selectedComplaint?.status === 'in-progress' ? '50%' : '10%'}</span>
                          </div>
                          <div className="w-full bg-white/10 h-2 rounded-full overflow-hidden">
-                            <div className={`h-full rounded-full bg-blue-500 transition-all duration-1000 ${selectedComplaint?.status === 'resolved' ? 'w-full' : selectedComplaint?.status === 'in-progress' ? 'w-1/2' : 'w-[10%]'}`} />
+                            <div className={`h-full rounded-full bg-[#E8F5EE]0 transition-all duration-1000 ${selectedComplaint?.status === 'resolved' ? 'w-full' : selectedComplaint?.status === 'in-progress' ? 'w-1/2' : 'w-[10%]'}`} />
                          </div>
                       </div>
 

@@ -33,7 +33,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="bg-gray-50" suppressHydrationWarning>
+      <body style={{ background: "var(--color-background)" }} suppressHydrationWarning>
         <AuthProvider>
           <ThemeProvider>
             <ActionProvider>

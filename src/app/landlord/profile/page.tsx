@@ -48,7 +48,7 @@ export default function ProfilePage() {
 
   return (
     <LandlordLayout>
-      <div className="min-h-screen bg-slate-50 font-sans">
+      <div className="min-h-screen bg-slate-50 font-sans text-base">
         {/* Cinematic Cover Header */}
         <div className="h-72 relative group overflow-hidden">
           <img 
@@ -61,21 +61,21 @@ export default function ProfilePage() {
           
           <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-full max-w-6xl px-8 flex justify-between items-end">
             <div className="hidden md:block">
-              <h1 className="text-4xl font-bold text-white tracking-tight">Property Profile</h1>
+              <h1 className="text-4xl font-medium text-white tracking-tight">Property Profile</h1>
               <p className="text-slate-200 mt-2 flex items-center gap-2">
-                <Briefcase className="w-4 h-4 text-blue-400" /> 
+                <Briefcase className="w-4 h-4 text-[#3DBE7A]" /> 
                 {formData.company}
               </p>
             </div>
             <div className="flex gap-3">
               <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-4 py-2 text-white">
-                <span className="block text-xs font-bold uppercase tracking-wider text-slate-300">Member Since</span>
-                <span className="text-sm font-semibold">Jan 2022</span>
+                <span className="block text-xs font-medium uppercase tracking-wider text-slate-300">Member Since</span>
+                <span className="text-sm font-medium">Jan 2022</span>
               </div>
-              <div className="bg-blue-500/20 backdrop-blur-md border border-blue-400/30 rounded-xl px-4 py-2 text-blue-100">
-                <span className="block text-xs font-bold uppercase tracking-wider text-blue-200">Property Status</span>
-                <span className="text-sm font-semibold flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+              <div className="bg-[#E8F5EE]0/20 backdrop-blur-md border border-[#3DBE7A]/30 rounded-xl px-4 py-2 text-white/70">
+                <span className="block text-xs font-medium uppercase tracking-wider text-white/60">Property Status</span>
+                <span className="text-sm font-medium flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-[#3DBE7A] animate-pulse"></span>
                   Elite Manager
                 </span>
               </div>
@@ -93,7 +93,7 @@ export default function ProfilePage() {
                 <div className="p-8 text-center">
                   <div className="relative inline-block mb-6">
                     <div 
-                      className="w-32 h-32 rounded-3xl border-4 border-white shadow-xl bg-blue-50 overflow-hidden relative group cursor-pointer"
+                      className="w-32 h-32 rounded-3xl border-4 border-white shadow-xl bg-[#E8F5EE] overflow-hidden relative group cursor-pointer"
                       onClick={() => setShowAvatarModal(true)}
                     >
                       <img 
@@ -107,12 +107,12 @@ export default function ProfilePage() {
                     </div>
                   </div>
                   
-                  <h2 className="text-2xl font-bold text-slate-900">{formData.firstName} {formData.lastName}</h2>
-                  <p className="text-blue-600 font-semibold text-sm mt-1">{formData.role}</p>
+                  <h2 className="text-2xl font-medium text-slate-900">{formData.firstName} {formData.lastName}</h2>
+                  <p className="text-[#1B5E45] font-medium text-sm mt-1">{formData.role}</p>
                   
                   <div className="flex justify-center gap-2 mt-4">
-                    <span className="bg-slate-50 text-slate-600 px-3 py-1 rounded-full text-xs font-bold border border-slate-100">Landlord</span>
-                    <span className="bg-green-50 text-green-700 px-3 py-1 rounded-full text-xs font-bold border border-green-100">Verified</span>
+                    <span className="bg-slate-50 text-slate-600 px-3 py-1 rounded-full text-xs font-medium border border-slate-100">Landlord</span>
+                    <span className="bg-green-50 text-green-700 px-3 py-1 rounded-full text-xs font-medium border border-green-100">Verified</span>
                   </div>
 
                 </div>
@@ -120,36 +120,36 @@ export default function ProfilePage() {
 
               {/* Advanced Stats Card */}
               <div className="bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 p-6">
-                <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-6">Property Snapshot</h3>
+                <h3 className="text-sm font-medium text-slate-400 uppercase tracking-wider mb-6">Property Snapshot</h3>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100">
-                    <Building className="w-5 h-5 text-blue-500 mb-2" />
-                    <p className="text-2xl font-bold text-slate-900">{stats.totalBuildings}</p>
+                    <Building className="w-5 h-5 text-[#3DBE7A] mb-2" />
+                    <p className="text-2xl font-medium text-slate-900">{stats.totalBuildings}</p>
                     <p className="text-xs font-medium text-slate-500">Buildings</p>
                   </div>
                   <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100">
                     <Home className="w-5 h-5 text-purple-500 mb-2" />
-                    <p className="text-2xl font-bold text-slate-900">{stats.totalUnits}</p>
+                    <p className="text-2xl font-medium text-slate-900">{stats.totalUnits}</p>
                     <p className="text-xs font-medium text-slate-500">Total Units</p>
                   </div>
                   <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100">
                     <Users className="w-5 h-5 text-green-500 mb-2" />
-                    <p className="text-2xl font-bold text-slate-900">{stats.occupiedUnits}</p>
+                    <p className="text-2xl font-medium text-slate-900">{stats.occupiedUnits}</p>
                     <p className="text-xs font-medium text-slate-500">Tenants</p>
                   </div>
                   <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100">
                     <TrendingUp className="w-5 h-5 text-orange-500 mb-2" />
-                    <p className="text-2xl font-bold text-slate-900">{(stats.occupiedUnits / stats.totalUnits * 100).toFixed(0)}%</p>
+                    <p className="text-2xl font-medium text-slate-900">{(stats.occupiedUnits / stats.totalUnits * 100).toFixed(0)}%</p>
                     <p className="text-xs font-medium text-slate-500">Occupancy</p>
                   </div>
                 </div>
                 
-                <div className="mt-6 p-4 rounded-2xl bg-blue-600 text-white flex justify-between items-center shadow-lg shadow-blue-500/20">
+                <div className="mt-6 p-4 rounded-2xl bg-[#1B5E45] text-white flex justify-between items-center shadow-lg shadow-[#1B5E45]/20">
                   <div>
-                    <p className="text-xs font-medium text-blue-100">Monthly Revenue</p>
-                    <p className="text-xl font-bold">${stats.monthlyIncome.toLocaleString()}</p>
+                    <p className="text-xs font-medium text-white/70">Monthly Revenue</p>
+                    <p className="text-xl font-medium">${stats.monthlyIncome.toLocaleString()}</p>
                   </div>
-                  <Briefcase className="w-8 h-8 text-blue-300 opacity-50" />
+                  <Briefcase className="w-8 h-8 text-white/50 opacity-50" />
                 </div>
               </div>
             </div>
@@ -164,16 +164,16 @@ export default function ProfilePage() {
                     <Briefcase className="w-6 h-6" />
                   </div>
                   <div className="space-y-1">
-                    <h3 className="text-2xl font-black text-slate-900 tracking-tighter uppercase">Corporate <span className="text-slate-400">Identity</span></h3>
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Property Management Entity Protocol</p>
+                    <h3 className="text-2xl font-medium text-slate-900 tracking-tighter uppercase">Corporate <span className="text-slate-400">Identity</span></h3>
+                    <p className="text-[10px] font-medium text-slate-400 uppercase tracking-widest">Property Management Entity Protocol</p>
                   </div>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-x-10 gap-y-8">
                   <div className="space-y-2.5">
                     <div className="flex items-center gap-2 mb-1">
-                       <div className="w-1 h-3 bg-blue-600 rounded-full" />
-                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Entity Name</label>
+                       <div className="w-1 h-3 bg-[#1B5E45] rounded-full" />
+                       <label className="text-[10px] font-medium text-slate-400 uppercase tracking-[0.2em]">Entity Name</label>
                     </div>
                     <input
                       type="text"
@@ -181,9 +181,9 @@ export default function ProfilePage() {
                       value={formData.company}
                       onChange={handleChange}
                       disabled={!isEditing}
-                      className={`w-full px-6 py-4 rounded-2xl border transition-all duration-300 font-extrabold text-sm tracking-tight ${
+                      className={`w-full px-6 py-4 rounded-2xl border transition-all duration-300 font-medium text-sm tracking-tight ${
                         isEditing 
-                          ? "bg-white border-slate-200 focus:border-blue-600 focus:ring-4 focus:ring-blue-600/5 shadow-sm" 
+                          ? "bg-white border-slate-200 focus:border-[#1B5E45] focus:ring-4 focus:ring-[#1B5E45]/5 shadow-sm" 
                           : "bg-slate-50/50 border-transparent text-slate-900"
                       }`}
                       suppressHydrationWarning
@@ -191,8 +191,8 @@ export default function ProfilePage() {
                   </div>
                   <div className="space-y-2.5">
                     <div className="flex items-center gap-2 mb-1">
-                       <div className="w-1 h-3 bg-blue-600 rounded-full" />
-                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Designation</label>
+                       <div className="w-1 h-3 bg-[#1B5E45] rounded-full" />
+                       <label className="text-[10px] font-medium text-slate-400 uppercase tracking-[0.2em]">Designation</label>
                     </div>
                     <input
                       type="text"
@@ -200,9 +200,9 @@ export default function ProfilePage() {
                       value={formData.role}
                       onChange={handleChange}
                       disabled={!isEditing}
-                      className={`w-full px-6 py-4 rounded-2xl border transition-all duration-300 font-extrabold text-sm tracking-tight ${
+                      className={`w-full px-6 py-4 rounded-2xl border transition-all duration-300 font-medium text-sm tracking-tight ${
                         isEditing 
-                          ? "bg-white border-slate-200 focus:border-blue-600 focus:ring-4 focus:ring-blue-600/5 shadow-sm" 
+                          ? "bg-white border-slate-200 focus:border-[#1B5E45] focus:ring-4 focus:ring-[#1B5E45]/5 shadow-sm" 
                           : "bg-slate-50/50 border-transparent text-slate-900"
                       }`}
                       suppressHydrationWarning
@@ -210,20 +210,20 @@ export default function ProfilePage() {
                   </div>
                   <div className="md:col-span-2 space-y-2.5">
                     <div className="flex items-center gap-2 mb-1">
-                       <div className="w-1 h-3 bg-blue-600 rounded-full" />
-                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Headquarters</label>
+                       <div className="w-1 h-3 bg-[#1B5E45] rounded-full" />
+                       <label className="text-[10px] font-medium text-slate-400 uppercase tracking-[0.2em]">Headquarters</label>
                     </div>
                     <div className="relative group/input">
-                      <MapPin className="absolute left-6 top-5 w-4 h-4 text-slate-400 group-focus-within/input:text-blue-600 transition-colors" />
+                      <MapPin className="absolute left-6 top-5 w-4 h-4 text-slate-400 group-focus-within/input:text-[#1B5E45] transition-colors" />
                       <textarea
                         name="address"
                         value={formData.address}
                         onChange={handleChange}
                         disabled={!isEditing}
                         rows={2}
-                        className={`w-full pl-14 pr-6 py-4 rounded-2xl border transition-all duration-300 font-extrabold text-sm tracking-tight resize-none ${
+                        className={`w-full pl-14 pr-6 py-4 rounded-2xl border transition-all duration-300 font-medium text-sm tracking-tight resize-none ${
                           isEditing 
-                            ? "bg-white border-slate-200 focus:border-blue-600 focus:ring-4 focus:ring-blue-600/5 shadow-sm" 
+                            ? "bg-white border-slate-200 focus:border-[#1B5E45] focus:ring-4 focus:ring-[#1B5E45]/5 shadow-sm" 
                             : "bg-slate-50/50 border-transparent text-slate-900"
                         }`}
                         suppressHydrationWarning
@@ -232,20 +232,20 @@ export default function ProfilePage() {
                   </div>
                   <div className="space-y-2.5">
                     <div className="flex items-center gap-2 mb-1">
-                       <div className="w-1 h-3 bg-blue-600 rounded-full" />
-                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Digital Hub</label>
+                       <div className="w-1 h-3 bg-[#1B5E45] rounded-full" />
+                       <label className="text-[10px] font-medium text-slate-400 uppercase tracking-[0.2em]">Digital Hub</label>
                     </div>
                     <div className="relative group/input">
-                      <Globe className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within/input:text-blue-600 transition-colors" />
+                      <Globe className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within/input:text-[#1B5E45] transition-colors" />
                       <input
                         type="text"
                         name="website"
                         value={formData.website}
                         onChange={handleChange}
                         disabled={!isEditing}
-                        className={`w-full pl-14 pr-6 py-4 rounded-2xl border transition-all duration-300 font-extrabold text-sm tracking-tight ${
+                        className={`w-full pl-14 pr-6 py-4 rounded-2xl border transition-all duration-300 font-medium text-sm tracking-tight ${
                           isEditing 
-                            ? "bg-white border-slate-200 focus:border-blue-600 focus:ring-4 focus:ring-blue-600/5 shadow-sm" 
+                            ? "bg-white border-slate-200 focus:border-[#1B5E45] focus:ring-4 focus:ring-[#1B5E45]/5 shadow-sm" 
                             : "bg-slate-50/50 border-transparent text-slate-900"
                         }`}
                         suppressHydrationWarning
@@ -262,16 +262,16 @@ export default function ProfilePage() {
                     <Users className="w-6 h-6" />
                   </div>
                   <div className="space-y-1">
-                    <h3 className="text-2xl font-black text-slate-900 tracking-tighter uppercase">Personal <span className="text-slate-400">Ledger</span></h3>
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Direct Contact & Identity Protocol</p>
+                    <h3 className="text-2xl font-medium text-slate-900 tracking-tighter uppercase">Personal <span className="text-slate-400">Ledger</span></h3>
+                    <p className="text-[10px] font-medium text-slate-400 uppercase tracking-widest">Direct Contact & Identity Protocol</p>
                   </div>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-x-10 gap-y-8">
+                <div className="grid grid-cols-2 gap-x-4 md:gap-x-10 gap-y-8">
                   <div className="space-y-2.5">
                     <div className="flex items-center gap-2 mb-1">
-                       <div className="w-1 h-3 bg-blue-600 rounded-full" />
-                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Given Name</label>
+                       <div className="w-1 h-3 bg-[#1B5E45] rounded-full" />
+                       <label className="text-[10px] font-medium text-slate-400 uppercase tracking-[0.2em]">Given Name</label>
                     </div>
                     <input
                       type="text"
@@ -279,9 +279,9 @@ export default function ProfilePage() {
                       value={formData.firstName}
                       onChange={handleChange}
                       disabled={!isEditing}
-                      className={`w-full px-6 py-4 rounded-2xl border transition-all duration-300 font-extrabold text-sm tracking-tight ${
+                      className={`w-full px-6 py-4 rounded-2xl border transition-all duration-300 font-medium text-sm tracking-tight ${
                         isEditing 
-                          ? "bg-white border-slate-200 focus:border-blue-600 focus:ring-4 focus:ring-blue-600/5 shadow-sm" 
+                          ? "bg-white border-slate-200 focus:border-[#1B5E45] focus:ring-4 focus:ring-[#1B5E45]/5 shadow-sm" 
                           : "bg-slate-50/50 border-transparent text-slate-900"
                       }`}
                       suppressHydrationWarning
@@ -289,8 +289,8 @@ export default function ProfilePage() {
                   </div>
                   <div className="space-y-2.5">
                     <div className="flex items-center gap-2 mb-1">
-                       <div className="w-1 h-3 bg-blue-600 rounded-full" />
-                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Family Name</label>
+                       <div className="w-1 h-3 bg-[#1B5E45] rounded-full" />
+                       <label className="text-[10px] font-medium text-slate-400 uppercase tracking-[0.2em]">Family Name</label>
                     </div>
                     <input
                       type="text"
@@ -298,50 +298,50 @@ export default function ProfilePage() {
                       value={formData.lastName}
                       onChange={handleChange}
                       disabled={!isEditing}
-                      className={`w-full px-6 py-4 rounded-2xl border transition-all duration-300 font-extrabold text-sm tracking-tight ${
+                      className={`w-full px-6 py-4 rounded-2xl border transition-all duration-300 font-medium text-sm tracking-tight ${
                         isEditing 
-                          ? "bg-white border-slate-200 focus:border-blue-600 focus:ring-4 focus:ring-blue-600/5 shadow-sm" 
+                          ? "bg-white border-slate-200 focus:border-[#1B5E45] focus:ring-4 focus:ring-[#1B5E45]/5 shadow-sm" 
                           : "bg-slate-50/50 border-transparent text-slate-900"
                       }`}
                     />
                   </div>
-                  <div className="space-y-2.5">
+                  <div className="space-y-2.5 col-span-2 md:col-span-1">
                     <div className="flex items-center gap-2 mb-1">
-                       <div className="w-1 h-3 bg-blue-600 rounded-full" />
-                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Digital Mailbox</label>
+                       <div className="w-1 h-3 bg-[#1B5E45] rounded-full" />
+                       <label className="text-[10px] font-medium text-slate-400 uppercase tracking-[0.2em]">Digital Mailbox</label>
                     </div>
                     <div className="relative group/input">
-                      <Mail className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within/input:text-blue-600 transition-colors" />
+                      <Mail className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within/input:text-[#1B5E45] transition-colors" />
                       <input
                         type="email"
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
                         disabled={!isEditing}
-                        className={`w-full pl-14 pr-6 py-4 rounded-2xl border transition-all duration-300 font-extrabold text-sm tracking-tight ${
+                        className={`w-full pl-14 pr-6 py-4 rounded-2xl border transition-all duration-300 font-medium text-sm tracking-tight ${
                           isEditing 
-                            ? "bg-white border-slate-200 focus:border-blue-600 focus:ring-4 focus:ring-blue-600/5 shadow-sm" 
+                            ? "bg-white border-slate-200 focus:border-[#1B5E45] focus:ring-4 focus:ring-[#1B5E45]/5 shadow-sm" 
                             : "bg-slate-50/50 border-transparent text-slate-900"
                         }`}
                       />
                     </div>
                   </div>
-                  <div className="space-y-2.5">
+                  <div className="space-y-2.5 col-span-2 md:col-span-1">
                     <div className="flex items-center gap-2 mb-1">
-                       <div className="w-1 h-3 bg-blue-600 rounded-full" />
-                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Secure Line</label>
+                       <div className="w-1 h-3 bg-[#1B5E45] rounded-full" />
+                       <label className="text-[10px] font-medium text-slate-400 uppercase tracking-[0.2em]">Secure Line</label>
                     </div>
                     <div className="relative group/input">
-                      <Phone className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within/input:text-blue-600 transition-colors" />
+                      <Phone className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within/input:text-[#1B5E45] transition-colors" />
                       <input
                         type="tel"
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
                         disabled={!isEditing}
-                        className={`w-full pl-14 pr-6 py-4 rounded-2xl border transition-all duration-300 font-extrabold text-sm tracking-tight ${
+                        className={`w-full pl-14 pr-6 py-4 rounded-2xl border transition-all duration-300 font-medium text-sm tracking-tight ${
                           isEditing 
-                            ? "bg-white border-slate-200 focus:border-blue-600 focus:ring-4 focus:ring-blue-600/5 shadow-sm" 
+                            ? "bg-white border-slate-200 focus:border-[#1B5E45] focus:ring-4 focus:ring-[#1B5E45]/5 shadow-sm" 
                             : "bg-slate-50/50 border-transparent text-slate-900"
                         }`}
                       />
@@ -351,8 +351,8 @@ export default function ProfilePage() {
 
                 {isEditing && (
                   <div className="mt-12 pt-10 border-t border-slate-100 flex justify-end gap-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                    <Button variant="outline" onClick={() => setIsEditing(false)} className="px-8 h-12 rounded-xl text-[10px] font-black uppercase tracking-widest border-slate-200">Decline Changes</Button>
-                    <Button onClick={handleSave} className="bg-slate-900 border-none text-white px-10 h-12 rounded-xl shadow-xl shadow-slate-900/20 hover:bg-slate-800 text-[10px] font-black uppercase tracking-widest">
+                    <Button variant="outline" onClick={() => setIsEditing(false)} className="px-8 h-12 rounded-xl text-[10px] font-medium uppercase tracking-widest border-slate-200">Decline Changes</Button>
+                    <Button onClick={handleSave} className="bg-slate-900 border-none text-white px-10 h-12 rounded-xl shadow-xl shadow-slate-900/20 hover:bg-slate-800 text-[10px] font-medium uppercase tracking-widest">
                       <Save className="w-4 h-4 mr-2" />
                       Commit Data
                     </Button>
@@ -367,46 +367,46 @@ export default function ProfilePage() {
                     <div className="p-2 bg-orange-50 text-orange-600 rounded-xl border border-orange-100">
                       <Lock className="w-5 h-5" />
                     </div>
-                    <h3 className="font-bold text-slate-900">Security</h3>
+                    <h3 className="font-medium text-slate-900">Security</h3>
                   </div>
                   <div className="space-y-4">
                     <div className="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100">
                       <div className="text-sm">
-                        <p className="font-bold text-slate-900">Password</p>
+                        <p className="font-medium text-slate-900">Password</p>
                         <p className="text-slate-500 text-xs">Updated 3 months ago</p>
                       </div>
-                      <button className="text-xs font-bold text-blue-600 hover:text-blue-700">Change</button>
+                      <button className="text-xs font-medium text-[#1B5E45] hover:text-[#1B5E45]">Change</button>
                     </div>
                     <div className="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100">
                       <div className="text-sm">
-                        <p className="font-bold text-slate-900">2FA Auth</p>
+                        <p className="font-medium text-slate-900">2FA Auth</p>
                         <p className="text-red-500 text-xs font-medium">Not enabled</p>
                       </div>
-                      <button className="text-xs font-bold text-blue-600 hover:text-blue-700">Enable</button>
+                      <button className="text-xs font-medium text-[#1B5E45] hover:text-[#1B5E45]">Enable</button>
                     </div>
                   </div>
                 </div>
 
                 <div className="bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 p-8">
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="p-2 bg-blue-50 text-blue-600 rounded-xl border border-blue-100">
+                    <div className="p-2 bg-[#E8F5EE] text-[#1B5E45] rounded-xl border border-[#C4D4C9]">
                       <Bell className="w-5 h-5" />
                     </div>
-                    <h3 className="font-bold text-slate-900">Preferences</h3>
+                    <h3 className="font-medium text-slate-900">Preferences</h3>
                   </div>
                   <div className="space-y-4">
                     <label className="flex items-center justify-between cursor-pointer group">
-                      <span className="text-sm font-semibold text-slate-700 group-hover:text-slate-900 transition-colors">Email Notifications</span>
+                      <span className="text-sm font-medium text-slate-700 group-hover:text-slate-900 transition-colors">Email Notifications</span>
                       <div className="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" className="sr-only peer" defaultChecked />
-                        <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#1B5E45]"></div>
                       </div>
                     </label>
                     <label className="flex items-center justify-between cursor-pointer group">
-                      <span className="text-sm font-semibold text-slate-700 group-hover:text-slate-900 transition-colors">Marketing Mail</span>
+                      <span className="text-sm font-medium text-slate-700 group-hover:text-slate-900 transition-colors">Marketing Mail</span>
                       <div className="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" className="sr-only peer" />
-                        <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#1B5E45]"></div>
                       </div>
                     </label>
                   </div>
@@ -423,7 +423,7 @@ export default function ProfilePage() {
           <div className="bg-white rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl shadow-black/20 transform animate-in zoom-in-95 duration-200 scale-100">
             <div className="p-6 border-b border-slate-50 flex items-center justify-between">
               <div>
-                <h3 className="text-xl font-bold text-slate-900">Property Identity</h3>
+                <h3 className="text-xl font-medium text-slate-900">Property Identity</h3>
                 <p className="text-xs text-slate-500 font-medium">Choose a professional appearance</p>
               </div>
               <button 
@@ -437,12 +437,12 @@ export default function ProfilePage() {
               {/* File Upload Area */}
               <div className="mb-8">
                 <label className="group block w-full cursor-pointer">
-                  <div className="flex flex-col items-center justify-center w-full h-40 border-2 border-slate-100 border-dashed rounded-2xl bg-slate-50 group-hover:bg-blue-50/50 group-hover:border-blue-400 transition-all duration-300">
+                  <div className="flex flex-col items-center justify-center w-full h-40 border-2 border-slate-100 border-dashed rounded-2xl bg-slate-50 group-hover:bg-[#E8F5EE]/50 group-hover:border-[#3DBE7A] transition-all duration-300">
                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                      <div className="w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                      <div className="w-12 h-12 rounded-2xl bg-[#E8F5EE] text-[#1B5E45] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                         <Camera className="w-6 h-6" />
                       </div>
-                      <p className="mb-1 text-sm font-bold text-slate-700 font-sans">Click to upload photo</p>
+                      <p className="mb-1 text-sm font-medium text-slate-700 font-sans">Click to upload photo</p>
                       <p className="text-xs text-slate-500 font-medium font-sans">SVG, PNG, JPG (Max 5MB)</p>
                     </div>
                     <input 

@@ -40,7 +40,7 @@ const occupancyData = [
 export default function ReportsPage() {
   return (
     <LandlordLayout>
-      <div className="p-6 md:p-10 space-y-10 selection:bg-blue-100">
+      <div className="p-6 md:p-10 space-y-10 ">
         {/* Header - Editorial Style */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-slate-100">
           <div className="space-y-2">
@@ -89,7 +89,7 @@ export default function ReportsPage() {
            <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-xl shadow-slate-200/40 p-10 space-y-8">
               <div className="flex items-center justify-between">
                  <div className="space-y-1">
-                    <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest">Revenue Streams</p>
+                    <p className="text-[10px] font-black text-[#1B5E45] uppercase tracking-widest">Revenue Streams</p>
                     <h3 className="text-2xl font-black text-slate-900 tracking-tight">Performance Horizon</h3>
                  </div>
                  <div className="flex bg-slate-50 p-1 rounded-xl border border-slate-100">
@@ -177,28 +177,28 @@ export default function ReportsPage() {
 
         {/* Strategic Roadmap - Premium Table/List */}
         <div className="bg-slate-900 rounded-[3rem] p-12 text-white shadow-2xl shadow-blue-900/40 relative overflow-hidden">
-           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/20 blur-[150px] rounded-full" />
-           <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-10">
-              <div className="max-w-md space-y-4">
-                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 text-[10px] font-black uppercase tracking-[0.2em] text-blue-300">
+           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#1B5E45]/20 blur-[150px] rounded-full" />
+           <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-10 max-w-xl mx-auto">
+              <div className="max-w-sm space-y-4">
+                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E8F5EE]0/20 text-[10px] font-medium uppercase tracking-[0.2em] text-blue-300">
                     <PieChart className="w-3 h-3" />
                      Property Strategy
                  </div>
-                 <h3 className="text-4xl font-black tracking-tighter leading-tight">Optimizing Asset <span className="text-blue-500">Utilization</span> Protocols.</h3>
+                 <h3 className="text-2xl md:text-4xl font-medium tracking-tighter leading-tight"><span className="text-white">Optimizing Asset</span> <span className="text-[#3DBE7A]">Utilization</span> <span className="text-white">Protocols.</span></h3>
                  <p className="text-slate-400 text-sm font-medium leading-relaxed">
                     Based on current market trends and property diagnostics, you are advised to expand high-yield commercial assets in the Downtoan sector.
                  </p>
               </div>
-              <div className="flex gap-6">
-                 <div className="p-8 bg-white/5 backdrop-blur-md rounded-[2.5rem] border border-white/10 text-center space-y-2">
-                    <p className="text-[10px] font-black text-blue-400 uppercase tracking-widest">Growth Index</p>
-                    <p className="text-4xl font-black tracking-tighter">+18%</p>
-                    <p className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Year-on-year</p>
+              <div className="flex flex-row gap-3 md:gap-6 w-full md:w-auto">
+                 <div className="flex-1 p-2.5 md:p-6 bg-white/5 backdrop-blur-md rounded-[2rem] md:rounded-[2.5rem] border border-white/10 text-center space-y-1.5 md:space-y-2">
+                    <p className="text-[8px] md:text-[10px] font-medium text-[#3DBE7A] uppercase tracking-wider md:tracking-widest">Growth Index</p>
+                    <p className="text-2xl md:text-4xl font-medium tracking-tighter">+18%</p>
+                    <p className="text-[8px] md:text-[9px] font-medium text-slate-500 uppercase tracking-wider md:tracking-widest">Year-on-year</p>
                  </div>
-                 <div className="p-8 bg-white/10 backdrop-blur-md rounded-[2.5rem] border border-white/10 text-center space-y-2">
-                    <p className="text-[10px] font-black text-blue-400 uppercase tracking-widest">Risk Factor</p>
-                    <p className="text-4xl font-black tracking-tighter">Low</p>
-                    <p className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Market Neutral</p>
+                 <div className="flex-1 p-2.5 md:p-6 bg-white/10 backdrop-blur-md rounded-[2rem] md:rounded-[2.5rem] border border-white/10 text-center space-y-1.5 md:space-y-2">
+                    <p className="text-[8px] md:text-[10px] font-medium text-[#3DBE7A] uppercase tracking-wider md:tracking-widest">Risk Factor</p>
+                    <p className="text-2xl md:text-4xl font-medium tracking-tighter">Low</p>
+                    <p className="text-[8px] md:text-[9px] font-medium text-slate-500 uppercase tracking-wider md:tracking-widest">Market Neutral</p>
                  </div>
               </div>
            </div>

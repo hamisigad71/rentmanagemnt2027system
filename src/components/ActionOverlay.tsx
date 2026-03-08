@@ -19,9 +19,9 @@ const colorStyles: Record<
   { bubble: string; spinner: string; glow: string }
 > = {
   blue: {
-    bubble: "bg-blue-600 text-white",
-    spinner: "border-blue-500",
-    glow: "shadow-blue-500/20",
+    bubble: "bg-[#1B5E45] text-white",
+    spinner: "border-[#3DBE7A]",
+    glow: "shadow-[#1B5E45]/20",
   },
   green: {
     bubble: "bg-emerald-600 text-white",

@@ -28,6 +28,7 @@ export interface Tenant {
   name: string;
   email: string;
   phone: string;
+  idNumber: string;
   unitId: string;
   roomNumber?: string;
   moveInDate: string;
@@ -210,6 +211,7 @@ export const mockTenants: Tenant[] = [
     name: "John Doe",
     email: "john.doe@email.com",
     phone: "555-0101",
+    idNumber: "ID-12345678",
     unitId: "unit-001",
     roomNumber: "A1",
     moveInDate: "2023-01-15",
@@ -223,6 +225,7 @@ export const mockTenants: Tenant[] = [
     name: "Jane Smith",
     email: "jane.smith@email.com",
     phone: "555-0102",
+    idNumber: "ID-87654321",
     unitId: "unit-003",
     roomNumber: "B2",
     moveInDate: "2022-06-20",
@@ -236,6 +239,7 @@ export const mockTenants: Tenant[] = [
     name: "Robert Johnson",
     email: "robert.j@email.com",
     phone: "555-0103",
+    idNumber: "ID-11223344",
     unitId: "unit-004",
     roomNumber: "C1",
     moveInDate: "2023-03-10",
@@ -249,6 +253,7 @@ export const mockTenants: Tenant[] = [
     name: "Emily Brown",
     email: "emily.brown@email.com",
     phone: "555-0104",
+    idNumber: "ID-44332211",
     unitId: "unit-006",
     roomNumber: "A2",
     moveInDate: "2023-05-05",
@@ -262,6 +267,7 @@ export const mockTenants: Tenant[] = [
     name: "Michael Wilson",
     email: "michael.w@email.com",
     phone: "555-0105",
+    idNumber: "ID-55667788",
     unitId: "unit-007",
     roomNumber: "B1",
     moveInDate: "2023-02-14",
@@ -275,6 +281,7 @@ export const mockTenants: Tenant[] = [
     name: "Sarah Davis",
     email: "sarah.d@email.com",
     phone: "555-0106",
+    idNumber: "ID-99887766",
     unitId: "unit-008",
     roomNumber: "C3",
     moveInDate: "2022-11-30",
@@ -288,6 +295,7 @@ export const mockTenants: Tenant[] = [
     name: "David Martinez",
     email: "david.m@email.com",
     phone: "555-0107",
+    idNumber: "ID-12123434",
     unitId: "unit-009",
     roomNumber: "10A",
     moveInDate: "2023-04-08",
@@ -301,6 +309,7 @@ export const mockTenants: Tenant[] = [
     name: "Lisa Anderson",
     email: "lisa.a@email.com",
     phone: "555-0108",
+    idNumber: "ID-56567878",
     unitId: "unit-010",
     roomNumber: "10B",
     moveInDate: "2023-07-20",

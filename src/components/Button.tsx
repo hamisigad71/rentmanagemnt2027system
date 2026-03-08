@@ -15,22 +15,22 @@ interface ButtonProps {
 
 const variantClasses = {
   primary:
-    "bg-blue-600 text-white hover:bg-blue-700 shadow-lg shadow-blue-600/20 active:scale-95",
+    "bg-[#1B5E45] text-white hover:bg-[#246B4F] shadow-[0_4px_24px_rgba(27,94,69,0.25)] hover:shadow-[0_8px_32px_rgba(27,94,69,0.35)] active:bg-[#164D39] active:scale-[0.98]",
   secondary:
-    "bg-slate-100 text-slate-900 hover:bg-slate-200 active:scale-95",
+    "bg-white border border-[#1B5E45] text-[#1B5E45] hover:bg-[#E8F5EE] active:scale-[0.98]",
   outline:
-    "border border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-50 active:scale-95",
-  ghost: 
-    "text-slate-600 hover:bg-slate-100 active:scale-95",
+    "border border-[#E8E8E2] text-[#1A1A1A] hover:border-[#C4D4C9] hover:bg-[#F4F4F0] active:scale-[0.98]",
+  ghost:
+    "text-[#1A1A1A] hover:bg-[#F4F4F0] active:scale-[0.98]",
   premium:
-    "bg-slate-900 text-white hover:bg-slate-800 shadow-[0_10px_20px_rgba(0,0,0,0.2)] active:scale-95 relative overflow-hidden group",
+    "text-white shadow-[0_4px_24px_rgba(27,94,69,0.35)] active:scale-[0.98] relative overflow-hidden group",
 };
 
 const sizeClasses = {
-  sm: "px-3 py-1.5 text-xs rounded-xl",
-  md: "px-5 py-2.5 text-sm rounded-2xl",
-  lg: "px-7 py-3.5 text-base rounded-2xl",
-  xl: "px-9 py-4.5 text-lg rounded-[24px]",
+  sm: "px-4 py-1.5 text-xs rounded-full",
+  md: "px-5 py-2.5 text-sm rounded-full",
+  lg: "px-7 py-3.5 text-base rounded-full",
+  xl: "px-9 py-4.5 text-lg rounded-full",
 };
 
 export default function Button({
@@ -51,9 +51,13 @@ export default function Button({
       disabled={disabled || loading}
       suppressHydrationWarning
       className={cn(
-        "font-bold transition-all duration-300 flex items-center justify-center gap-2.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100",
+        "font-bold transition-all duration-300 flex items-center justify-center gap-2.5 disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100 disabled:bg-[#E8E8E2] disabled:text-[#6B7280] disabled:shadow-none disabled:border-0",
         variantClasses[variant],
         sizeClasses[size],
+        // Premium has its own gradient bg applied inline to allow the shimmer overlay
+        variant === "premium"
+          ? "bg-gradient-to-r from-[#246B4F] to-[#1B5E45]"
+          : "",
         className
       )}
     >
@@ -65,8 +69,8 @@ export default function Button({
       <span className="relative z-10 flex items-center gap-2.5">
         {children}
       </span>
-      {variant === 'premium' && (
-        <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 z-20" />
+      {variant === "premium" && (
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#3DBE7A]/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 z-20" />
       )}
     </button>
   );

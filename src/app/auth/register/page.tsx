@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import Button from "@/components/Button";
 import { User, Mail, Lock, Phone, ArrowLeft, CreditCard, Home, Building, Camera, PlusCircle, CheckCircle2 } from "lucide-react";
+import Logo from "@/components/Logo";
 import { mockBuildings, mockUnits } from "@/data/mockData";
 
 export default function RegisterPage() {
@@ -94,10 +95,7 @@ export default function RegisterPage() {
           {/* Branding */}
           <div className="mb-8">
             <Link href="/" className="flex items-center gap-2 mb-2">
-              <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg shadow-blue-200">
-                RM
-              </div>
-              <span className="font-bold text-2xl tracking-tight text-gray-900">RentManager</span>
+              <Logo size="sm" variant="full" />
             </Link>
             <h1 className="text-3xl font-extrabold text-gray-900 mt-6">
               Create an account
@@ -139,11 +137,11 @@ export default function RegisterPage() {
             {/* Profile Picture Upload */}
             <div className="flex flex-col items-center mb-6">
               <div className="relative group">
-                <div className="w-24 h-24 rounded-2xl bg-gray-50 border-2 border-dashed border-gray-200 flex items-center justify-center overflow-hidden transition-all group-hover:border-blue-400 group-hover:bg-blue-50/30">
+                <div className="w-24 h-24 rounded-2xl bg-[#FAFAF8] border-2 border-dashed border-[#E8E8E4] flex items-center justify-center overflow-hidden transition-all group-hover:border-[#3DBE7A] group-hover:bg-[#E8F5EE]/50">
                   {formData.profileImage ? (
                     <img src={formData.profileImage} alt="Preview" className="w-full h-full object-cover" />
                   ) : (
-                    <Camera className="w-8 h-8 text-gray-300 group-hover:text-blue-400" />
+                    <Camera className="w-8 h-8 text-gray-300 group-hover:text-[#3DBE7A]" />
                   )}
                 </div>
                 <input
@@ -152,7 +150,7 @@ export default function RegisterPage() {
                   onChange={handleImageUpload}
                   className="absolute inset-0 opacity-0 cursor-pointer"
                 />
-                <div className="absolute -bottom-2 -right-2 bg-blue-600 text-white p-1.5 rounded-lg shadow-lg">
+                <div className="absolute -bottom-2 -right-2 bg-[#1B5E45] text-white p-1.5 rounded-lg shadow-lg">
                   <PlusCircle className="w-3.5 h-3.5" />
                 </div>
               </div>
@@ -166,7 +164,7 @@ export default function RegisterPage() {
                 onClick={() => setRole("landlord")}
                 className={`py-2 rounded-lg text-sm font-semibold transition-all ${
                   role === "landlord"
-                    ? "bg-white text-blue-600 shadow-sm"
+                    ? "bg-white text-[#1B5E45] shadow-sm"
                     : "text-gray-500 hover:text-gray-700"
                 }`}
               >
@@ -177,7 +175,7 @@ export default function RegisterPage() {
                 onClick={() => setRole("tenant")}
                 className={`py-2 rounded-lg text-sm font-semibold transition-all ${
                   role === "tenant"
-                    ? "bg-white text-blue-600 shadow-sm"
+                    ? "bg-white text-[#1B5E45] shadow-sm"
                     : "text-gray-500 hover:text-gray-700"
                 }`}
               >
@@ -199,7 +197,7 @@ export default function RegisterPage() {
                   required
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full pl-11 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all bg-gray-50/30"
+                  className="w-full pl-11 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1B5E45]/20 focus:border-[#1B5E45] transition-all bg-gray-50/30"
                 />
               </div>
             </div>
@@ -219,7 +217,7 @@ export default function RegisterPage() {
                     required={role === "tenant"}
                     value={formData.idNumber}
                     onChange={handleChange}
-                    className="w-full pl-11 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all bg-gray-50/30"
+                    className="w-full pl-11 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1B5E45]/20 focus:border-[#1B5E45] transition-all bg-gray-50/30"
                   />
                 </div>
               </div>
@@ -240,7 +238,7 @@ export default function RegisterPage() {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full pl-11 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all bg-gray-50/30 text-sm"
+                    className="w-full pl-11 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1B5E45]/20 focus:border-[#1B5E45] transition-all bg-gray-50/30 text-sm"
                   />
                 </div>
               </div>
@@ -257,7 +255,7 @@ export default function RegisterPage() {
                     required
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full pl-11 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all bg-gray-50/30 text-sm"
+                    className="w-full pl-11 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1B5E45]/20 focus:border-[#1B5E45] transition-all bg-gray-50/30 text-sm"
                   />
                 </div>
               </div>
@@ -278,7 +276,7 @@ export default function RegisterPage() {
                         required={role === "tenant"}
                         value={formData.buildingId}
                         onChange={handleChange}
-                        className="w-full pl-11 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all bg-gray-50/30 text-sm appearance-none"
+                        className="w-full pl-11 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1B5E45]/20 focus:border-[#1B5E45] transition-all bg-gray-50/30 text-sm appearance-none"
                       >
                         <option value="">Select Building</option>
                         {mockBuildings.map(b => (
@@ -299,7 +297,7 @@ export default function RegisterPage() {
                         disabled={!formData.buildingId}
                         value={formData.unitId}
                         onChange={handleChange}
-                        className="w-full pl-11 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all bg-gray-50/30 text-sm appearance-none disabled:opacity-50"
+                        className="w-full pl-11 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1B5E45]/20 focus:border-[#1B5E45] transition-all bg-gray-50/30 text-sm appearance-none disabled:opacity-50"
                       >
                         <option value="">{formData.buildingId ? "Select Type" : "Pick Building First"}</option>
                         {availableUnits.map(u => (
@@ -323,7 +321,7 @@ export default function RegisterPage() {
                       required={role === "tenant"}
                       value={formData.roomNumber}
                       onChange={handleChange}
-                      className="w-full pl-11 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all bg-gray-50/30 text-sm"
+                      className="w-full pl-11 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1B5E45]/20 focus:border-[#1B5E45] transition-all bg-gray-50/30 text-sm"
                     />
                   </div>
                 </div>
@@ -345,7 +343,7 @@ export default function RegisterPage() {
                     required
                     value={formData.password}
                     onChange={handleChange}
-                    className="w-full pl-11 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all bg-gray-50/30 text-sm"
+                    className="w-full pl-11 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1B5E45]/20 focus:border-[#1B5E45] transition-all bg-gray-50/30 text-sm"
                   />
                 </div>
               </div>
@@ -362,13 +360,13 @@ export default function RegisterPage() {
                     required
                     value={formData.confirmPassword}
                     onChange={handleChange}
-                    className="w-full pl-11 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all bg-gray-50/30 text-sm"
+                    className="w-full pl-11 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1B5E45]/20 focus:border-[#1B5E45] transition-all bg-gray-50/30 text-sm"
                   />
                 </div>
               </div>
             </div>
 
-            <Button type="submit" size="lg" className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-bold shadow-lg shadow-blue-200 mt-2">
+            <Button type="submit" size="lg" className="w-full bg-[#1B5E45] hover:bg-[#246B4F] text-white py-3 rounded-xl font-bold shadow-lg shadow-[#1B5E45]/20 mt-2">
               Create Account
             </Button>
           </form>
@@ -377,7 +375,7 @@ export default function RegisterPage() {
             Already have an account?{" "}
             <Link
               href="/auth/login"
-              className="text-blue-600 hover:text-blue-700 font-bold"
+              className="text-[#1B5E45] hover:text-[#246B4F] font-bold"
             >
               Sign in
             </Link>
@@ -394,22 +392,22 @@ export default function RegisterPage() {
       </div>
 
       {/* Right Side: Image & Content */}
-      <div className="hidden lg:block relative overflow-hidden bg-blue-600">
+      <div className="hidden lg:block relative overflow-hidden bg-[#1A1A1A]">
         <img
           src={activeHero.image}
           alt="Modern Architectural Building"
-          className="absolute inset-0 h-full w-full object-cover opacity-80"
+          className="absolute inset-0 h-full w-full object-cover opacity-60"
         />
-        <div className="absolute inset-0 bg-linear-to-b from-blue-900/80 via-blue-900/20 to-transparent flex flex-col justify-center p-12">
-          <div className="backdrop-blur-md bg-white/10 p-8 rounded-3xl border border-white/20 text-white max-w-lg">
-            <h2 className="text-3xl font-bold mb-4">{activeHero.title}</h2>
-            <p className="text-blue-50/80 text-lg leading-relaxed">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#1A1A1A] via-[#1B5E45]/40 to-transparent flex flex-col justify-center p-12">
+          <div className="backdrop-blur-md bg-white/5 p-10 rounded-[2.5rem] border border-white/10 text-white max-w-lg shadow-2xl">
+            <h2 className="text-4xl font-black italic mb-4">{activeHero.title}</h2>
+            <p className="text-white/70 text-lg font-medium leading-relaxed">
               {activeHero.description}
             </p>
             <ul className="mt-8 space-y-3">
               {activeHero.features.map((feature, idx) => (
                 <li key={idx} className="flex items-center gap-3 text-sm font-medium">
-                  <div className="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center text-[10px]">
+                  <div className="w-5 h-5 rounded-full bg-[#3DBE7A] flex items-center justify-center text-[10px]">
                     ✓
                   </div>
                   {feature}

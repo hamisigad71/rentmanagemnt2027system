@@ -20,7 +20,7 @@ import {
   ArrowRight
 } from "lucide-react";
 import { mockPayments, mockTenants } from "@/data/mockData";
-import { ActionProvider, useAction } from "@/context/ActionContext";
+import { useAction } from "@/context/ActionContext";
 import { LOADER_DURATION } from "@/utils/constants";
 
 export default function TenantPaymentsPage() {
@@ -37,338 +37,305 @@ export default function TenantPaymentsPage() {
 
   const handlePayment = () => {
     showAction({
-      title: "Verifying Payment",
-      message: "Please wait while we secure your transaction...",
-      color: "blue",
+      title: "Establishing Secure Protocol",
+      message: "Synchronizing with banking ledger...",
+      color: "green",
       icon: "published_with_changes"
     });
   
-    // Initial verification delay (e.g., 3s)
+    // Initial verification delay
     setTimeout(() => {
       updateAction({
-        title: "Payment Successful",
-        message: "Your rental balance has been updated.",
+        title: "Transaction Authorized",
+        message: "Your rental account has been reconciled.",
         color: "green",
         icon: "check_circle"
       });
       
-      // Secondary delay to show success icon (e.g., 1s)
-      // Total = 4s (LOADER_DURATION)
       setTimeout(() => hideAction(), 1000);
     }, LOADER_DURATION - 1000);
   };
 
-  // M-Pesa Logo
-  const MpesaLogo = () => (
-    <div className="flex items-center gap-1">
-      <img src="/images/mpesa-logo.png" alt="M-Pesa" className="h-10 object-contain" />
-    </div>
-  );
-
   return (
     <TenantLayout>
-      <div className="p-6 md:p-8 space-y-8 max-w-5xl mx-auto">
+      <div className="p-6 md:p-10 space-y-8 max-w-7xl mx-auto font-sans bg-gray-50 min-h-screen" suppressHydrationWarning>
         {/* Header */}
-        <div className="text-center md:text-left">
-          <h2 className="text-3xl font-bold text-gray-900">Secure Payments</h2>
-          <p className="text-gray-600 mt-1">Manage your rent and utilities securely</p>
+        <div className="space-y-3">
+          <div className="flex items-center gap-3">
+            <div className="w-14 h-14 rounded-lg bg-gradient-to-br from-[#1B5E45] to-[#246B4F] flex items-center justify-center text-white shadow-lg">
+              <CreditCard className="w-7 h-7" />
+            </div>
+            <div>
+              <h2 className="text-4xl font-bold text-gray-900">Financial Portal</h2>
+              <p className="text-sm text-gray-500 font-medium mt-1">Secure payment processing & transaction management</p>
+            </div>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Main Checkout Area */}
             <div className="lg:col-span-2 space-y-8">
-              {/* Payment Summary Box - Redesigned for Premium Feel */}
-              <div className="glass-panel border-white/20 rounded-[2.5rem] shadow-2xl overflow-hidden group transition-all hover:shadow-blue-500/5 hover:-translate-y-1">
-                <div className="relative bg-linear-to-br from-slate-900 via-blue-900 to-indigo-950 p-10 text-white overflow-hidden">
-                  {/* Cinematic Effects */}
-                  <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] -mr-64 -mt-64 animate-pulse-soft" />
-                  <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-[80px] -ml-32 -mb-32" />
-                  <div className="absolute inset-0 bg-shimmer opacity-[0.03] pointer-events-none" />
+              {/* Payment Summary Box */}
+              <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200">
+                <div className="relative bg-gradient-to-br from-[#1B5E45] via-[#246B4F] to-[#0f3d2a] p-8 text-white overflow-hidden">
+                  <div className="absolute top-0 right-0 w-80 h-80 bg-[#3DBE7A]/5 rounded-full blur-3xl -mr-40 -mt-40" />
                   
-                  <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-8">
+                  <div className="relative z-10 space-y-8">
                     <div>
-                      <div className="flex items-center gap-2 mb-4">
-                        <div className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
-                        <p className="text-blue-200/60 text-[10px] font-black uppercase tracking-[0.3em]">Account Statement</p>
+                      <div className="flex items-center gap-2 mb-6">
+                        <div className="w-2.5 h-2.5 rounded-full bg-[#3DBE7A] animate-pulse" />
+                        <p className="text-white/60 text-xs font-semibold uppercase tracking-wider">Reference: {refId}</p>
                       </div>
-                      <div className="space-y-1">
-                        <p className="text-slate-400 text-xs font-bold">Total Arrears</p>
-                        <div className="flex items-center gap-4">
-                          <span className="text-6xl font-black tracking-tighter bg-linear-to-r from-white via-white to-white/60 bg-clip-text text-transparent">
-                            KSh {currentTenant.arrears.toLocaleString()}
-                          </span>
-                          <Badge text="Outstanding" type="error" />
+                      <div className="space-y-4">
+                        <div>
+                          <p className="text-white/70 text-xs font-bold uppercase tracking-widest mb-2">Current Outstanding Balance</p>
+                          <div className="flex items-end gap-4">
+                            <div>
+                              <p className="text-5xl font-bold tracking-tight">KSh {currentTenant.arrears.toLocaleString()}</p>
+                            </div>
+                            <div className="px-4 py-1.5 bg-red-500/90 text-white rounded-full text-xs font-bold uppercase tracking-widest shadow-lg mb-2">
+                              Outstanding
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
                     
-                    <div className="flex flex-col items-end gap-3">
-                       <div className="flex -space-x-2">
-                        {[1, 2, 3].map((i) => (
-                          <div key={i} className="w-8 h-8 rounded-full border border-white/10 bg-white/5 backdrop-blur-md flex items-center justify-center">
-                            <Lock className="w-3.5 h-3.5 text-blue-300/60" />
-                          </div>
-                        ))}
-                      </div>
-                      <p className="text-[10px] font-black text-blue-300/40 uppercase tracking-widest">Secure Ledger v4.2</p>
+                    <div className="flex items-center justify-between pt-6 border-t border-white/20">
+                       <div className="flex items-center gap-3">
+                        <ShieldCheck className="w-5 h-5 text-[#3DBE7A]" />
+                        <p className="text-xs font-semibold text-white/70">256-Bit Encryption</p>
+                       </div>
+                      <p className="text-xs font-bold text-white/40 font-mono">AES-GCM Protocol</p>
                     </div>
                   </div>
                 </div>
 
-                <div className="p-10 space-y-8 bg-white/5 backdrop-blur-3xl border-t border-white/5">
+                <div className="p-8 space-y-6 bg-white">
                   <div className="space-y-4">
-                    <div className="flex justify-between items-end">
-                      <div className="space-y-1">
-                        <h4 className="text-sm font-black text-slate-800 uppercase tracking-tight">Payment Configuration</h4>
-                        <p className="text-[11px] text-slate-400 font-bold">Adjust your contribution amount</p>
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h4 className="text-xl font-bold text-gray-900">Enter Payment Amount</h4>
+                        <p className="text-sm text-gray-500 font-medium mt-1">Specify how much you want to pay</p>
                       </div>
-                      <div className="flex items-center gap-1.5 px-3 py-1 bg-blue-50 rounded-full border border-blue-100">
-                        <Zap className="w-3 h-3 text-blue-600 fill-blue-600" />
-                        <span className="text-[10px] font-black text-blue-600 uppercase tracking-wider">Priority Sync</span>
+                      <div className="flex items-center gap-2 px-3 py-1.5 bg-[#E8F5EE] rounded-lg border border-[#C4D4C9]">
+                        <Zap className="w-4 h-4 text-[#1B5E45]" />
+                        <span className="text-xs font-bold text-[#1B5E45] uppercase tracking-wider">Instant Process</span>
                       </div>
                     </div>
 
                     <div className="relative group/input">
                       <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none">
-                        <span className="text-slate-300 font-extrabold text-xl group-focus-within/input:text-blue-600 transition-colors">KSh</span>
+                        <span className="text-[#1B5E45] font-bold text-xl">KSh</span>
                       </div>
                       <input 
                         type="number" 
                         value={amount}
                         onChange={(e) => setAmount(Number(e.target.value))}
-                        suppressHydrationWarning
-                        className="w-full pl-20 pr-8 py-7 bg-slate-50/50 border border-slate-200/60 rounded-[2rem] font-black text-4xl text-slate-900 focus:ring-8 focus:ring-blue-500/5 focus:border-blue-500 focus:bg-white outline-none transition-all shadow-inner group-hover/input:border-slate-300"
-                        placeholder="0.00"
+                        className="w-full pl-20 pr-6 py-5 bg-gray-50 border-2 border-gray-200 rounded-xl font-bold text-3xl focus:ring-4 focus:ring-[#3DBE7A]/10 focus:border-[#3DBE7A] outline-none transition-all text-gray-900 placeholder-gray-400"
+                        placeholder="0"
                       />
-                      <div className="absolute right-6 inset-y-0 flex items-center gap-3">
-                         <button suppressHydrationWarning onClick={() => setAmount(currentTenant.arrears)} className="px-4 py-2 bg-white border border-slate-200 rounded-xl text-[10px] font-black text-slate-600 hover:text-blue-600 hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/10 transition-all active:scale-95 uppercase tracking-widest">All</button>
-                         <button suppressHydrationWarning onClick={() => setAmount(currentTenant.arrears / 2)} className="px-4 py-2 bg-white border border-slate-200 rounded-xl text-[10px] font-black text-slate-600 hover:text-blue-600 hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/10 transition-all active:scale-95 uppercase tracking-widest">Half</button>
+                      <div className="absolute right-6 inset-y-0 flex items-center gap-2">
+                         <button onClick={() => setAmount(currentTenant.arrears)} className="px-3 py-2 bg-gray-100 hover:bg-[#1B5E45] hover:text-white border border-gray-200 rounded-lg text-xs font-bold text-gray-700 transition-all active:scale-95 uppercase tracking-tight shadow-sm">Full</button>
+                         <button onClick={() => setAmount(currentTenant.arrears / 2)} className="px-3 py-2 bg-gray-100 hover:bg-[#1B5E45] hover:text-white border border-gray-200 rounded-lg text-xs font-bold text-gray-700 transition-all active:scale-95 uppercase tracking-tight shadow-sm">50%</button>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-            {/* Payment Methods Selection */}
-            <div className="bg-white rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/40 p-8">
-              <div className="flex items-center justify-between mb-8">
-                <h3 className="text-lg font-bold text-slate-900 flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
-                    <ShieldCheck className="w-5 h-5" />
+              {/* Security & Verification */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-all">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[#1B5E45] to-[#246B4F] text-white flex items-center justify-center flex-shrink-0 shadow-md">
+                      <ShieldCheck className="w-6 h-6" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-bold text-[#1B5E45] uppercase tracking-wider mb-1">Secure Encryption</p>
+                      <h4 className="text-sm font-bold text-gray-900">256-bit AES-GCM Protocol</h4>
+                      <p className="text-xs text-gray-600 mt-3 leading-relaxed">Military-grade encryption protects all your transaction data with institutional-level security standards.</p>
+                    </div>
                   </div>
-                  Choose Payment Method
-                </h3>
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Step 2 of 2</span>
-              </div>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-                <button 
-                  onClick={() => setPaymentMethod("mpesa")}
-                  suppressHydrationWarning
-                  className={`group relative overflow-hidden flex items-center sm:flex-col sm:justify-center gap-4 p-6 rounded-[2rem] border-2 transition-all duration-500 active:scale-95 ${
-                    paymentMethod === "mpesa" 
-                    ? "border-emerald-500 bg-emerald-50/50 shadow-2xl shadow-emerald-500/10" 
-                    : "border-slate-100 bg-slate-50/30 hover:border-slate-300 hover:bg-white"
-                  }`}
-                >
-                  {paymentMethod === "mpesa" && <div className="absolute top-0 right-0 w-12 h-12 bg-emerald-500 rounded-bl-3xl flex items-center justify-center animate-in slide-in-from-top-4 slide-in-from-right-4"><CheckCircle2 className="w-5 h-5 text-white" /></div>}
-                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 ${paymentMethod === "mpesa" ? "bg-emerald-500 text-white shadow-xl shadow-emerald-500/30 scale-110" : "bg-white text-slate-400 group-hover:text-emerald-500"}`}>
-                    <Smartphone className="w-7 h-7" />
-                  </div>
-                  <div className="text-left sm:text-center">
-                    <p className={`text-sm font-black transition-colors ${paymentMethod === "mpesa" ? "text-emerald-900" : "text-slate-600"}`}>M-Pesa</p>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Mobile Pay</p>
-                  </div>
-                </button>
-                
-                <button 
-                  onClick={() => setPaymentMethod("card")}
-                  suppressHydrationWarning
-                  className={`group relative overflow-hidden flex items-center sm:flex-col sm:justify-center gap-4 p-6 rounded-[2rem] border-2 transition-all duration-500 active:scale-95 ${
-                    paymentMethod === "card" 
-                    ? "border-blue-500 bg-blue-50/50 shadow-2xl shadow-blue-500/10" 
-                    : "border-slate-100 bg-slate-50/30 hover:border-slate-300 hover:bg-white"
-                  }`}
-                >
-                  {paymentMethod === "card" && <div className="absolute top-0 right-0 w-12 h-12 bg-blue-500 rounded-bl-3xl flex items-center justify-center animate-in slide-in-from-top-4 slide-in-from-right-4"><CheckCircle2 className="w-5 h-5 text-white" /></div>}
-                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 ${paymentMethod === "card" ? "bg-blue-600 text-white shadow-xl shadow-blue-500/30 scale-110" : "bg-white text-slate-400 group-hover:text-blue-600"}`}>
-                    <CreditCard className="w-7 h-7" />
-                  </div>
-                  <div className="text-left sm:text-center">
-                    <p className={`text-sm font-black transition-colors ${paymentMethod === "card" ? "text-blue-900" : "text-slate-600"}`}>Credit Card</p>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Global Pay</p>
-                  </div>
-                </button>
-                
-                <button 
-                  onClick={() => setPaymentMethod("bank")}
-                  suppressHydrationWarning
-                  className={`group relative overflow-hidden flex items-center sm:flex-col sm:justify-center gap-4 p-6 rounded-[2rem] border-2 transition-all duration-500 active:scale-95 ${
-                    paymentMethod === "bank" 
-                    ? "border-indigo-500 bg-indigo-50/50 shadow-2xl shadow-indigo-500/10" 
-                    : "border-slate-100 bg-slate-50/30 hover:border-slate-300 hover:bg-white"
-                  }`}
-                >
-                  {paymentMethod === "bank" && <div className="absolute top-0 right-0 w-12 h-12 bg-indigo-500 rounded-bl-3xl flex items-center justify-center animate-in slide-in-from-top-4 slide-in-from-right-4"><CheckCircle2 className="w-5 h-5 text-white" /></div>}
-                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 ${paymentMethod === "bank" ? "bg-indigo-600 text-white shadow-xl shadow-indigo-500/30 scale-110" : "bg-white text-slate-400 group-hover:text-indigo-600"}`}>
-                    <Building className="w-7 h-7" />
-                  </div>
-                  <div className="text-left sm:text-center">
-                    <p className={`text-sm font-black transition-colors ${paymentMethod === "bank" ? "text-indigo-900" : "text-slate-600"}`}>Bank Wire</p>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Direct Pay</p>
-                  </div>
-                </button>
+                </div>
+
+                <div className="bg-gradient-to-br from-blue-50 to-white rounded-xl border border-blue-100 p-6 hover:shadow-lg transition-all">
+                   <div className="flex items-start gap-4">
+                     <div className="w-12 h-12 rounded-lg bg-blue-500 text-white flex items-center justify-center flex-shrink-0 shadow-md">
+                       <Smartphone className="w-6 h-6" />
+                     </div>
+                     <div className="flex-1">
+                       <p className="text-xs font-bold text-blue-600 uppercase tracking-wider mb-1">Always Available</p>
+                       <h4 className="text-sm font-bold text-gray-900">24/7 Expert Support</h4>
+                       <p className="text-xs text-gray-600 mt-3 leading-relaxed">Our support team is available around the clock to assist with any payment or account inquiries.</p>
+                     </div>
+                   </div>
+                </div>
               </div>
 
-              <div className="mt-10 pt-10 border-t border-slate-100">
-                {paymentMethod === "mpesa" && (
-                  <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                    <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center">
-                          <img src="/images/mpesa-logo.png" alt="M-Pesa" className="h-8 object-contain" />
-                        </div>
-                        <div>
-                          <p className="text-sm font-black text-slate-900 leading-none">M-Pesa Express</p>
-                          <p className="text-[10px] font-bold text-slate-400 mt-1 uppercase">Direct Push Payment</p>
-                        </div>
+            {/* Payment Methods Selection */}
+            <div className="bg-white rounded-2xl border border-gray-200 p-8 shadow-lg">
+              <div className="flex items-center gap-3 mb-8">
+                <div className="w-12 h-12 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center shadow-md">
+                  <CreditCard className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-gray-900">Payment Method</h3>
+                  <p className="text-xs text-gray-500 font-medium mt-1">Choose your preferred payment option</p>
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-1 gap-3 mb-8">
+                {[
+                  { id: "mpesa", label: "M-Pesa", desc: "Mobile Payment", icon: <Smartphone className="w-5 h-5" />, color: "emerald" },
+                  { id: "card", label: "Debit Card", desc: "Visa/Mastercard", icon: <CreditCard className="w-5 h-5" />, color: "blue" },
+                  { id: "bank", label: "Bank Transfer", desc: "Direct Account", icon: <Building className="w-5 h-5" />, color: "slate" }
+                ].map((meth) => (
+                  <button 
+                    key={meth.id}
+                    onClick={() => setPaymentMethod(meth.id as any)}
+                    className={`group relative flex items-center gap-4 p-4 rounded-lg border-2 transition-all active:scale-95 ${
+                      paymentMethod === meth.id 
+                      ? `border-[#1B5E45] bg-[#E8F5EE] shadow-md` 
+                      : "border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50"
+                    }`}
+                  >
+                    {paymentMethod === meth.id && (
+                      <div className="absolute top-2 right-2 w-6 h-6 bg-[#1B5E45] rounded-full flex items-center justify-center">
+                        <CheckCircle2 className="w-4 h-4 text-white" />
                       </div>
-                      <Badge text="Instant Verify" type="success" />
+                    )}
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all flex-shrink-0 ${
+                      paymentMethod === meth.id 
+                        ? `bg-[#1B5E45] text-white shadow-md` 
+                        : "bg-gray-100 text-gray-400"
+                    }`}>
+                      {meth.icon}
+                    </div>
+                    <div className="text-left flex-1">
+                      <p className={`text-sm font-bold transition-colors ${paymentMethod === meth.id ? "text-gray-900" : "text-gray-600"}`}>{meth.label}</p>
+                      <p className="text-xs text-gray-500 font-medium mt-0.5">{meth.desc}</p>
+                    </div>
+                  </button>
+                ))}
+              </div>
+
+              <div className="border-t pt-8">
+                {paymentMethod === "mpesa" && (
+                  <div className="space-y-5 animate-in fade-in duration-300">
+                    <div className="flex items-center gap-4 p-4 bg-emerald-50 rounded-lg border border-emerald-200">
+                      <img src="/images/mpesa-logo.png" alt="M-Pesa" className="h-6 object-contain" />
+                      <div className="flex-1">
+                        <p className="text-sm font-bold text-gray-900">M-Pesa Express</p>
+                        <p className="text-xs text-gray-600 mt-0.5">STK push to your registered number</p>
+                      </div>
+                      <Badge text="Instant" type="success" />
                     </div>
 
                     <div className="space-y-3">
-                      <label className="text-xs font-black text-slate-500 uppercase tracking-widest ml-1">Phone Number</label>
-                      <div className="relative group/field">
-                        <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none text-slate-400 group-focus-within/field:text-green-600 transition-colors">
-                          <Smartphone className="w-5 h-5" />
+                      <label className="text-xs font-bold text-gray-700 uppercase tracking-wider block">Phone Number</label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-gray-400">
+                          <Smartphone className="w-4 h-4" />
                         </div>
                         <input 
                           type="tel" 
                           placeholder="0712 345 678"
-                          suppressHydrationWarning
-                          className="w-full pl-14 pr-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-4 focus:ring-green-500/10 focus:border-green-500 outline-none transition-all font-bold text-lg"
+                          className="w-full pl-12 pr-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-lg focus:ring-4 focus:ring-emerald-100 focus:border-emerald-500 outline-none transition-all font-semibold text-gray-900"
                         />
                       </div>
-                      <p className="text-[10px] text-slate-400 font-bold flex items-center gap-1.5 ml-1">
-                        <Info className="w-3.5 h-3.5 text-blue-500" />
-                        You will receive an automated STK prompt on your mobile device.
+                      <p className="text-xs text-gray-600 flex items-center gap-2 mt-2">
+                        <Info className="w-4 h-4 text-emerald-600" />
+                        You'll receive an STK prompt to complete the payment
                       </p>
                     </div>
                     <Button 
                       onClick={handlePayment}
-                      className="w-full bg-linear-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 py-8 text-xl font-black shadow-2xl shadow-green-500/30 rounded-[1.5rem] transform active:scale-[0.98] transition-all flex items-center justify-center gap-3 overflow-hidden relative group"
+                      className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-4 text-base font-bold shadow-lg rounded-lg active:scale-[0.98] transition-all border-none flex items-center justify-center gap-2"
                     >
-                      <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-                      <span>Authorize KSh {amount.toLocaleString()}</span>
-                      <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                      <span>Pay KSh {amount.toLocaleString()}</span>
+                      <ArrowRight className="w-4 h-4" />
                     </Button>
                   </div>
                 )}
 
                 {paymentMethod === "card" && (
-                  <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                    <div className="flex items-center justify-between p-6 bg-slate-50/50 rounded-2xl border border-slate-100">
-                      <div className="flex items-center gap-4">
-                        <div className="w-14 h-14 bg-white rounded-2xl shadow-sm flex items-center justify-center gap-1.5 px-2 border border-slate-200/50">
-                          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPV7Rt2nWT1lLVAYOc0cyDrdbPLrZBkifm_g&s" alt="Visa & Mastercard" className="h-8 object-contain rounded-sm" />
-                        </div>
-                        <div>
-                          <p className="text-sm font-black text-slate-900 leading-none">Credit / Debit Card</p>
-                          <p className="text-[10px] font-bold text-slate-400 mt-2 uppercase tracking-widest">Secure 3D-Authentication</p>
-                        </div>
+                  <div className="space-y-5 animate-in fade-in duration-300">
+                    <div className="flex items-center gap-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                      <Lock className="w-5 h-5 text-blue-600" />
+                      <div>
+                        <p className="text-sm font-bold text-gray-900">PCI-DSS Compliant</p>
+                        <p className="text-xs text-gray-600 mt-0.5">Your card details are encrypted</p>
                       </div>
-                      <Badge text="Secured by Stripe" type="success" />
                     </div>
 
-                    <div className="space-y-6">
-                      <div className="space-y-2.5">
-                        <label className="text-xs font-black text-slate-500 uppercase tracking-widest ml-1">Card Number</label>
-                        <div className="relative group/field">
-                          <input 
-                            type="text" 
-                            placeholder="0000 0000 0000 0000"
-                            suppressHydrationWarning
-                            className="w-full px-7 py-5 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-8 focus:ring-blue-500/5 focus:border-blue-500 outline-none transition-all font-bold tracking-[0.2em] text-lg"
-                          />
-                           <div className="absolute right-6 inset-y-0 flex items-center">
-                             <Lock className="w-5 h-5 text-slate-300 group-focus-within/field:text-blue-500 transition-colors" />
-                           </div>
-                        </div>
+                    <div className="space-y-4">
+                      <div>
+                        <label className="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-2">Card Number</label>
+                        <input 
+                          type="text" 
+                          placeholder="0000 0000 0000 0000"
+                          className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-lg focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all font-mono text-gray-900"
+                        />
                       </div>
-                      <div className="grid grid-cols-2 gap-6">
-                        <div className="space-y-2.5">
-                          <label className="text-xs font-black text-slate-500 uppercase tracking-widest ml-1">Expiry</label>
-                          <input type="text" placeholder="MM / YY" suppressHydrationWarning className="w-full px-7 py-5 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-8 focus:ring-blue-500/5 focus:border-blue-500 outline-none transition-all font-bold text-lg" />
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-2">Expiry</label>
+                          <input type="text" placeholder="MM / YY" className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-lg focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all text-gray-900 font-semibold" />
                         </div>
-                        <div className="space-y-2.5">
-                          <label className="text-xs font-black text-slate-500 uppercase tracking-widest ml-1">CVV</label>
-                          <input type="password" placeholder="***" suppressHydrationWarning className="w-full px-7 py-5 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-8 focus:ring-blue-500/5 focus:border-blue-500 outline-none transition-all font-bold text-lg" />
+                        <div>
+                          <label className="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-2">CVV</label>
+                          <input type="password" placeholder="***" className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-lg focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all text-gray-900 font-semibold" />
                         </div>
                       </div>
                     </div>
                     <Button 
                       onClick={handlePayment}
-                      className="w-full bg-linear-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 py-8 text-xl font-black shadow-2xl shadow-blue-500/30 rounded-[1.5rem] transform active:scale-[0.98] transition-all flex items-center justify-center gap-3 group"
+                      className="w-full bg-[#1B5E45] hover:bg-[#154a36] text-white py-4 text-base font-bold shadow-lg rounded-lg active:scale-[0.98] transition-all border-none flex items-center justify-center gap-2"
                     >
-                      <span>Authorize KSh {amount.toLocaleString()}</span>
-                      <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                      <span>Charge KSh {amount.toLocaleString()}</span>
+                      <ArrowRight className="w-4 h-4" />
                     </Button>
                   </div>
                 )}
 
                 {paymentMethod === "bank" && (
-                  <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                    <div className="p-8 bg-indigo-50/50 rounded-[2rem] border border-indigo-100/50 space-y-8 relative overflow-hidden">
-                      <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/5 rounded-full blur-2xl -mr-16 -mt-16" />
-                      <div className="flex items-center gap-4 border-b border-indigo-100 pb-6">
-                        <div className="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-2xl shadow-indigo-600/20">
-                          <Building className="w-6 h-6" />
-                        </div>
-                        <div>
-                          <h4 className="font-black text-slate-900 text-lg leading-tight">Direct Deposit Details</h4>
-                          <p className="text-[10px] font-bold text-indigo-600 uppercase tracking-[0.2em] mt-1">Tier-1 Institutional Account</p>
-                        </div>
-                      </div>
-                      <div className="grid grid-cols-2 gap-y-8 gap-x-6">
-                        <div className="group/cell">
-                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Bank Entity</p>
-                          <p className="font-black text-slate-900 text-base">Equity Bank Kenya</p>
-                        </div>
-                        <div className="group/cell">
-                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Account Number</p>
-                          <p className="font-black text-slate-900 text-base tabular-nums flex items-center gap-2">
-                            1234 5678 9012
-                            <Badge text="Verified" type="success" />
-                          </p>
-                        </div>
-                        <div className="group/cell">
-                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Beneficiary</p>
-                          <p className="font-black text-slate-900 text-base">RM Property Management</p>
-                        </div>
-                        <div className="group/cell">
-                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Reference Code</p>
-                          <div className="flex items-center gap-2">
-                             <p className="font-black text-indigo-600 text-base tabular-nums">{refId}</p>
-                             <div className="w-6 h-6 rounded-md bg-indigo-50 flex items-center justify-center text-indigo-400 cursor-copy active:scale-90 transition-transform"><Lock className="w-3 h-3" /></div>
+                  <div className="space-y-5 animate-in fade-in duration-300">
+                    <div className="bg-gray-50 rounded-lg border border-gray-200 p-6 space-y-4">
+                      <div className="space-y-3 pb-4 border-b border-gray-200">
+                        <div className="flex items-center gap-3">
+                          <Building className="w-5 h-5 text-gray-700" />
+                          <div>
+                            <h4 className="font-bold text-gray-900 text-sm">Institutional Deposit</h4>
+                            <p className="text-xs text-gray-600 font-mono mt-0.5">{refId}</p>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="bg-slate-900 text-white p-6 rounded-[2rem] flex gap-5 items-center shadow-2xl shadow-slate-900/10 border border-white/5">
-                      <div className="bg-white/10 p-3.5 rounded-2xl border border-white/10 shrink-0">
-                        <Info className="w-6 h-6 text-blue-400" />
-                      </div>
-                      <div>
-                        <p className="text-sm font-black text-white leading-tight">Digital Receipt Required</p>
-                        <p className="text-[11px] text-slate-400 mt-1.5 leading-relaxed">Once your transfer is complete, please upload the PDF/Screenshot receipt for instant reconciliation.</p>
+                      <div className="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                          <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Bank</p>
+                          <p className="font-bold text-gray-900">Equity Bank</p>
+                        </div>
+                        <div>
+                          <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Account</p>
+                          <p className="font-bold text-gray-900 font-mono">1234 5678</p>
+                        </div>
+                        <div>
+                          <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Beneficiary</p>
+                          <p className="font-bold text-gray-900">RentManager</p>
+                        </div>
+                        <div>
+                          <p className="text-xs font-bold text-[#1B5E45] uppercase tracking-wider mb-1">Reference</p>
+                          <p className="font-bold text-[#1B5E45] font-mono">{refId}</p>
+                        </div>
                       </div>
                     </div>
                     <Button 
                       onClick={handlePayment}
-                      className="w-full bg-slate-900 hover:bg-slate-800 py-8 text-xl font-black shadow-2xl rounded-[1.5rem] transform active:scale-[0.98] transition-all flex items-center justify-center gap-3 group"
+                      className="w-full bg-[#1B5E45] hover:bg-[#154a36] text-white py-4 text-base font-bold shadow-lg rounded-lg active:scale-[0.98] transition-all border-none flex items-center justify-center gap-2"
                     >
-                      <span>Complete Wire Transfer</span>
-                      <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                      <span>Initiate Transfer</span>
+                      <ArrowRight className="w-4 h-4" />
                     </Button>
                   </div>
                 )}
@@ -376,122 +343,133 @@ export default function TenantPaymentsPage() {
             </div>
           </div>
 
-          {/* Sidebar / Info Area */}
-          <div className="space-y-8">
-            <div className="glass-panel border-white/20 rounded-[2.5rem] shadow-2xl p-10 overflow-hidden relative group">
-              <div className="absolute top-0 right-0 w-40 h-40 bg-blue-500/5 rounded-full blur-3xl -mr-20 -mt-20 opacity-50 group-hover:scale-110 transition-transform duration-700" />
-              <div className="relative z-10">
-                <h3 className="text-[10px] font-black text-slate-800 mb-8 uppercase tracking-[0.3em] flex items-center gap-3">
-                  <div className="w-1.5 h-4 bg-blue-600 rounded-full" />
-                  Trust & Security
-                </h3>
-                
-                <div className="space-y-6">
-                  <div className="flex items-center gap-5 group/item">
-                    <div className="w-14 h-14 rounded-2xl bg-slate-50 text-slate-400 flex items-center justify-center shrink-0 border border-slate-100 group-hover/item:bg-blue-600 group-hover/item:text-white group-hover/item:border-blue-500 group-hover/item:shadow-xl group-hover/item:shadow-blue-500/20 transition-all duration-300">
-                      <ShieldCheck className="w-7 h-7" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-black text-slate-900 leading-none">256-bit SSL</p>
-                      <p className="text-[10px] text-slate-400 mt-2 uppercase font-black tracking-widest">Enterprise Grade</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-5 group/item">
-                    <div className="w-14 h-14 rounded-2xl bg-slate-50 text-slate-400 flex items-center justify-center shrink-0 border border-slate-100 group-hover/item:bg-blue-600 group-hover/item:text-white group-hover/item:border-blue-500 group-hover/item:shadow-xl group-hover/item:shadow-blue-500/20 transition-all duration-300">
-                      <Clock className="w-7 h-7" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-black text-slate-900 leading-none">Safe-Sync</p>
-                      <p className="text-[10px] text-slate-400 mt-2 uppercase font-black tracking-widest">Real-time settlement</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-12 pt-10 border-t border-slate-100">
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6">Partner Ecosystem</p>
-                  <div className="flex items-center gap-6 opacity-40 hover:opacity-100 transition-all filter grayscale hover:grayscale-0">
-                    <img src="/images/mpesa-logo.png" alt="M-Pesa" className="h-8 object-contain" />
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPV7Rt2nWT1lLVAYOc0cyDrdbPLrZBkifm_g&s" alt="Visa & Mastercard" className="h-6 object-contain rounded-sm" />
-                  </div>
+          {/* Trust Badges */}
+            <div className="bg-white rounded-xl border border-gray-200 p-6 flex flex-col items-center justify-center gap-4">
+              <p className="text-xs font-bold text-gray-500 uppercase tracking-wider text-center">Secure Payment Methods</p>
+              <div className="flex items-center justify-center gap-8 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500">
+                <img src="/images/mpesa-logo.png" alt="M-Pesa" className="h-5 object-contain" />
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPV7Rt2nWT1lLVAYOc0cyDrdbPLrZBkifm_g&s" alt="Cards" className="h-4 object-contain" />
+                <div className="flex items-center gap-2 border-l pl-8 border-gray-300">
+                  <Lock className="w-4 h-4 text-[#1B5E45]" />
+                  <span className="text-xs font-bold text-[#1B5E45]">PCI-DSS Certified</span>
                 </div>
               </div>
             </div>
-
-            <div className="bg-slate-950 text-white rounded-[2.5rem] p-10 shadow-2xl relative overflow-hidden group">
-              <div className="absolute inset-0 bg-linear-to-br from-blue-600/10 to-transparent opacity-50" />
-              <div className="absolute -bottom-12 -right-12 w-48 h-48 bg-blue-500/10 rounded-full blur-[80px] group-hover:scale-150 transition-transform duration-1000" />
-              
-              <div className="relative z-10">
-                <div className="w-16 h-16 bg-white/10 rounded-2xl backdrop-blur-3xl flex items-center justify-center mb-8 border border-white/10 group-hover:scale-110 group-hover:bg-blue-600/20 group-hover:border-blue-500/30 transition-all duration-500">
-                  <Info className="w-8 h-8 text-blue-400" />
-                </div>
-                <h4 className="font-black text-2xl mb-4 tracking-tight">Concierge Support</h4>
-                <p className="text-slate-400 text-sm leading-relaxed mb-10 font-medium">Experiencing an issue? Our priority support team is standing by to assist with your transaction.</p>
-                <button className="w-full py-5 bg-white text-slate-900 hover:bg-blue-50 rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] transition-all shadow-xl active:scale-[0.98]">
-                  Open Priority Ticket
-                </button>
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* History Section */}
-        <div className="pt-8 border-t border-gray-200">
-          <div className="flex items-center gap-2 mb-6 text-gray-400">
-            <History className="w-5 h-5" />
-            <h3 className="text-lg font-bold text-gray-900 tracking-tight">Recent Payment Activity</h3>
+        <div className="pt-6 md:pt-8 lg:pt-10 mt-8 md:mt-10 lg:mt-12 border-t border-gray-200">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-6 mb-6 md:mb-8">
+            <div className="flex items-center gap-3 md:gap-4">
+              <div className="w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-lg md:rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 text-white flex items-center justify-center shadow-md flex-shrink-0">
+                 <History className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7" />
+              </div>
+              <div>
+                <h3 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-900">Payment History</h3>
+                <p className="text-xs md:text-sm text-gray-600 font-medium mt-0.5 md:mt-1">Complete transaction ledger and records</p>
+              </div>
+            </div>
+            <button className="text-xs md:text-sm font-bold text-[#1B5E45] hover:text-[#154a36] transition-colors uppercase tracking-wider px-3 py-2 md:px-4 md:py-2 rounded-lg hover:bg-[#E8F5EE]">Export (XLSX)</button>
           </div>
           
-          <div className="glass-panel border-white/20 rounded-[2.5rem] shadow-2xl overflow-hidden">
-            <div className="overflow-x-auto no-scrollbar">
-              <table className="w-full text-sm">
+          {/* Desktop Table View */}
+          <div className="hidden md:block bg-white rounded-xl md:rounded-2xl shadow-lg overflow-hidden border border-gray-200">
+            <div className="overflow-x-auto">
+              <table className="w-full">
                 <thead>
-                  <tr className="bg-slate-900 text-white border-b border-white/5">
-                    <th className="px-10 py-6 text-left font-black uppercase tracking-[0.2em] text-[10px]">Reference</th>
-                    <th className="px-10 py-6 text-left font-black uppercase tracking-[0.2em] text-[10px]">Statement Month</th>
-                    <th className="px-10 py-6 text-left font-black uppercase tracking-[0.2em] text-[10px]">Net Value</th>
-                    <th className="px-10 py-6 text-left font-black uppercase tracking-[0.2em] text-[10px]">Status</th>
-                    <th className="px-10 py-6 text-left font-black uppercase tracking-[0.2em] text-[10px]">Timestamp</th>
+                  <tr className="bg-gray-900 text-white">
+                    <th className="px-4 md:px-6 py-3 md:py-4 text-left font-bold uppercase tracking-wider text-xs md:text-sm">ID</th>
+                    <th className="px-4 md:px-6 py-3 md:py-4 text-left font-bold uppercase tracking-wider text-xs md:text-sm">Month</th>
+                    <th className="px-4 md:px-6 py-3 md:py-4 text-left font-bold uppercase tracking-wider text-xs md:text-sm">Amount</th>
+                    <th className="px-4 md:px-6 py-3 md:py-4 text-left font-bold uppercase tracking-wider text-xs md:text-sm">Status</th>
+                    <th className="px-4 md:px-6 py-3 md:py-4 text-left font-bold uppercase tracking-wider text-xs md:text-sm">Date</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
-                  {tenantPayments.map((payment) => (
-                    <tr key={payment.id} className="hover:bg-blue-50/30 transition-all duration-300 group/row">
-                      <td className="px-10 py-8 font-black text-blue-600 tabular-nums text-sm group-hover/row:translate-x-1 transition-transform duration-300">#PAY-{payment.id}</td>
-                      <td className="px-10 py-8 font-black text-slate-900">
-                        <div className="flex items-center gap-3">
-                           <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-hover/row:bg-blue-50 group-hover/row:text-blue-600 transition-colors">
-                            <Calendar className="w-4 h-4" />
+                <tbody className="divide-y divide-gray-200">
+                  {tenantPayments.map((payment, i) => (
+                    <tr key={payment.id} className={`transition-all hover:bg-gray-50 ${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}>
+                      <td className="px-4 md:px-6 py-3 md:py-4 font-bold text-[#1B5E45] text-sm md:text-base">#PAY-{payment.id}</td>
+                      <td className="px-4 md:px-6 py-3 md:py-4">
+                        <div className="flex items-center gap-2 md:gap-3">
+                           <div className="w-7 h-7 md:w-8 md:h-8 rounded-lg bg-[#E8F5EE] flex items-center justify-center text-[#1B5E45] flex-shrink-0">
+                            <Calendar className="w-3.5 h-3.5 md:w-4 md:h-4" />
                            </div>
-                           <span className="text-sm">{payment.month}</span>
+                           <span className="text-xs md:text-sm font-bold text-gray-900 uppercase">{payment.month}</span>
                         </div>
                       </td>
-                      <td className="px-10 py-8 font-black text-slate-900 tabular-nums text-base">KSh {payment.amount.toLocaleString()}</td>
-                      <td className="px-10 py-8">
-                        <div className="transform scale-100 origin-left">
-                          <Badge
-                            text={payment.status.charAt(0).toUpperCase() + payment.status.slice(1)}
-                            type={
-                              payment.status === 'completed'
-                                ? 'success'
-                                : payment.status === 'pending'
-                                ? 'warning'
-                                : 'error'
-                            }
-                          />
-                        </div>
+                      <td className="px-4 md:px-6 py-3 md:py-4 font-bold text-gray-900 text-sm md:text-base">KSh {payment.amount.toLocaleString()}</td>
+                      <td className="px-4 md:px-6 py-3 md:py-4">
+                        <Badge
+                          text={payment.status === 'completed' ? 'Paid' : payment.status === 'pending' ? 'Pending' : 'Failed'}
+                          type={
+                            payment.status === 'completed'
+                              ? 'success'
+                              : payment.status === 'pending'
+                              ? 'warning'
+                              : 'error'
+                          }
+                        />
                       </td>
-                      <td className="px-10 py-8 text-slate-400 font-bold text-xs">{payment.date}</td>
+                      <td className="px-4 md:px-6 py-3 md:py-4 text-gray-600 font-bold text-xs uppercase tracking-wider">{payment.date}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
           </div>
+
+          {/* Mobile Card View */}
+          <div className="md:hidden space-y-3">
+            {tenantPayments.map((payment) => (
+              <div key={payment.id} className="bg-white rounded-xl border border-gray-200 shadow-md overflow-hidden hover:shadow-lg transition-all">
+                <div className="bg-gradient-to-r from-gray-900 to-gray-800 px-4 py-3 text-white flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center">
+                      <History className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-wider opacity-75">Transaction ID</p>
+                      <p className="text-sm font-bold">#PAY-{payment.id}</p>
+                    </div>
+                  </div>
+                  <Badge
+                    text={payment.status === 'completed' ? 'Paid' : payment.status === 'pending' ? 'Pending' : 'Failed'}
+                    type={
+                      payment.status === 'completed'
+                        ? 'success'
+                        : payment.status === 'pending'
+                        ? 'warning'
+                        : 'error'
+                    }
+                  />
+                </div>
+                
+                <div className="p-4 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-gray-600">
+                      <Calendar className="w-4 h-4 text-[#1B5E45]" />
+                      <span className="text-xs font-semibold uppercase tracking-wider">Month</span>
+                    </div>
+                    <span className="text-sm font-bold text-gray-900 uppercase">{payment.month}</span>
+                  </div>
+
+                  <div className="border-t border-gray-100 pt-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-semibold text-gray-600 uppercase tracking-wider">Amount Paid</span>
+                      <span className="text-lg font-bold text-[#1B5E45]">KSh {payment.amount.toLocaleString()}</span>
+                    </div>
+                  </div>
+
+                  <div className="border-t border-gray-100 pt-3 flex items-center justify-between">
+                    <span className="text-xs font-semibold text-gray-600 uppercase tracking-wider">Date</span>
+                    <span className="text-xs font-bold text-gray-700">{payment.date}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-      
-      {/* ActionOverlay removed as it is now global */}
     </TenantLayout>
   );
 }

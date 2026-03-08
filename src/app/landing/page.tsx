@@ -1,17 +1,22 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import { 
   Building2, Users, TrendingUp, ArrowRight, CheckCircle2, 
   ShieldCheck, Zap, Globe, Heart, MessageSquare, CreditCard,
   Layers, Star, Smartphone, Briefcase,
-  Home, Search, PlusCircle, Bell, User, Camera
+  Home, Search, PlusCircle, Bell, User, Camera,
+  Database,
+  Shield, ChevronDown
 } from "lucide-react";
 import Button from "@/components/Button";
+import Logo from "@/components/Logo";
 import { useAuth } from "@/context/AuthContext";
 
 export default function LandingPage() {
   const { role, profileImage, userName } = useAuth();
+  const [showDeveloper, setShowDeveloper] = useState(false);
 
   const getInitials = (name: string | null) => {
     if (!name) return "RM";
@@ -26,59 +31,50 @@ export default function LandingPage() {
   const profileLink = role === 'landlord' ? '/landlord/profile' : '/tenant/profile';
 
   return (
-    <div className="min-h-screen bg-[#fdfdfd] font-sans selection:bg-blue-100" suppressHydrationWarning>
+    <div className="min-h-screen font-sans" style={{ background: "var(--color-background)" }} suppressHydrationWarning>
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-white/70 backdrop-blur-2xl border-b border-slate-200/50">
+      <nav className="sticky top-0 z-50 bg-white/70 backdrop-blur-2xl border-b" style={{ borderColor: "var(--color-border-light)" }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-10 h-24 flex items-center justify-between">
-          <div className="flex items-center gap-4 group cursor-pointer">
-            <div className="w-12 h-12 bg-slate-900 rounded-2xl flex items-center justify-center text-white shadow-2xl shadow-slate-900/10 group-hover:scale-105 transition-all duration-500 transform rotate-3">
-              <Building2 className="w-6 h-6" />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-black text-xl text-slate-900 tracking-tighter leading-none">RentManager</span>
-              <span className="text-[10px] font-bold text-blue-600 uppercase tracking-widest mt-1">Ecosystem</span>
-            </div>
-          </div>
+          <Link href="/" className="flex items-center gap-4 group cursor-pointer shrink-0">
+            <Logo size="sm" variant="full" className="md:scale-110" />
+          </Link>
           
-          <div className="hidden lg:flex items-center gap-12 text-[13px] font-bold text-slate-500 uppercase tracking-widest">
-            <a href="#features" className="hover:text-slate-900 transition-colors relative group">
+          <div className="hidden lg:flex items-center gap-12 text-[12px] font-black uppercase tracking-[0.2em]" style={{ color: "var(--color-text-muted)" }}>
+            <a href="#features" className="hover:text-[#1B5E45] transition-colors relative group">
               Features
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all group-hover:w-full" />
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1B5E45] transition-all group-hover:w-full" />
             </a>
-            <a href="#solutions" className="hover:text-slate-900 transition-colors relative group">
+            <a href="#solutions" className="hover:text-[#1B5E45] transition-colors relative group">
               Solutions
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all group-hover:w-full" />
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1B5E45] transition-all group-hover:w-full" />
             </a>
-            <a href="#how-it-works" className="hover:text-slate-900 transition-colors relative group">
+            <a href="#how-it-works" className="hover:text-[#1B5E45] transition-colors relative group">
               How it Works
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all group-hover:w-full" />
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1B5E45] transition-all group-hover:w-full" />
             </a>
           </div>
 
           <div className="flex items-center gap-6" suppressHydrationWarning>
             {role ? (
-              <Link href={profileLink} className="flex items-center gap-4 p-1.5 pr-5 bg-slate-50 rounded-full border border-slate-200 hover:bg-slate-100 transition-all group">
-                <div className="w-10 h-10 rounded-full border-2 border-white shadow-md overflow-hidden bg-slate-200 flex items-center justify-center group-hover:scale-105 transition-transform">
+              <Link href={profileLink} className="flex items-center gap-4 p-1.5 pr-5 bg-[#FAFAF8] rounded-full border border-[#E8E8E4] hover:bg-[#F4F4F0] transition-all group">
+                <div className="w-10 h-10 rounded-full border-2 border-white shadow-md overflow-hidden bg-[#F4F4F0] flex items-center justify-center group-hover:scale-105 transition-transform">
                   {profileImage ? (
                     <img src={profileImage} alt="Profile" className="w-full h-full object-cover" />
                   ) : (
-                    <div className="w-full h-full bg-slate-900 flex items-center justify-center text-white font-bold text-sm">
+                    <div className="w-full h-full bg-[#1A1A1A] flex items-center justify-center text-white font-bold text-sm italic">
                       {getInitials(userName)}
                     </div>
                   )}
                 </div>
                 <div className="text-left hidden sm:block">
-                  <p className="text-xs font-black text-slate-900 leading-none">{userName || "Account"}</p>
-                  <p className="text-[9px] text-blue-600 font-bold uppercase tracking-widest mt-1">Dashboard</p>
+                  <p className="text-xs font-black leading-none" style={{ color: "var(--color-text-primary)" }}>{userName || "Account"}</p>
+                  <p className="text-[9px] text-[#1B5E45] font-black uppercase tracking-widest mt-1 italic">Active Portal</p>
                 </div>
               </Link>
             ) : (
               <>
-                <Link href="/auth/login">
-                  <span className="text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors px-4">Log In</span>
-                </Link>
-                <Link href="/auth/register">
-                  <Button variant="premium" size="lg" className="shadow-2xl shadow-slate-900/10 hidden sm:flex">
+                <Link href="/auth/register" className="whitespace-nowrap">
+                  <Button variant="premium" className="h-10 sm:h-12 px-4 sm:px-8 rounded-full shadow-xl text-[10px] sm:text-xs">
                     Get Started
                   </Button>
                 </Link>
@@ -88,89 +84,86 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* Hero Section - Unique Cinematic Architectural Concept */}
+      {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center overflow-hidden">
-        {/* Full-Bleed Background with Architectural Depth */}
         <div className="absolute inset-0 z-0">
           <img 
             src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" 
             alt="Elite Architecture" 
-            className="w-full h-full object-cover scale-105"
+            className="w-full h-full object-cover grayscale-[0.2]"
           />
-          <div className="absolute inset-0 bg-linear-to-r from-slate-950 via-slate-900/80 to-slate-900/20"></div>
-          
-          {/* Subtle Grain/Texture for Professional Print Look */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#1A1A1A] via-[#1A1A1A]/90 to-[#1A1A1A]/40"></div>
           <div className="absolute inset-0 opacity-10 mix-blend-overlay bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
         </div>
 
         <div className="max-w-7xl mx-auto px-6 lg:px-10 relative z-10 w-full">
           <div className="lg:grid lg:grid-cols-12 gap-16 items-center">
-            {/* Content Left */}
             <div className="lg:col-span-7">
-              <div className="inline-flex items-center gap-4 px-5 py-2.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[10px] font-black uppercase tracking-[0.4em] text-white mb-12">
+              <div 
+                className="inline-flex items-center gap-4 px-5 py-2.5 rounded-full backdrop-blur-md border border-white/20 text-[10px] font-black uppercase tracking-[0.4em] text-white mb-8 md:mb-12"
+                style={{ background: "rgba(61, 190, 122, 0.1)" }}
+              >
+                <Database className="w-3.5 h-3.5 text-[#3DBE7A]" />
                 Premier Property Logic
               </div>
               
-              <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-white leading-[0.85] tracking-tighter mb-10">
-                LIVING <br />
-                <span className="text-slate-400">DEFINED.</span>
+              <h1 className="text-5xl md:text-7xl font-black leading-[0.85] tracking-tighter mb-8 md:mb-10">
+                <span className="text-white">PROPERTIES</span>
+                <br />
+                <span className="bg-gradient-to-r from-[#3DBE7A] to-[#2AE299] bg-clip-text text-transparent">PERFECTED</span>
               </h1>
               
-              <p className="text-xl md:text-2xl text-slate-300 mb-14 leading-relaxed max-w-xl font-medium">
+              <p className="text-base md:text-lg text-white/60 mb-12 md:mb-14 leading-relaxed max-w-xl font-medium italic">
                 The most sophisticated ecosystem designed for elite managers and high-profile tenants. Precision, security, and absolute clarity.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-8 items-center">
+              <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 items-start sm:items-center">
                 <Link href="/auth/login?role=landlord">
-                  <Button variant="premium" size="xl" className="bg-white text-slate-950 hover:bg-slate-50 px-12 h-20 rounded-[30px] shadow-[0_30px_60px_rgba(0,0,0,0.5)] group">
+                  <Button className="bg-white text-[#1A1A1A] hover:bg-[#E8F5EE] px-6 sm:px-12 h-12 sm:h-20 rounded-[1.8rem] shadow-2xl text-sm sm:text-base font-black italic group border-none whitespace-nowrap w-full sm:w-auto">
                     Enter Property
-                    <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2 sm:ml-3 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </Link>
-                <div className="hidden sm:block w-px h-16 bg-white/10 mx-2" />
-                <Link href="/auth/login?role=tenant">
-                  <span className="text-sm font-black text-white uppercase tracking-[0.3em] hover:text-blue-400 cursor-pointer transition-colors">Find Residence</span>
+                <Link href="/auth/login?role=tenant" className="w-full sm:w-auto">
+                  <span className="text-sm sm:text-[10px] font-black text-white uppercase tracking-[0.2em] sm:tracking-[0.4em] hover:text-[#3DBE7A] cursor-pointer transition-all border-b border-white/20 pb-1 whitespace-nowrap block text-center sm:text-left">Find Residence</span>
                 </Link>
               </div>
             </div>
 
-            {/* Visual Right - Editorial Style */}
             <div className="hidden lg:block lg:col-span-5">
-              <div className="relative group">
-                <div className="absolute -inset-10 bg-blue-600/10 rounded-full blur-[120px] opacity-50" />
+              <div className="relative">
+                <div className="absolute -inset-10 bg-[#3DBE7A]/20 rounded-full blur-[100px] animate-pulse" />
                 
-                {/* Floating Architectural Card */}
-                <div className="relative glass-panel-dark bg-slate-900/40 p-10 rounded-[3rem] border border-white/10 shadow-2xl backdrop-blur-3xl animate-float">
-                  <div className="flex justify-between items-start mb-12">
+                <div className="relative bg-[#1A1A1A]/60 backdrop-blur-3xl p-12 rounded-[3.5rem] border border-white/10 shadow-2xl animate-float">
+                  <div className="flex justify-between items-start mb-14">
                      <div className="p-4 bg-white/5 rounded-2xl border border-white/10">
-                       <ShieldCheck className="w-8 h-8 text-blue-400" />
+                       <ShieldCheck className="w-10 h-10 text-[#3DBE7A]" />
                      </div>
                      <div className="text-right">
-                       <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Status</p>
-                       <p className="text-sm font-black text-white">Verified Secure</p>
+                       <p className="text-[10px] font-black text-white/40 uppercase tracking-widest mb-1">Status</p>
+                       <p className="text-md font-black text-white italic">Verified Secure</p>
                      </div>
                   </div>
                   
-                  <div className="space-y-6">
-                    <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden">
-                       <div className="h-full w-3/4 bg-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.5)]" />
+                  <div className="space-y-8">
+                    <div className="h-2.5 w-full bg-white/5 rounded-full overflow-hidden">
+                       <div className="h-full w-3/4 bg-gradient-to-r from-[#1B5E45] to-[#3DBE7A] shadow-[0_0_20px_rgba(61,190,122,0.5)]" />
                     </div>
                     <div className="flex justify-between items-end">
-                       <p className="text-4xl font-black text-white tracking-tighter">98%</p>
-                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest pb-2">Institutional Trust</p>
+                       <p className="text-5xl font-black text-white tracking-tighter italic">98%</p>
+                       <p className="text-[9px] font-black text-white/40 uppercase tracking-[0.2em] pb-2">Institutional Trust</p>
                     </div>
                   </div>
                 </div>
 
-                {/* Micro Overlay */}
-                <div className="absolute -bottom-12 -left-12 p-6 glass-panel rounded-3xl border border-white shadow-2xl hidden xl:block">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-slate-900 rounded-2xl flex items-center justify-center text-white">
-                      <Zap className="w-6 h-6" />
+                <div className="absolute -bottom-10 -left-10 p-8 bg-white rounded-[2rem] border shadow-2xl hidden xl:block">
+                  <div className="flex items-center gap-5">
+                    <div className="w-14 h-14 bg-[#1A1A1A] rounded-2xl flex items-center justify-center text-[#3DBE7A] transform rotate-6">
+                      <Zap className="w-7 h-7 fill-[#3DBE7A]" />
                     </div>
                     <div>
-                      <p className="text-[10px] font-bold text-slate-400 uppercase">Response</p>
-                      <p className="text-base font-black text-slate-950">&lt; 15 mins</p>
+                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Global Response</p>
+                      <p className="text-lg font-black text-[#1A1A1A] italic">&lt; 15 mins</p>
                     </div>
                   </div>
                 </div>
@@ -178,112 +171,93 @@ export default function LandingPage() {
             </div>
           </div>
         </div>
-        
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-10 left-10 flex items-center gap-4 opacity-30">
-           <div className="w-px h-12 bg-white" />
-           <span className="text-[10px] font-black text-white uppercase tracking-[0.5em] vertical-rl">Scroll</span>
-        </div>
       </section>
 
-      {/* Trust Stats */}
-      <section className="bg-slate-900 py-32 relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 mix-blend-overlay" />
+      {/* Trust Bar */}
+      <section className="bg-[#1A1A1A] py-28 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
         <div className="max-w-7xl mx-auto px-6 lg:px-10 relative z-10">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-24 text-center">
-            <div className="space-y-4">
-              <p className="text-5xl md:text-6xl font-black text-white tracking-tighter">1,200+</p>
-              <p className="text-blue-400 font-black text-[10px] uppercase tracking-[0.3em]">Active Units</p>
-            </div>
-            <div className="space-y-4">
-              <p className="text-5xl md:text-6xl font-black text-white tracking-tighter">99.2%</p>
-              <p className="text-blue-400 font-black text-[10px] uppercase tracking-[0.3em]">Collection Rate</p>
-            </div>
-            <div className="space-y-4">
-              <p className="text-5xl md:text-6xl font-black text-white tracking-tighter">&lt; 12h</p>
-              <p className="text-blue-400 font-black text-[10px] uppercase tracking-[0.3em]">Response Time</p>
-            </div>
-            <div className="space-y-4">
-              <p className="text-5xl md:text-6xl font-black text-white tracking-tighter">4.9/5</p>
-              <p className="text-blue-400 font-black text-[10px] uppercase tracking-[0.3em]">Trust Score</p>
-            </div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 text-center">
+            {[
+              { label: "Active Units", val: "1,200+" },
+              { label: "Collection Rate", val: "99.2%" },
+              { label: "Response Time", val: "< 12h" },
+              { label: "Trust Score", val: "4.9/5" }
+            ].map((stat, i) => (
+              <div key={i} className="flex flex-col items-center space-y-2">
+                <p className="text-5xl md:text-6xl font-bold text-white tracking-tight">{stat.val}</p>
+                <p className="text-[#3DBE7A] font-semibold text-xs uppercase tracking-widest">{stat.label}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Solutions Section */}
-      <section id="solutions" className="py-32 md:py-48">
-        <div className="max-w-7xl mx-auto px-6 lg:px-10 mb-24 flex flex-col items-center lg:items-start text-center lg:text-left">
-          <div className="inline-flex items-center gap-2 mb-6">
-            <div className="w-12 h-1 bg-blue-600 rounded-full" />
-            <span className="text-xs font-black text-blue-600 uppercase tracking-[0.4em]">The Ecosystem</span>
-          </div>
-          <h2 className="text-5xl md:text-6xl font-black text-slate-900 mb-8 tracking-tighter leading-none max-w-2xl">
-            Tailored for <br />
-            <span className="text-slate-400">absolute success.</span>
-          </h2>
-        </div>
-
-        <div className="max-w-7xl mx-auto px-6 lg:px-10 grid md:grid-cols-2 gap-10">
-          {/* For Landlords - Dark Premium */}
-          <div className="group relative bg-slate-950 rounded-[3rem] p-12 md:p-16 overflow-hidden text-white transition-all duration-700 hover:shadow-[0_40px_100px_rgba(0,0,0,0.3)]">
-            <div className="absolute top-0 right-0 p-8 opacity-5">
-              <Building2 className="w-80 h-80 rotate-12" />
-            </div>
-            <div className="relative z-10">
-              <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-12 shadow-2xl shadow-blue-500/20">
-                <Briefcase className="w-8 h-8" />
-              </div>
-              <h3 className="text-4xl font-black mb-8 tracking-tight">Enterprise <br />Landlord Suite</h3>
-              <ul className="space-y-6 mb-16">
-                 {[
-                   "Institutional grade analytics",
-                   "Automated tenant verification",
-                   "Real-time yield optimization"
-                 ].map((item, i) => (
-                   <li key={i} className="flex items-center gap-5 text-slate-400 font-bold group-hover:text-white transition-colors">
-                     <div className="w-6 h-6 rounded-full bg-blue-600/20 flex items-center justify-center">
-                       <div className="w-2 h-2 bg-blue-600 rounded-full" />
-                     </div>
-                     <span className="text-sm uppercase tracking-widest">{item}</span>
-                   </li>
-                 ))}
-              </ul>
-              <Link href="/auth/login?role=landlord" suppressHydrationWarning>
-                <Button variant="premium" size="xl" className="bg-white text-slate-900 hover:bg-slate-50 border-none w-full sm:w-auto">
-                   Explore Enterprise
-                </Button>
-              </Link>
-            </div>
+      {/* Solutions */}
+      <section id="solutions" className="py-24 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-6 lg:px-10">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Solutions for Everyone
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Tailored platforms for property managers and tenants to streamline operations and enhance experiences.
+            </p>
           </div>
 
-          {/* For Tenants - Light Premium */}
-          <div className="group relative bg-white rounded-[3rem] p-12 md:p-16 overflow-hidden border-2 border-slate-50 shadow-2xl shadow-slate-200/40 transition-all duration-700 hover:border-blue-100">
-            <div className="absolute top-0 right-0 p-8 opacity-[0.03]">
-              <Users className="w-80 h-80 -rotate-12" />
-            </div>
-            <div className="relative z-10">
-              <div className="w-16 h-16 bg-slate-900 rounded-2xl flex items-center justify-center mb-12 shadow-2xl shadow-slate-900/10">
-                <Users className="w-8 h-8 text-white" />
+          <div className="grid md:grid-cols-2 gap-12">
+            {/* Landlords */}
+            <div className="bg-white rounded-lg p-8 shadow-sm border border-gray-200">
+              <div className="w-12 h-12 bg-[#1B5E45] rounded-lg flex items-center justify-center mb-6">
+                <Briefcase className="w-6 h-6 text-white" />
               </div>
-              <h3 className="text-4xl font-black text-slate-900 mb-8 tracking-tight">Modern <br />Tenant Portal</h3>
-              <ul className="space-y-6 mb-16">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">For Property Managers</h3>
+              <p className="text-gray-600 mb-6 leading-relaxed">
+                Comprehensive tools for managing properties, tracking payments, and maintaining tenant relationships.
+              </p>
+              <ul className="space-y-3 mb-8">
                 {[
-                  "One-click M-Pesa payments",
-                  "Verified property network",
-                  "Digital service requests"
+                  "Property and tenant management",
+                  "Automated rent collection",
+                  "Financial reporting and analytics"
                 ].map((item, i) => (
-                  <li key={i} className="flex items-center gap-5 text-slate-500 font-bold group-hover:text-slate-900 transition-colors">
-                    <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center">
-                      <div className="w-2 h-2 bg-slate-400 rounded-full" />
-                    </div>
-                    <span className="text-sm uppercase tracking-widest">{item}</span>
+                  <li key={i} className="flex items-center gap-3 text-gray-700">
+                    <CheckCircle2 className="w-5 h-5 text-[#3DBE7A] flex-shrink-0" />
+                    <span className="text-sm">{item}</span>
                   </li>
                 ))}
               </ul>
-              <Link href="/auth/login?role=tenant" suppressHydrationWarning>
-                <Button variant="premium" size="xl" className="w-full sm:w-auto">
-                  Find Your Home
+              <Link href="/auth/login?role=landlord">
+                <Button className="bg-[#1B5E45] text-white hover:bg-[#246B4F] w-full h-12 rounded-lg text-sm font-semibold">
+                  Get Started
+                </Button>
+              </Link>
+            </div>
+
+            {/* Tenants */}
+            <div className="bg-white rounded-lg p-8 shadow-sm border border-gray-200">
+              <div className="w-12 h-12 bg-[#E8F5EE] rounded-lg flex items-center justify-center mb-6 border border-[#C4D4C9]">
+                <Users className="w-6 h-6 text-[#1B5E45]" />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">For Tenants</h3>
+              <p className="text-gray-600 mb-6 leading-relaxed">
+                Easy-to-use platform for rent payments, maintenance requests, and landlord communication.
+              </p>
+              <ul className="space-y-3 mb-8">
+                {[
+                  "Secure online payments",
+                  "Maintenance request tracking",
+                  "Direct communication with landlords"
+                ].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3 text-gray-700">
+                    <CheckCircle2 className="w-5 h-5 text-[#3DBE7A] flex-shrink-0" />
+                    <span className="text-sm">{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <Link href="/auth/login?role=tenant">
+                <Button className="bg-[#1B5E45] text-white hover:bg-[#246B4F] w-full h-12 rounded-lg text-sm font-semibold">
+                  Get Started
                 </Button>
               </Link>
             </div>
@@ -291,42 +265,40 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Bento Features Section */}
-      <section id="features" className="py-32 bg-[#fdfdfd] overflow-hidden">
+      {/* Features */}
+      <section id="features" className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
-          <div className="grid lg:grid-cols-2 gap-20 items-center mb-32">
-            <div className="relative group">
-              <div className="absolute -inset-10 bg-blue-100 rounded-full blur-[120px] opacity-30 group-hover:opacity-50 transition-opacity" />
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div>
               <img 
-                src="https://i.pinimg.com/1200x/30/41/e3/3041e3ba6138fbbe2b8e00545e6c1b5f.jpg" 
-                alt="Management App Interface" 
-                className="relative rounded-[3rem] shadow-[0_50px_100px_rgba(0,0,0,0.1)] border-8 border-white transform -rotate-2 hover:rotate-0 transition-all duration-1000"
+                src="https://images.unsplash.com/photo-1551836022-deb4988cc6c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+                alt="Property Management Dashboard" 
+                className="rounded-lg shadow-lg"
               />
             </div>
             <div className="space-y-12">
-              <div className="space-y-6">
-                <h2 className="text-5xl md:text-6xl font-black text-slate-900 tracking-tighter leading-none">
-                  Management, <br />
-                  <span className="text-blue-600">reimagined.</span>
+              <div>
+                <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                  Comprehensive Property Management
                 </h2>
-                <p className="text-lg text-slate-500 font-medium leading-relaxed max-w-lg">
-                  We've stripped away the complexity of traditional systems to give you a powerful, architectural control center.
+                <p className="text-lg text-gray-600 leading-relaxed">
+                  Our platform provides all the tools you need to manage properties efficiently and maintain strong tenant relationships.
                 </p>
               </div>
 
-              <div className="grid gap-8">
+              <div className="space-y-8">
                 {[
-                  { icon: <Smartphone />, title: "Mobile Control", desc: "Manage everything from your pocket with our elite mobile experience." },
-                  { icon: <Layers />, title: "Precision Accounting", desc: "Automated ledgers and tax-ready reports with institutional accuracy." },
-                  { icon: <Star />, title: "Reputation Engine", desc: "Build a verified history of excellence as a landlord or tenant." }
+                  { icon: <Smartphone className="w-6 h-6" />, title: "Mobile Access", desc: "Manage your properties on-the-go with our responsive mobile interface." },
+                  { icon: <Layers className="w-6 h-6" />, title: "Financial Management", desc: "Track payments, generate reports, and maintain accurate financial records." },
+                  { icon: <Star className="w-6 h-6" />, title: "Trust & Transparency", desc: "Build trust through verified transactions and clear communication." }
                 ].map((item, i) => (
-                  <div key={i} className="flex gap-8 group">
-                    <div className="w-14 h-14 shrink-0 glass-panel flex items-center justify-center rounded-2xl text-slate-900 group-hover:bg-slate-900 group-hover:text-white transition-all duration-500">
+                  <div key={i} className="flex gap-6">
+                    <div className="w-12 h-12 bg-[#1B5E45] rounded-lg flex items-center justify-center text-white flex-shrink-0">
                       {item.icon}
                     </div>
-                    <div className="space-y-2">
-                       <h4 className="text-xl font-black text-slate-900 leading-none">{item.title}</h4>
-                       <p className="text-slate-500 font-medium leading-relaxed text-sm">{item.desc}</p>
+                    <div>
+                      <h4 className="text-xl font-semibold text-gray-900 mb-2">{item.title}</h4>
+                      <p className="text-gray-600 leading-relaxed">{item.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -336,85 +308,68 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* High-Impact Cinematic CTA */}
-      <section className="pb-32 px-6 lg:px-10">
-        <div className="max-w-7xl mx-auto relative group">
-          <div className="absolute -inset-1 bg-linear-to-r from-blue-600 to-indigo-600 rounded-[4rem] blur opacity-25 group-hover:opacity-50 transition duration-1000" />
-          <div className="relative bg-slate-950 rounded-[4rem] overflow-hidden min-h-[600px] flex items-center">
-            {/* Background Visual */}
-            <div className="absolute inset-0">
-               <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2000&auto=format&fit=crop" className="w-full h-full object-cover opacity-30 grayscale group-hover:scale-110 transition-transform duration-[5000ms]" alt="Office Building" />
-               <div className="absolute inset-0 bg-linear-to-r from-slate-950 via-slate-950/80 to-transparent" />
-            </div>
-
-            <div className="relative z-10 p-12 md:p-24 max-w-3xl">
-              <div className="inline-flex items-center gap-3 px-4 py-2 rounded-2xl bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-[0.3em] text-blue-400 mb-8">
-                Join the Elite
-              </div>
-              <h2 className="text-5xl md:text-7xl font-black text-white mb-10 leading-[0.95] tracking-tighter">
-                Scale your <br />
-                <span className="text-blue-500">empire</span> today.
-              </h2>
-              <p className="text-xl text-slate-400 mb-12 font-medium max-w-lg leading-relaxed">
-                Join 500+ elite property managers who have already simplified their lifestyle with RentManager.
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-6">
-                <Link href="/auth/register">
-                  <Button variant="premium" size="xl" className="bg-white text-slate-950 hover:bg-slate-50 border-none group px-12">
-                    Start Now
-                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </Link>
-                <div className="flex items-center gap-4 px-6 py-4 glass-panel-dark rounded-[24px] border border-white/10">
-                  <div className="flex -space-x-3">
-                    {[1, 2, 3].map(i => (
-                      <div key={i} className="w-10 h-10 rounded-full border-4 border-slate-950 bg-slate-800 overflow-hidden">
-                        <img src={`https://i.pravatar.cc/100?img=${i+20}`} alt="user" />
-                      </div>
-                    ))}
+      {/* CTA Section */}
+      <section className="py-24 bg-gray-900 text-white">
+        <div className="max-w-4xl mx-auto px-6 lg:px-10 text-center">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
+            Ready to Get Started?
+          </h2>
+          <p className="text-lg text-gray-300 mb-10 max-w-2xl mx-auto">
+            Join hundreds of property managers and tenants who trust our platform for their property management needs.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Link href="/auth/register">
+              <Button className="bg-[#3DBE7A] text-white hover:bg-[#2AE299] px-8 h-12 rounded-lg text-sm font-semibold">
+                Start Free Trial
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </Link>
+            <div className="flex items-center gap-4 text-sm text-gray-400">
+              <div className="flex -space-x-2">
+                {[1, 2, 3, 4].map(i => (
+                  <div key={i} className="w-8 h-8 rounded-full border-2 border-gray-900 overflow-hidden">
+                    <img src={`https://i.pravatar.cc/100?img=${i+32}`} alt="user" className="w-full h-full object-cover" />
                   </div>
-                  <span className="text-xs font-black text-white uppercase tracking-widest">Active Members</span>
-                </div>
+                ))}
               </div>
+              <span>500+ active users</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Refined Footer */}
-      <footer className="bg-white border-t border-slate-100 pt-32 pb-16">
+      {/* Footer */}
+      <footer className="bg-white border-t pt-20 md:pt-40 pb-12 md:pb-20 font-sans" style={{ borderColor: "var(--color-border-light)" }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
-          <div className="grid grid-cols-2 lg:grid-cols-12 gap-16 mb-24">
-            <div className="lg:col-span-5 space-y-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 md:gap-20 mb-16 md:mb-32">
+            <div className="lg:col-span-5 space-y-8 md:space-y-12">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-slate-900 rounded-2xl flex items-center justify-center text-white font-black">RM</div>
-                <span className="font-black text-2xl text-slate-900 tracking-tighter">RentManager</span>
+                <Logo size="md" variant="full" />
               </div>
-              <p className="text-slate-500 font-medium leading-relaxed max-w-sm">
-                Empowering the future of property management with elite technology and seamless digital experiences.
+              <p className="text-sm md:text-lg font-medium leading-relaxed max-w-sm" style={{ color: "var(--color-text-muted)" }}>
+                Empowering the future of property management with elite technology.
               </p>
-              <div className="flex gap-6">
-                <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 hover:text-blue-600 transition-colors cursor-pointer border border-slate-100">
-                  <Globe className="w-5 h-5" />
+              <div className="flex gap-4 md:gap-6">
+                <div className="w-12 md:w-14 h-12 md:h-14 rounded-2xl bg-[#FAFAF8] flex items-center justify-center text-slate-300 hover:text-[#1B5E45] hover:border-[#3DBE7A] transition-all cursor-pointer border border-[#E8E8E4] shadow-sm">
+                  <Globe className="w-5 md:w-6 h-5 md:h-6" />
                 </div>
-                <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 hover:text-blue-600 transition-colors cursor-pointer border border-slate-100">
-                  <MessageSquare className="w-5 h-5" />
+                <div className="w-12 md:w-14 h-12 md:h-14 rounded-2xl bg-[#FAFAF8] flex items-center justify-center text-slate-300 hover:text-[#1B5E45] hover:border-[#3DBE7A] transition-all cursor-pointer border border-[#E8E8E4] shadow-sm">
+                  <MessageSquare className="w-5 md:w-6 h-5 md:h-6" />
                 </div>
               </div>
             </div>
             
-            <div className="lg:col-span-7 grid grid-cols-2 md:grid-cols-3 gap-12">
+            <div className="lg:col-span-7 grid grid-cols-3 gap-6 md:gap-16">
               {[
-                { title: "Platform", links: ["Features", "Solutions", "Pricing", "Security"] },
-                { title: "Support", links: ["Help Center", "API Docs", "System Status", "Resources"] },
-                { title: "Company", links: ["About Us", "Our Blog", "Careers", "Contact"] }
+                { title: "Network", links: ["Features", "Solutions", "Pricing", "Security"] },
+                { title: "Ecosystem", links: ["Help Center", "API Docs", "Status", "Resources"] },
+                { title: "Protocol", links: ["About Us", "Our Blog", "Careers", "Contact"] }
               ].map((group, i) => (
-                <div key={i} className="space-y-8">
-                  <h5 className="font-black text-slate-900 text-xs uppercase tracking-[0.2em]">{group.title}</h5>
-                  <ul className="space-y-4">
+                <div key={i} className="space-y-4 md:space-y-10">
+                  <h5 className="font-black text-[9px] md:text-[10px] uppercase tracking-[0.4em]" style={{ color: "var(--color-text-primary)" }}>{group.title}</h5>
+                  <ul className="space-y-3 md:space-y-6">
                     {group.links.map((link, j) => (
-                      <li key={j}><a href="#" className="text-slate-500 hover:text-blue-600 font-bold text-sm transition-colors">{link}</a></li>
+                      <li key={j}><a href="#" className="font-bold text-xs md:text-sm hover:text-[#1B5E45] transition-colors" style={{ color: "var(--color-text-muted)" }}>{link}</a></li>
                     ))}
                   </ul>
                 </div>
@@ -422,28 +377,59 @@ export default function LandingPage() {
             </div>
           </div>
           
-          <div className="pt-12 border-t border-slate-100 flex flex-col md:flex-row items-center justify-between gap-8">
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">
-              &copy; 2024 RentManager Ecosystem. All Rights Reserved.
-            </p>
-            <div className="flex items-center gap-10">
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] hover:text-blue-600 cursor-pointer">Privacy Policy</span>
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] hover:text-blue-600 cursor-pointer">Terms of Service</span>
+          <div className="pt-8 md:pt-16 border-t space-y-6 md:space-y-8" style={{ borderColor: "var(--color-border-light)" }}>
+            {/* Top Row - Copyright & Legal */}
+            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+              <p className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em] md:tracking-[0.4em]" style={{ color: "var(--color-text-muted)" }}>
+                &copy; 2024 RentManager Protocol. All Rights Reserved.
+              </p>
+              <div className="flex items-center gap-8 md:gap-16">
+                <a href="#" className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em] md:tracking-[0.4em] hover:text-[#1B5E45] transition-colors" style={{ color: "var(--color-text-muted)" }}>Privacy</a>
+                <a href="#" className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em] md:tracking-[0.4em] hover:text-[#1B5E45] transition-colors" style={{ color: "var(--color-text-muted)" }}>Policy</a>
+                <a href="#" className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em] md:tracking-[0.4em] hover:text-[#1B5E45] transition-colors" style={{ color: "var(--color-text-muted)" }}>Terms</a>
+              </div>
+            </div>
+
+            {/* Developer Section - Collapsible */}
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-8">
+              {/* Developer Info - Toggleable */}
+              <div className={`overflow-hidden transition-all duration-500 ease-in-out ${showDeveloper ? 'max-h-20 opacity-100' : 'max-h-0 opacity-0'}`}>
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-[#1B5E45] to-[#3DBE7A] flex items-center justify-center shadow-lg shadow-[#1B5E45]/20">
+                    <span className="text-white font-black text-xs md:text-sm">D</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <p className="text-[7px] md:text-[8px] font-black uppercase tracking-[0.2em]" style={{ color: "var(--color-text-muted)" }}>Crafted by</p>
+                    <p className="text-xs md:text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Daysman Gad</p>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Status Badge & Toggle Button */}
+              <div className="flex items-center gap-3 md:gap-4">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border bg-slate-50" style={{ borderColor: "var(--color-border-light)" }}>
+                  <div className="w-2 h-2 rounded-full bg-[#3DBE7A] animate-pulse" />
+                  <span className="text-[7px] md:text-[8px] font-black uppercase tracking-[0.2em] whitespace-nowrap" style={{ color: "var(--color-text-muted)" }}>Crafted with precision</span>
+                </div>
+                
+                <button
+                  onClick={() => setShowDeveloper(!showDeveloper)}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full border transition-all duration-300 hover:bg-slate-100 whitespace-nowrap"
+                  style={{ borderColor: "var(--color-border-light)" }}
+                  title={showDeveloper ? "Hide developer" : "Show developer"}
+                >
+                  <span className="text-[7px] md:text-[8px] font-black uppercase tracking-[0.2em]" style={{ color: "var(--color-text-muted)" }}>
+                    {showDeveloper ? 'Hide' : 'Show'}
+                  </span>
+                  <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${showDeveloper ? 'rotate-180' : ''}`} style={{ color: "var(--color-text-muted)" }} />
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </footer>
 
-      {/* Mobile Nav Mockup */}
-      <div className="md:hidden fixed bottom-10 left-6 right-6 z-50">
-        <div className="glass-panel bg-white/80 p-3 rounded-[2.5rem] shadow-2xl flex items-center justify-around">
-          <button className="w-12 h-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center shadow-lg"><Home /></button>
-          <button className="w-12 h-12 text-slate-400"><Search /></button>
-          <button className="w-14 h-14 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-2xl -mt-10"><PlusCircle /></button>
-          <button className="w-12 h-12 text-slate-400"><Bell /></button>
-          <button className="w-10 h-10 rounded-full bg-slate-100 border border-slate-200" />
-        </div>
-      </div>
+
     </div>
   );
 }

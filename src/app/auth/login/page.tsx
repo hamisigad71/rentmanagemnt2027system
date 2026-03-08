@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import Button from "@/components/Button";
+import Logo from "@/components/Logo";
 import { Mail, Lock, ArrowLeft, Github } from "lucide-react";
 
 function LoginForm({ onRoleChange }: { onRoleChange: (role: "landlord" | "tenant") => void }) {
@@ -38,19 +39,18 @@ function LoginForm({ onRoleChange }: { onRoleChange: (role: "landlord" | "tenant
   return (
     <div className="flex flex-col w-full max-w-md px-4 sm:px-0">
       {/* Branding */}
-      <div className="mb-8">
-        <Link href="/" className="flex items-center gap-2 mb-2">
-          <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg shadow-blue-200">
-            RM
-          </div>
-          <span className="font-bold text-2xl tracking-tight text-gray-900">RentManager</span>
-        </Link>
-        <h1 className="text-3xl font-extrabold text-gray-900 mt-6">
-          Welcome back
-        </h1>
-        <p className="text-gray-500 mt-2">
-          Please enter your details to sign in
-        </p>
+      <div className="mb-10 w-full">
+        <div className="flex flex-col items-start gap-4">
+          <Logo size="lg" variant="full" className="transform -ml-2" />
+        </div>
+        <div className="mt-8 space-y-2">
+          <h1 className="text-4xl font-black text-[#0B241B] tracking-tight">
+            Secure Access
+          </h1>
+          <p className="text-gray-500 font-medium leading-relaxed">
+            Synchronize with your property management nexus.
+          </p>
+        </div>
       </div>
 
       {/* Social Login */}
@@ -101,7 +101,7 @@ function LoginForm({ onRoleChange }: { onRoleChange: (role: "landlord" | "tenant
             onClick={() => setRole("landlord")}
             className={`py-2 rounded-lg text-sm font-semibold transition-all ${
               role === "landlord"
-                ? "bg-white text-blue-600 shadow-sm"
+                ? "bg-white text-[#1B5E45] shadow-sm"
                 : "text-gray-500 hover:text-gray-700"
             }`}
           >
@@ -112,7 +112,7 @@ function LoginForm({ onRoleChange }: { onRoleChange: (role: "landlord" | "tenant
             onClick={() => setRole("tenant")}
             className={`py-2 rounded-lg text-sm font-semibold transition-all ${
               role === "tenant"
-                ? "bg-white text-blue-600 shadow-sm"
+                ? "bg-white text-[#1B5E45] shadow-sm"
                 : "text-gray-500 hover:text-gray-700"
             }`}
           >
@@ -133,7 +133,7 @@ function LoginForm({ onRoleChange }: { onRoleChange: (role: "landlord" | "tenant
               placeholder="name@company.com"
               value={formData.email}
               onChange={handleChange}
-              className="w-full pl-11 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all bg-gray-50/30"
+              className="w-full pl-11 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1B5E45]/20 focus:border-[#1B5E45] transition-all bg-gray-50/30"
             />
           </div>
         </div>
@@ -143,7 +143,7 @@ function LoginForm({ onRoleChange }: { onRoleChange: (role: "landlord" | "tenant
             <label className="block text-sm font-medium text-gray-700">
               Password
             </label>
-            <Link href="#" className="text-sm font-semibold text-blue-600 hover:text-blue-700">
+            <Link href="#" className="text-sm font-semibold text-[#1B5E45] hover:text-[#246B4F]">
               Forgot password?
             </Link>
           </div>
@@ -156,12 +156,12 @@ function LoginForm({ onRoleChange }: { onRoleChange: (role: "landlord" | "tenant
               placeholder="••••••••"
               value={formData.password}
               onChange={handleChange}
-              className="w-full pl-11 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all bg-gray-50/30"
+              className="w-full pl-11 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1B5E45]/20 focus:border-[#1B5E45] transition-all bg-gray-50/30"
             />
           </div>
         </div>
 
-        <Button type="submit" size="lg" className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-bold shadow-lg shadow-blue-200 mt-2">
+        <Button type="submit" size="lg" className="w-full bg-[#1B5E45] hover:bg-[#246B4F] text-white py-3 rounded-xl font-bold shadow-lg shadow-[#1B5E45]/20 mt-2">
           Sign in
         </Button>
       </form>
@@ -170,7 +170,7 @@ function LoginForm({ onRoleChange }: { onRoleChange: (role: "landlord" | "tenant
         Don't have an account?{" "}
         <Link
           href="/auth/register"
-          className="text-blue-600 hover:text-blue-700 font-bold"
+          className="text-[#1B5E45] hover:text-[#246B4F] font-bold"
         >
           Sign up
         </Link>
@@ -204,22 +204,22 @@ function HeroSection({ role }: { role: "landlord" | "tenant" }) {
   const activeHero = heroContent[role];
 
   return (
-    <div className="hidden lg:block relative overflow-hidden bg-blue-600">
+    <div className="hidden lg:block relative overflow-hidden bg-[#1A1A1A]">
       <img
         src={activeHero.image}
         alt="Hero Image"
-        className="absolute inset-0 h-full w-full object-cover opacity-80"
+        className="absolute inset-0 h-full w-full object-cover opacity-60"
       />
-      <div className="absolute inset-0 bg-linear-to-b from-blue-900/80 via-blue-900/20 to-transparent flex flex-col justify-center p-12">
-        <div className="backdrop-blur-md bg-white/10 p-8 rounded-3xl border border-white/20 text-white max-w-lg">
-          <h2 className="text-3xl font-bold mb-4">{activeHero.title}</h2>
-          <p className="text-blue-50/80 text-lg leading-relaxed">
+      <div className="absolute inset-0 bg-gradient-to-b from-[#1A1A1A] via-[#1B5E45]/40 to-transparent flex flex-col justify-center p-12">
+        <div className="backdrop-blur-md bg-white/5 p-10 rounded-[2.5rem] border border-white/10 text-white max-w-lg shadow-2xl">
+          <h2 className="text-4xl font-black italic mb-4">{activeHero.title}</h2>
+          <p className="text-white/70 text-lg font-medium leading-relaxed">
             {activeHero.description}
           </p>
           <div className="mt-8 flex items-center gap-4">
             <div className="flex -space-x-2">
               {[1,2,3,4].map(i => (
-                <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-blue-100 flex items-center justify-center overflow-hidden">
+                <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-[#E8F5EE] flex items-center justify-center overflow-hidden">
                   <img src={`https://i.pravatar.cc/100?img=${i+10}`} alt="User" />
                 </div>
               ))}
@@ -251,7 +251,7 @@ function LoginContent() {
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-white"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div></div>}>
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-[#FAFAF8]"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#3DBE7A]"></div></div>}>
       <LoginContent />
     </Suspense>
   );

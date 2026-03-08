@@ -1,0 +1,85 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Building {
+  id            String   @id @default(cuid())
+  name          String
+  address       String
+  units         Int
+  occupiedUnits Int
+  yearBuilt     Int
+  image         String
+  description   String?
+  amenities     String[]
+  unitList      Unit[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Unit {
+  id         String   @id @default(cuid())
+  buildingId String
+  building   Building @relation(fields: [buildingId], references: [id])
+  number     String
+  type       String
+  rent       Int
+  status     String   // "vacant" | "occupied"
+  tenant     Tenant?
+  floor      Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Tenant {
+  id          String   @id @default(cuid())
+  name        String
+  email       String   @unique
+  phone       String
+  unitId      String   @unique
+  unit        Unit     @relation(fields: [unitId], references: [id])
+  roomNumber  String?
+  moveInDate  String
+  rent        Int
+  paidAmount  Int
+  arrears     Int
+  status      String   // "active" | "inactive"
+  payments    Payment[]
+  complaints  Complaint[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Payment {
+  id         String   @id @default(cuid())
+  tenantId   String
+  tenant     Tenant   @relation(fields: [tenantId], references: [id])
+  amount     Int
+  date       String
+  status     String   // "completed" | "pending" | "overdue"
+  month      String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Complaint {
+  id          String   @id @default(cuid())
+  tenantId    String
+  tenant      Tenant   @relation(fields: [tenantId], references: [id])
+  title       String
+  description String
+  category    String
+  status      String   // "pending" | "in-progress" | "resolved"
+  priority    String   // "low" | "medium" | "high"
+  createdDate String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

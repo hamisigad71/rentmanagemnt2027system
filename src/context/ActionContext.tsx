@@ -37,7 +37,7 @@ function SearchParamsHandler({
       setGlobalLoading(true);
       const timer = setTimeout(() => {
         setGlobalLoading(false);
-      }, 600); // 600ms for a snappy, smooth feel
+      }, 4500); // 4.5 seconds for consistent loading experience
       return () => clearTimeout(timer);
     }
   }, [pathname, searchParams, isReady, setGlobalLoading]);
