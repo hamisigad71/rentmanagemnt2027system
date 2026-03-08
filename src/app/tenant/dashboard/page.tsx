@@ -158,7 +158,6 @@ export default function TenantDashboard() {
                   </div>
                   <div className="overflow-hidden h-4 flex rounded-full bg-[#FAFAF8] border inner-shadow">
                     <div 
-                      style={{ width: `${paymentProgress}%` }} 
                       className="shadow-lg rounded-full flex flex-col text-center whitespace-nowrap text-white justify-center transition-all duration-1000"
                       style={{ 
                         width: `${paymentProgress}%`,
