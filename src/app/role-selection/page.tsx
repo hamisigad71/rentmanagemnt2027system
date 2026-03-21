@@ -20,8 +20,8 @@ export default function RoleSelectionPage() {
               <Home className="w-24 h-24" />
             </div>
             
-            <div className="w-20 h-20 bg-[#E8F5EE] rounded-3xl flex items-center justify-center mb-6 group-hover:bg-[#1B5E45] group-hover:text-white transition-all duration-500">
-              <Home className="text-[#1B5E45] w-10 h-10 group-hover:text-white" />
+            <div className="w-20 h-20 bg-[#1B5E45] rounded-3xl flex items-center justify-center mb-6 group-hover:bg-[#154a36] group-hover:text-white transition-all duration-500">
+              <Home className="text-white w-10 h-10 group-hover:text-white" />
             </div>
             <h2 className="text-2xl font-black mb-2 italic" style={{ color: "var(--color-text-primary)" }}>Landlord</h2>
             <p className="text-sm mb-10 font-medium italic" style={{ color: "var(--color-text-muted)" }}>
@@ -42,8 +42,8 @@ export default function RoleSelectionPage() {
               <Key className="w-24 h-24" />
             </div>
 
-            <div className="w-20 h-20 bg-[#F4F4F0] rounded-3xl flex items-center justify-center mb-6 group-hover:bg-[#1B5E45] group-hover:text-white transition-all duration-500">
-              <Key className="text-[#1B5E45] w-10 h-10 group-hover:text-white" />
+            <div className="w-20 h-20 bg-[#1B5E45] rounded-3xl flex items-center justify-center mb-6 group-hover:bg-[#154a36] group-hover:text-white transition-all duration-500">
+              <Key className="text-white w-10 h-10 group-hover:text-white" />
             </div>
             <h2 className="text-2xl font-black mb-2 italic" style={{ color: "var(--color-text-primary)" }}>Tenant</h2>
             <p className="text-sm mb-10 font-medium italic" style={{ color: "var(--color-text-muted)" }}>

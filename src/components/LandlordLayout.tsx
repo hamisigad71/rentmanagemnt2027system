@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import Logo from "./Logo";
+import DeveloperPanel from "./DeveloperPanel";
 import BottomNav from "./BottomNav";
 
 interface SidebarLink {
@@ -192,6 +193,12 @@ export default function LandlordLayout({ children }: { children: React.ReactNode
           style={{ background: "var(--color-background)" }}
         >
           {children}
+        </div>
+
+        <div className="p-4 border-t" style={{ borderColor: "var(--color-border-light)", background: "var(--color-background)" }}>
+          <div className="flex justify-end">
+            <DeveloperPanel />
+          </div>
         </div>
 
         <BottomNav
