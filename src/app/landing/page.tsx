@@ -392,145 +392,110 @@ export default function LandingPage() {
             </div>
 
             {/* Developer Section - Collapsible */}
-           <Box position="relative" w={{ base: "100%", md: "auto" }}>
-              <Button
-                className="ft-creator-btn"
-                size="xs"
-                h={{ base: "36px", md: "32px" }}
-                px={4}
-                w="auto"
-                bg={L.card}
-                color={L.muted}
-                border="1px solid"
-                borderColor={L.cardBorder}
-                borderRadius="full"
-                fontWeight="600"
-                fontSize="11px"
-                rightIcon={
-                  <Icon
-                    as={creatorOpen ? FiChevronUp : FiChevronDown}
-                    boxSize={3}
-                    transition="transform .2s ease"
-                  />
-                }
-                _hover={{}}
-                onClick={() => setCreatorOpen(!creatorOpen)}
+            <div className="relative w-full md:w-auto">
+              <button
+                className="flex items-center gap-1.5 px-4 py-2 md:py-2 text-xs font-semibold rounded-full transition-all duration-200 border"
+                style={{
+                  background: "var(--color-card)",
+                  color: "var(--color-text-muted)",
+                  borderColor: "var(--color-border-light)",
+                }}
+                onClick={() => setShowDeveloper(!showDeveloper)}
               >
-                <Icon as={FiCode} boxSize={3} mr={1.5} color={L.accentLight} />
+                <Building2 className="w-3 h-3" style={{ color: "#3DBE7A" }} />
                 Built by
-              </Button>
+                {showDeveloper ? (
+                  <ChevronDown className="w-3 h-3 transition-transform duration-200 rotate-180" />
+                ) : (
+                  <ChevronDown className="w-3 h-3 transition-transform duration-200" />
+                )}
+              </button>
 
-              {creatorOpen && (
-                <Box
-                  position="absolute"
-                  bottom="calc(100% + 8px)"
-                  right={0}
-                  bg={L.card}
-                  border="1px solid"
-                  borderColor={L.cardBorder}
-                  borderRadius="20px"
-                  boxShadow="0 16px 48px rgba(0,0,0,0.12)"
-                  p={5}
-                  w="260px"
-                  zIndex={100}
+              {showDeveloper && (
+                <div
+                  className="absolute bottom-full right-0 mb-2 w-64 rounded-3xl border p-5 shadow-lg"
+                  style={{
+                    background: "var(--color-card)",
+                    borderColor: "var(--color-border-light)",
+                    boxShadow: "0 16px 48px rgba(0,0,0,0.12)",
+                    zIndex: 100,
+                  }}
                 >
                   {/* Top accent */}
-                  <Box
-                    h="3px"
-                    mx={-5}
-                    mt={-5}
-                    mb={4}
-                    bg={`linear-gradient(90deg, ${L.accent}, ${L.accentLight}, #72b872)`}
-                    borderRadius="20px 20px 0 0"
+                  <div
+                    className="h-1 -mx-5 -mt-5 mb-4 rounded-t-3xl"
+                    style={{
+                      background: "linear-gradient(90deg, #3DBE7A, #72d489, #72b872)",
+                    }}
                   />
 
-                  <VStack spacing={4} align="stretch">
+                  <div className="space-y-4">
                     {/* Avatar + name */}
-                    <HStack spacing={3}>
-                      <Image
-                        src="/profile-avatar.jpg"
-                        alt="Daysman Gad"
-                        boxSize="44px"
-                        borderRadius="full"
-                        objectFit="cover"
-                      />
-                      <Box>
-                        <Text
-                          fontFamily="'Syne', sans-serif"
-                          fontSize="15px"
-                          fontWeight="800"
-                          color={L.text}
-                          letterSpacing="-0.01em"
+                    <div className="flex items-center gap-3">
+                      <div
+                        className="w-11 h-11 rounded-full flex items-center justify-center font-bold text-white text-sm"
+                        style={{ background: "linear-gradient(135deg, #1B5E45, #3DBE7A)" }}
+                      >
+                        DG
+                      </div>
+                      <div>
+                        <p
+                          className="text-sm font-bold leading-none"
+                          style={{ color: "var(--color-text-primary)" }}
                         >
                           Daysman Gad
-                        </Text>
-                        <Text fontSize="11px" color={L.muted}>
+                        </p>
+                        <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>
                           Full-stack Developer
-                        </Text>
-                      </Box>
-                    </HStack>
+                        </p>
+                      </div>
+                    </div>
 
-                    <Divider borderColor={L.cardBorder} />
+                    <div style={{ borderColor: "var(--color-border-light)" }} className="border-t" />
 
-                    <VStack spacing={2.5} align="stretch">
-                      <Text fontSize="12px" color={L.muted} lineHeight="1.6">
-                        Designed & built with care. Crafted for DriveKE —
-                        Kenya's premier car hire platform.
-                      </Text>
-                      <HStack spacing={2} flexWrap="wrap">
-                        {["Next.js", "Chakra UI", "TypeScript"].map((t) => (
-                          <Box
+                    <div className="space-y-2.5">
+                      <p className="text-xs leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
+                        Designed & built with care. A property management system for Kenya.
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {["Next.js", "Prisma", "TypeScript"].map((t) => (
+                          <span
                             key={t}
-                            bg={L.accentGlow}
-                            border="1px solid"
-                            borderColor={L.cardBorder}
-                            borderRadius="full"
-                            px={2.5}
-                            py={0.5}
+                            className="text-xs font-bold px-2.5 py-0.5 rounded-full border"
+                            style={{
+                              background: "rgba(61, 190, 122, 0.1)",
+                              color: "#3DBE7A",
+                              borderColor: "var(--color-border-light)",
+                            }}
                           >
-                            <Text
-                              fontSize="10px"
-                              fontWeight="700"
-                              color={L.accentLight}
-                            >
-                              {t}
-                            </Text>
-                          </Box>
+                            {t}
+                          </span>
                         ))}
-                      </HStack>
-                    </VStack>
+                      </div>
+                    </div>
 
-                    <Divider borderColor={L.cardBorder} />
+                    <div style={{ borderColor: "var(--color-border-light)" }} className="border-t" />
 
-                    <HStack justify="space-between" align="center">
-                      <Text fontSize="11px" color={L.subtle}>
+                    <div className="flex items-center justify-between">
+                      <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>
                         Made with{" "}
-                        <Text as="span" className="heart" color={L.accent}>
-                          ♥
-                        </Text>{" "}
-                        in Nairobi
-                      </Text>
-                      <Box
-                        px={3}
-                        py={1}
-                        bg={L.accentGlow2}
-                        borderRadius="full"
-                        border="1px solid"
-                        borderColor={L.cardBorder}
+                        <span style={{ color: "#3DBE7A" }}>♥</span> in Nairobi
+                      </p>
+                      <span
+                        className="text-xs font-bold px-3 py-1 rounded-full border"
+                        style={{
+                          background: "rgba(61, 190, 122, 0.05)",
+                          color: "#3DBE7A",
+                          borderColor: "var(--color-border-light)",
+                        }}
                       >
-                        <Text
-                          fontSize="10px"
-                          fontWeight="700"
-                          color={L.accentLight}
-                        >
-                          v1.0.0
-                        </Text>
-                      </Box>
-                    </HStack>
-                  </VStack>
-                </Box>
+                        v1.0.0
+                      </span>
+                    </div>
+                  </div>
+                </div>
               )}
-            </Box>
+            </div>
           </div>
         </div>
       </footer>
