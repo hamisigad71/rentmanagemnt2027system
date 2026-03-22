@@ -1,44 +1,66 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import TenantLayout from "@/components/TenantLayout";
-import DashboardCard from "@/components/DashboardCard";
-import Button from "@/components/Button";
-import Link from "next/link";
 import Badge from "@/components/Badge";
+import Link from "next/link";
+import { motion, useInView } from "framer-motion";
 import {
-  DollarSign,
-  Calendar,
-  AlertCircle,
-  FileText,
-  Plus,
-  ArrowRight,
-  TrendingUp,
-  CreditCard,
-  History,
-  ShieldCheck,
-  Activity,
-  Zap,
-  Home,
-  Wrench,
-  FileCheck,
-  Bell,
-  Phone,
-  BookOpen,
-  Settings,
-  Download,
-  Eye,
-  MessageSquare,
-  CheckCircle,
-  Clock,
-  MapPin,
-  Users,
-  Wifi,
-  Car,
-  Dumbbell,
+  DollarSign, Calendar, AlertCircle, FileText, Plus, ArrowRight,
+  TrendingUp, CreditCard, History, ShieldCheck, Zap, Home,
+  Wrench, FileCheck, Bell, Phone, Download, Eye,
+  MessageSquare, CheckCircle, Clock, Users, Wifi, Car,
+  Dumbbell, ArrowUpRight, Activity, ChevronRight,
 } from "lucide-react";
 import { mockTenants, mockPayments, mockComplaints } from "@/data/mockData";
 import { useAuth } from "@/context/AuthContext";
+
+// ── Reveal wrapper ────────────────────────────────────────────────────────────
+function Reveal({ children, delay = 0, className = "" }: {
+  children: React.ReactNode; delay?: number; className?: string;
+}) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  return (
+    <motion.div ref={ref} initial={{ opacity: 0, y: 20 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
+      className={className}>
+      {children}
+    </motion.div>
+  );
+}
+
+// ── Stat card ─────────────────────────────────────────────────────────────────
+function StatCard({ label, value, sub, accent = false, danger = false }: {
+  label: string; value: string; sub?: string; accent?: boolean; danger?: boolean;
+}) {
+  return (
+    <div className="relative rounded-2xl p-5 border overflow-hidden group transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
+      style={{
+        background: accent ? "linear-gradient(135deg,#1B5E45,#246B4F)" : danger ? "#FFF5F5" : "var(--color-card)",
+        borderColor: accent ? "transparent" : danger ? "#FECACA" : "var(--color-border-light)",
+        boxShadow: accent ? "0 8px 32px rgba(27,94,69,0.22)" : "var(--shadow-card)",
+      }}>
+      {accent && <div className="absolute top-0 right-0 w-24 h-24 bg-white/8 rounded-full -mr-8 -mt-8" />}
+      <p className="text-[9px] font-black uppercase tracking-[0.35em] mb-2"
+        style={{ color: accent ? "rgba(255,255,255,0.55)" : "var(--color-text-muted)" }}>
+        {label}
+      </p>
+      <p className={`text-2xl font-black tracking-tight leading-none mb-1 ${
+        accent ? "text-white" : danger ? "text-red-600" : ""}`}
+        style={{ color: accent || danger ? undefined : "var(--color-text-primary)" }}>
+        {value}
+      </p>
+      {sub && (
+        <p className="text-[10px] font-bold mt-1.5"
+          style={{ color: accent ? "rgba(255,255,255,0.4)" : "var(--color-text-muted)" }}>
+          {sub}
+        </p>
+      )}
+    </div>
+  );
+}
 
 export default function TenantDashboard() {
   const { userName, displayImage } = useAuth();
@@ -50,812 +72,614 @@ export default function TenantDashboard() {
   const nextPaymentDate = new Date();
   nextPaymentDate.setDate(1);
   nextPaymentDate.setMonth(nextPaymentDate.getMonth() + 1);
-
   const settlementPct = Math.round((currentTenant.paidAmount / currentTenant.rent) * 100);
+
+  const getInitials = (name: string) =>
+    name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2);
 
   return (
     <TenantLayout>
-      <div className="p-6 md:p-8 space-y-8">
+      <div className="p-5 md:p-8 space-y-6 md:space-y-8 max-w-[1400px] mx-auto">
 
-        {/* ── Welcome Hero ── */}
-        <div
-          className="relative rounded-2xl md:rounded-[3rem] p-4 md:p-14 overflow-hidden shadow-lg md:shadow-2xl group"
-          style={{ background: "var(--color-card)", border: "1px solid var(--color-border-light)" }}
-        >
-          {/* Subtle accent gradient */}
-          <div
-            className="absolute top-0 right-0 w-48 md:w-96 h-48 md:h-96 rounded-full blur-[60px] md:blur-[120px] -mr-24 md:-mr-48 -mt-24 md:-mt-48 opacity-5"
-            style={{ background: "var(--gradient-green)" }}
-          />
+        {/* ── HERO BANNER ───────────────────────────────────────────────────── */}
+        <Reveal>
+          <div className="relative rounded-[1.8rem] overflow-hidden"
+            style={{ minHeight: 220, boxShadow: "0 20px 60px rgba(0,0,0,0.14)" }}>
+            {/* BG image */}
+            <img
+              src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=1800&q=80"
+              alt="Property"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0D0D0D]/92 via-[#0D0D0D]/75 to-[#0D0D0D]/30" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D]/60 via-transparent to-transparent" />
 
-          <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-4 md:gap-10">
-            <div className="space-y-3 md:space-y-6 max-w-2xl">
-              {/* Status indicator */}
-              <div className="flex items-center gap-2 md:gap-4">
-                <div
-                  className="w-2 h-2 md:w-3 md:h-3 rounded-full animate-pulse"
-                  style={{ background: "var(--color-green-bright)" }}
-                />
-                <span className="text-xs md:text-sm font-medium uppercase tracking-wider md:tracking-widest" style={{ color: "var(--color-text-muted)" }}>
-                  Active Residential Portal
-                </span>
-              </div>
+            {/* Top accent */}
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#3DBE7A]/50 to-transparent" />
 
-              {/* Welcome heading */}
-              <div className="space-y-1 md:space-y-2">
-                <h2 className="text-2xl md:text-6xl font-medium md:font-black tracking-tight leading-none" style={{ color: "var(--color-text-primary)" }}>
-                  Welcome back,{" "}
-                  <span style={{ background: "linear-gradient(to right, var(--color-green-deep), var(--color-green-bright))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-                    {activeName.split(" ")[0]}
+            <div className="relative z-10 p-7 md:p-10 flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
+              {/* Left */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#3DBE7A] animate-pulse" />
+                  <span className="text-[9px] font-black uppercase tracking-[0.38em] text-white/45">
+                    Active Residential Portal
                   </span>
-                  !
-                </h2>
-                <div className="flex items-center gap-2 md:gap-4 font-medium" style={{ color: "var(--color-text-muted)" }}>
-                  <div
-                    className="px-2 py-1 md:px-4 md:py-2 rounded-lg md:rounded-xl border text-xs md:text-sm"
-                    style={{ background: "var(--color-surface-tint)", borderColor: "var(--color-border-mid)", color: "var(--color-text-primary)" }}
-                  >
-                    Unit {currentTenant.unitId}
+                </div>
+
+                <div>
+                  <h1 className="text-3xl md:text-5xl font-black tracking-tighter text-white leading-[0.92]">
+                    Welcome back,{" "}
+                    <span className="bg-gradient-to-r from-[#3DBE7A] to-[#2AE299] bg-clip-text text-transparent">
+                      {activeName.split(" ")[0]}
+                    </span>
+                  </h1>
+                  <div className="flex items-center gap-3 mt-3">
+                    <div className="px-3 py-1.5 rounded-lg border border-white/10 text-xs font-black text-white/60"
+                      style={{ background: "rgba(255,255,255,0.06)" }}>
+                      Unit {currentTenant.unitId}
+                    </div>
+                    <span className="text-white/20">•</span>
+                    <p className="text-sm font-medium text-white/45">Residential Management System</p>
                   </div>
-                  <span className="text-sm md:text-xl">•</span>
-                  <p className="text-sm md:text-lg">Residential Management System</p>
+                </div>
+
+                {/* Mini stats row */}
+                <div className="flex items-center gap-6 pt-1">
+                  <div>
+                    <p className="text-lg font-black text-white tracking-tight">
+                      KSh {currentTenant.rent.toLocaleString()}
+                    </p>
+                    <p className="text-[9px] font-black uppercase tracking-widest text-white/35 mt-0.5">Monthly Rent</p>
+                  </div>
+                  <div className="w-px h-8 bg-white/10" />
+                  <div>
+                    <p className="text-lg font-black tracking-tight"
+                      style={{ color: currentTenant.arrears > 0 ? "#f87171" : "#3DBE7A" }}>
+                      KSh {currentTenant.arrears.toLocaleString()}
+                    </p>
+                    <p className="text-[9px] font-black uppercase tracking-widest text-white/35 mt-0.5">Outstanding</p>
+                  </div>
+                  <div className="w-px h-8 bg-white/10" />
+                  <div>
+                    <p className="text-lg font-black text-white tracking-tight">
+                      {nextPaymentDate.toLocaleDateString("en-KE", { month: "short", day: "numeric" })}
+                    </p>
+                    <p className="text-[9px] font-black uppercase tracking-widest text-white/35 mt-0.5">Next Due</p>
+                  </div>
                 </div>
               </div>
 
-              {/* Quick stats */}
-              <div className="flex items-center gap-4 md:gap-8 pt-2 md:pt-4">
-                <div className="text-center">
-                  <p className="text-lg md:text-2xl font-medium" style={{ color: "var(--color-text-primary)" }}>
-                    KSh {currentTenant.rent.toLocaleString()}
-                  </p>
-                  <p className="text-[10px] md:text-xs font-medium uppercase tracking-wider md:tracking-widest" style={{ color: "var(--color-text-muted)" }}>
-                    Monthly Rent
-                  </p>
+              {/* Right — profile CTA + verified badge */}
+              <div className="flex flex-col items-start md:items-end gap-3 shrink-0">
+                <Link href="/tenant/profile">
+                  <button className="flex items-center gap-3 px-5 py-3 rounded-xl text-sm font-black text-[#0D0D0D] transition-all hover:shadow-[0_12px_40px_rgba(61,190,122,0.4)] hover:-translate-y-0.5"
+                    style={{ background: "linear-gradient(135deg,#3DBE7A,#2AE299)" }}>
+                    <div className="w-7 h-7 rounded-full overflow-hidden border-2 border-white/30 flex items-center justify-center bg-[#1B5E45]">
+                      {displayImage
+                        ? <img src={displayImage} alt="" className="w-full h-full object-cover" />
+                        : <span className="text-[10px] font-black text-white">{getInitials(activeName)}</span>}
+                    </div>
+                    Manage Profile
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                </Link>
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10"
+                  style={{ background: "rgba(61,190,122,0.08)" }}>
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#3DBE7A]" strokeWidth={2} />
+                  <span className="text-[9px] font-black uppercase tracking-widest text-white/40">Verified Account</span>
                 </div>
-                <div className="w-px h-8 md:h-12" style={{ background: "var(--color-border-light)" }} />
-                <div className="text-center">
-                  <p className="text-lg md:text-2xl font-medium" style={{ color: currentTenant.arrears > 0 ? "#FA0A12" : "var(--color-green-deep)" }}>
-                    KSh {currentTenant.arrears.toLocaleString()}
-                  </p>
-                  <p className="text-[10px] md:text-xs font-medium uppercase tracking-wider md:tracking-widest" style={{ color: "var(--color-text-muted)" }}>
-                    Outstanding
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Profile CTA */}
-            <div className="flex flex-col items-end gap-3 md:gap-6 shrink-0 w-full md:w-auto">
-              <Link href="/tenant/profile" className="w-full md:w-auto">
-                <button
-                  className="flex items-center gap-2 md:gap-4 px-4 md:px-8 py-3 md:py-4 rounded-xl md:rounded-2xl font-medium text-xs md:text-sm transition-all hover:shadow-lg md:hover:shadow-xl active:scale-95 group/btn w-full md:w-auto justify-center md:justify-start"
-                  style={{ background: "var(--gradient-green)", boxShadow: "var(--shadow-green)", color: "white" }}
-                >
-                  <div className="w-6 h-6 md:w-8 md:h-8 rounded-full overflow-hidden border-2 border-white/20">
-                    <img src={displayImage} alt="Profile" className="w-full h-full object-cover" />
-                  </div>
-                  <span className="hidden sm:inline">Manage Profile</span>
-                  <span className="sm:hidden">Profile</span>
-                  <ArrowRight className="w-3 h-3 md:w-5 md:h-5 transition-transform group-hover/btn:translate-x-1" />
-                </button>
-              </Link>
-
-              {/* Trust badge */}
-              <div className="flex items-center gap-2 md:gap-3 px-3 md:px-4 py-1 md:py-2 rounded-full border" style={{ background: "var(--color-surface-tint)", borderColor: "var(--color-border-mid)" }}>
-                <ShieldCheck className="w-3 h-3 md:w-4 md:h-4" style={{ color: "var(--color-green-bright)" }} />
-                <span className="text-[10px] md:text-xs font-medium uppercase tracking-wider md:tracking-widest" style={{ color: "var(--color-text-muted)" }}>
-                  Verified Account
-                </span>
               </div>
             </div>
           </div>
+        </Reveal>
+
+        {/* ── STATS ROW ─────────────────────────────────────────────────────── */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {[
+            { label: "Monthly Rent", value: `KSh ${currentTenant.rent.toLocaleString()}`, sub: "Due 1st of each month", accent: true },
+            { label: "Balance Due", value: `KSh ${currentTenant.arrears.toLocaleString()}`, sub: currentTenant.arrears > 0 ? "Action required" : "All clear", danger: currentTenant.arrears > 0 },
+            { label: "Next Due Date", value: nextPaymentDate.toLocaleDateString("en-KE", { month: "short", day: "numeric", year: "numeric" }), sub: "Upcoming payment" },
+            { label: "Open Tickets", value: String(tenantComplaints.filter((c) => c.status !== "resolved").length), sub: "Active complaints" },
+          ].map((s, i) => (
+            <Reveal key={i} delay={i * 0.06}>
+              <StatCard {...s} />
+            </Reveal>
+          ))}
         </div>
 
-        {/* ── Key Stats ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <DashboardCard title="Monthly Rent"     value={`KSh ${currentTenant.rent.toLocaleString()}`}    icon={DollarSign} color="blue" />
-          <DashboardCard title="Balance Due"      value={`KSh ${currentTenant.arrears.toLocaleString()}`} icon={AlertCircle} color={currentTenant.arrears > 0 ? "red" : "green"} />
-          <DashboardCard title="Next Due Date"    value={nextPaymentDate.toLocaleDateString()}             icon={Calendar}   color="blue" />
-          <DashboardCard title="Active Complaints" value={tenantComplaints.filter((c) => c.status !== "resolved").length} icon={FileText} color="yellow" />
-        </div>
+        {/* ── FINANCIAL HEALTH + QUICK ACTIONS ─────────────────────────────── */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-        {/* ── Financial Health ── */}
-        <div
-          className="rounded-xl md:rounded-[2.5rem] p-4 md:p-10 relative overflow-hidden"
-          style={{
-            background: "var(--color-card)",
-            border: "1px solid var(--color-border-light)",
-            boxShadow: "var(--shadow-card)",
-          }}
-        >
-          {/* Decorative mint blob */}
-          <div className="absolute top-0 right-0 w-32 md:w-64 h-32 md:h-64 rounded-full blur-2xl md:blur-3xl -mr-16 md:-mr-32 -mt-16 md:-mt-32 opacity-20" style={{ background: "var(--color-green-soft)" }} />
-
-          <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-8 mb-6 md:mb-12">
-            <div className="space-y-1">
-              <div className="flex items-center gap-2 md:gap-3 mb-2">
-                <div
-                  className="w-8 md:w-10 h-8 md:h-10 rounded-lg text-white flex items-center justify-center"
-                  style={{ background: "var(--gradient-green)", boxShadow: "var(--shadow-green)" }}
-                >
-                  <ShieldCheck className="w-4 md:w-6 h-4 md:h-6" />
-                </div>
-                <h3 className="text-lg md:text-2xl font-medium md:font-black tracking-tight" style={{ color: "var(--color-text-primary)" }}>
-                  Financial Health
-                </h3>
-              </div>
-              <p className="text-xs md:text-sm font-medium" style={{ color: "var(--color-text-muted)" }}>
-                Monthly reconciliation &amp; settlement status
-              </p>
-            </div>
-
-            <Link href="/tenant/payments" className="w-full md:w-auto">
-              <button
-                className="w-full md:w-auto px-4 md:px-8 py-3 md:py-4 text-white rounded-xl md:rounded-2xl font-medium text-xs md:text-sm transition-all active:scale-95 flex items-center gap-2 md:gap-3 justify-center md:justify-start"
-                style={{ background: "var(--gradient-green)", boxShadow: "var(--shadow-green)" }}
-              >
-                <Plus className="w-4 md:w-5 h-4 md:h-5" />
-                <span className="hidden sm:inline">Initialize Payment</span>
-                <span className="sm:hidden">Add Payment</span>
-              </button>
-            </Link>
-          </div>
-
-          {/* Stat trio */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 mb-6 md:mb-12">
-            {/* Gross */}
-            <div
-              className="relative p-4 md:p-8 rounded-xl md:rounded-[2rem] group/stat"
-              style={{ background: "var(--color-background-alt)", border: "1px solid var(--color-border-light)" }}
-            >
-              <p className="text-[8px] md:text-[10px] font-medium uppercase tracking-wider md:tracking-[0.2em] mb-2 md:mb-3" style={{ color: "var(--color-text-muted)" }}>Gross Obligations</p>
-              <p className="text-xl md:text-3xl font-medium md:font-black tracking-tight" style={{ color: "var(--color-text-primary)" }}>
-                KSh {currentTenant.rent.toLocaleString()}
-              </p>
-              <div className="absolute right-4 md:right-6 top-4 md:top-6 w-8 md:w-10 h-8 md:h-10 bg-white rounded-lg md:rounded-xl flex items-center justify-center border transition-all" style={{ borderColor: "var(--color-border-light)", color: "var(--color-text-muted)" }}>
-                <DollarSign className="w-4 md:w-5 h-4 md:h-5" />
-              </div>
-            </div>
-
-            {/* Settled */}
-            <div
-              className="relative p-4 md:p-8 rounded-xl md:rounded-[2rem] group/stat"
-              style={{ background: "var(--color-surface-tint)", border: "1px solid var(--color-border-mid)" }}
-            >
-              <p className="text-[8px] md:text-[10px] font-medium uppercase tracking-wider md:tracking-[0.2em] mb-2 md:mb-3" style={{ color: "var(--color-text-muted)" }}>Settled Credits</p>
-              <p className="text-xl md:text-3xl font-medium md:font-black tracking-tight" style={{ color: "var(--color-green-deep)" }}>
-                KSh {currentTenant.paidAmount.toLocaleString()}
-              </p>
-              <div className="absolute right-4 md:right-6 top-4 md:top-6 w-8 md:w-10 h-8 md:h-10 bg-white rounded-lg md:rounded-xl flex items-center justify-center border transition-all" style={{ borderColor: "var(--color-border-mid)", color: "var(--color-green-bright)" }}>
-                <Zap className="w-4 md:w-5 h-4 md:h-5" />
-              </div>
-            </div>
-
-            {/* Arrears */}
-            <div
-              className="relative p-4 md:p-8 rounded-xl md:rounded-[2rem] group/stat"
-              style={{ background: "#FFF5F5", border: "1px solid #FECACA" }}
-            >
-              <p className="text-[8px] md:text-[10px] font-medium uppercase tracking-wider md:tracking-[0.2em] mb-2 md:mb-3" style={{ color: "var(--color-text-muted)" }}>Arrears Pending</p>
-              <p className="text-xl md:text-3xl font-medium md:font-black tracking-tight text-red-600">
-                KSh {currentTenant.arrears.toLocaleString()}
-              </p>
-              <div className="absolute right-4 md:right-6 top-4 md:top-6 w-8 md:w-10 h-8 md:h-10 bg-white rounded-lg md:rounded-xl flex items-center justify-center border transition-all" style={{ borderColor: "#FECACA", color: "#FA0A12" }}>
-                <CreditCard className="w-4 md:w-5 h-4 md:h-5" />
-              </div>
-            </div>
-          </div>
-
-          {/* Progress bar */}
-          <div className="space-y-3 md:space-y-4">
-            <div className="flex items-center justify-between px-0 md:px-2 gap-3">
-              <div className="flex items-center gap-1 md:gap-2">
-                <TrendingUp className="w-3 md:w-4 h-3 md:h-4" style={{ color: "var(--color-green-bright)" }} />
-                <span className="text-xs md:text-sm font-medium" style={{ color: "var(--color-text-primary)" }}>
-                  Total Settlement Progress
-                </span>
-              </div>
-              <span
-                className="text-xs md:text-sm font-medium px-2 md:px-3 py-1 rounded-full whitespace-nowrap"
-                style={{ color: "var(--color-green-deep)", background: "var(--color-surface-tint)" }}
-              >
-                {settlementPct}% Fulfilled
-              </span>
-            </div>
-            <div
-              className="relative w-full h-3 md:h-4 rounded-full overflow-hidden"
-              style={{ background: "var(--color-border-light)" }}
-            >
-              <div
-                className="absolute inset-y-0 left-0 animate-shimmer"
-                style={{
-                  width: `${settlementPct}%`,
-                  background: "var(--gradient-mint-glow)",
-                  borderRadius: "999px",
-                }}
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* ── Quick Actions ── */}
-        <div
-          className="rounded-xl md:rounded-[2.5rem] p-4 md:p-8"
-          style={{
-            background: "var(--color-card)",
-            border: "1px solid var(--color-border-light)",
-            boxShadow: "var(--shadow-card)",
-          }}
-        >
-          <div className="flex items-center gap-3 mb-6">
-            <div
-              className="w-8 md:w-10 h-8 md:h-10 rounded-lg text-white flex items-center justify-center"
-              style={{ background: "var(--gradient-green)", boxShadow: "var(--shadow-green)" }}
-            >
-              <Zap className="w-4 md:w-5 h-4 md:h-5" />
-            </div>
-            <h3 className="text-lg md:text-xl font-medium md:font-black tracking-tight" style={{ color: "var(--color-text-primary)" }}>
-              Quick Actions
-            </h3>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-            <Link href="/tenant/payments">
-              <button className="w-full p-3 md:p-4 rounded-lg md:rounded-xl border transition-all hover:shadow-md active:scale-95 group"
-                style={{ background: "var(--color-background-alt)", borderColor: "var(--color-border-light)" }}>
-                <div className="flex flex-col items-center gap-2">
-                  <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center" style={{ background: "var(--color-green-soft)", color: "var(--color-green-deep)" }}>
-                    <DollarSign className="w-4 h-4 md:w-5 md:h-5" />
+          {/* Financial block — 2/3 */}
+          <Reveal className="lg:col-span-2">
+            <div className="rounded-[1.8rem] border overflow-hidden h-full"
+              style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", boxShadow: "var(--shadow-card)" }}>
+              {/* Header */}
+              <div className="flex items-center justify-between px-7 pt-7 pb-5 border-b"
+                style={{ borderColor: "var(--color-border-light)" }}>
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl flex items-center justify-center text-white"
+                    style={{ background: "linear-gradient(135deg,#1B5E45,#3DBE7A)", boxShadow: "0 4px 12px rgba(27,94,69,0.3)" }}>
+                    <ShieldCheck className="w-4.5 h-4.5" strokeWidth={1.8} />
                   </div>
-                  <span className="text-xs md:text-sm font-medium text-center" style={{ color: "var(--color-text-primary)" }}>Pay Rent</span>
-                </div>
-              </button>
-            </Link>
-
-            <Link href="/tenant/complaint/new">
-              <button className="w-full p-3 md:p-4 rounded-lg md:rounded-xl border transition-all hover:shadow-md active:scale-95 group"
-                style={{ background: "var(--color-background-alt)", borderColor: "var(--color-border-light)" }}>
-                <div className="flex flex-col items-center gap-2">
-                  <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center" style={{ background: "#FFF5F5", color: "#FA0A12" }}>
-                    <MessageSquare className="w-4 h-4 md:w-5 md:h-5" />
+                  <div>
+                    <h3 className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Financial Health</h3>
+                    <p className="text-[9px] font-bold uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>
+                      Monthly reconciliation
+                    </p>
                   </div>
-                  <span className="text-xs md:text-sm font-medium text-center" style={{ color: "var(--color-text-primary)" }}>Report Issue</span>
                 </div>
-              </button>
-            </Link>
-
-            <Link href="/tenant/documents">
-              <button className="w-full p-3 md:p-4 rounded-lg md:rounded-xl border transition-all hover:shadow-md active:scale-95 group"
-                style={{ background: "var(--color-background-alt)", borderColor: "var(--color-border-light)" }}>
-                <div className="flex flex-col items-center gap-2">
-                  <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center" style={{ background: "var(--color-surface-tint)", color: "var(--color-text-muted)" }}>
-                    <FileCheck className="w-4 h-4 md:w-5 md:h-5" />
-                  </div>
-                  <span className="text-xs md:text-sm font-medium text-center" style={{ color: "var(--color-text-primary)" }}>Documents</span>
-                </div>
-              </button>
-            </Link>
-
-            <Link href="/tenant/profile">
-              <button className="w-full p-3 md:p-4 rounded-lg md:rounded-xl border transition-all hover:shadow-md active:scale-95 group"
-                style={{ background: "var(--color-background-alt)", borderColor: "var(--color-border-light)" }}>
-                <div className="flex flex-col items-center gap-2">
-                  <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center" style={{ background: "var(--color-surface-tint)", color: "var(--color-text-muted)" }}>
-                    <Settings className="w-4 h-4 md:w-5 md:h-5" />
-                  </div>
-                  <span className="text-xs md:text-sm font-medium text-center" style={{ color: "var(--color-text-primary)" }}>Settings</span>
-                </div>
-              </button>
-            </Link>
-          </div>
-        </div>
-
-        {/* ── Property Information ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-10">
-          <div
-            className="rounded-xl md:rounded-[2.5rem] p-4 md:p-8"
-            style={{
-              background: "var(--color-card)",
-              border: "1px solid var(--color-border-light)",
-              boxShadow: "var(--shadow-card)",
-            }}
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <div
-                className="w-8 md:w-10 h-8 md:h-10 rounded-lg text-white flex items-center justify-center"
-                style={{ background: "var(--color-dark)" }}
-              >
-                <Home className="w-4 md:w-5 h-4 md:h-5" />
-              </div>
-              <h3 className="text-lg md:text-xl font-medium md:font-black tracking-tight" style={{ color: "var(--color-text-primary)" }}>
-                Property Details
-              </h3>
-            </div>
-
-            <div className="space-y-4">
-              <div className="relative h-32 md:h-40 rounded-lg overflow-hidden mb-4">
-                <img
-                  src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
-                  alt="Property"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                <div className="absolute bottom-3 left-3">
-                  <p className="text-white text-sm font-medium">Unit {currentTenant.unitId}</p>
-                </div>
+                <Link href="/tenant/payments">
+                  <button className="flex items-center gap-2 px-4 py-2 rounded-xl text-white text-xs font-black transition-all hover:-translate-y-0.5"
+                    style={{ background: "linear-gradient(135deg,#1B5E45,#3DBE7A)", boxShadow: "0 4px 16px rgba(27,94,69,0.25)" }}>
+                    <Plus className="w-3.5 h-3.5" /> Pay Now
+                  </button>
+                </Link>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <p className="text-xs font-medium uppercase tracking-wider" style={{ color: "var(--color-text-muted)" }}>Property Type</p>
-                  <p className="text-sm font-medium" style={{ color: "var(--color-text-primary)" }}>2BR Apartment</p>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-xs font-medium uppercase tracking-wider" style={{ color: "var(--color-text-muted)" }}>Floor</p>
-                  <p className="text-sm font-medium" style={{ color: "var(--color-text-primary)" }}>5th Floor</p>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-xs font-medium uppercase tracking-wider" style={{ color: "var(--color-text-muted)" }}>Sq. Footage</p>
-                  <p className="text-sm font-medium" style={{ color: "var(--color-text-primary)" }}>1,200 sq ft</p>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-xs font-medium uppercase tracking-wider" style={{ color: "var(--color-text-muted)" }}>Lease Term</p>
-                  <p className="text-sm font-medium" style={{ color: "var(--color-text-primary)" }}>12 Months</p>
-                </div>
-              </div>
-
-              <div className="pt-4 border-t" style={{ borderColor: "var(--color-border-light)" }}>
-                <h4 className="text-sm font-medium mb-3" style={{ color: "var(--color-text-primary)" }}>Amenities</h4>
-                <div className="flex flex-wrap gap-2">
+              <div className="p-7 space-y-6">
+                {/* Trio */}
+                <div className="grid grid-cols-3 gap-4">
                   {[
-                    { icon: <Wifi className="w-3 h-3" />, label: "WiFi" },
-                    { icon: <Car className="w-3 h-3" />, label: "Parking" },
-                    { icon: <Dumbbell className="w-3 h-3" />, label: "Gym" },
-                    { icon: <Users className="w-3 h-3" />, label: "Pool" },
-                  ].map((amenity, i) => (
-                    <div key={i} className="flex items-center gap-1 px-2 py-1 rounded-full text-xs" style={{ background: "var(--color-surface-tint)", color: "var(--color-text-muted)" }}>
-                      {amenity.icon}
-                      <span>{amenity.label}</span>
+                    { label: "Gross Obligation", val: `KSh ${currentTenant.rent.toLocaleString()}`, color: "var(--color-text-primary)", bg: "var(--color-background-alt)" },
+                    { label: "Settled Credits", val: `KSh ${currentTenant.paidAmount.toLocaleString()}`, color: "var(--color-green-deep)", bg: "var(--color-surface-tint)" },
+                    { label: "Arrears Pending", val: `KSh ${currentTenant.arrears.toLocaleString()}`, color: "#dc2626", bg: "#FFF5F5" },
+                  ].map((item, i) => (
+                    <div key={i} className="rounded-2xl p-4 border"
+                      style={{ background: item.bg, borderColor: i === 2 ? "#FECACA" : "var(--color-border-light)" }}>
+                      <p className="text-[8px] font-black uppercase tracking-[0.3em] mb-2"
+                        style={{ color: "var(--color-text-muted)" }}>{item.label}</p>
+                      <p className="text-lg font-black tracking-tight leading-none" style={{ color: item.color }}>
+                        {item.val}
+                      </p>
                     </div>
                   ))}
                 </div>
-              </div>
-            </div>
-          </div>
 
-          <div
-            className="rounded-xl md:rounded-[2.5rem] p-4 md:p-8"
-            style={{
-              background: "var(--color-card)",
-              border: "1px solid var(--color-border-light)",
-              boxShadow: "var(--shadow-card)",
-            }}
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <div
-                className="w-8 md:w-10 h-8 md:h-10 rounded-lg text-white flex items-center justify-center"
-                style={{ background: "#FA0A12" }}
-              >
-                <Wrench className="w-4 md:w-5 h-4 md:h-5" />
-              </div>
-              <h3 className="text-lg md:text-xl font-medium md:font-black tracking-tight" style={{ color: "var(--color-text-primary)" }}>
-                Maintenance Status
-              </h3>
-            </div>
-
-            <div className="space-y-4">
-              <div className="flex items-center justify-between p-3 rounded-lg" style={{ background: "var(--color-background-alt)" }}>
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "#FFF5F5", color: "#FA0A12" }}>
-                    <Clock className="w-4 h-4" />
+                {/* Progress */}
+                <div className="space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <TrendingUp className="w-3.5 h-3.5" style={{ color: "#3DBE7A" }} />
+                      <span className="text-xs font-black" style={{ color: "var(--color-text-primary)" }}>Settlement Progress</span>
+                    </div>
+                    <span className="text-xs font-black px-2.5 py-1 rounded-full"
+                      style={{ color: "var(--color-green-deep)", background: "var(--color-surface-tint)" }}>
+                      {settlementPct}% Fulfilled
+                    </span>
                   </div>
-                  <div>
-                    <p className="text-sm font-medium" style={{ color: "var(--color-text-primary)" }}>Kitchen Faucet Repair</p>
-                    <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>Requested 2 days ago</p>
+                  <div className="relative h-2.5 rounded-full overflow-hidden" style={{ background: "var(--color-border-light)" }}>
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: `${settlementPct}%` }}
+                      transition={{ duration: 1.2, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                      className="absolute inset-y-0 left-0 rounded-full"
+                      style={{ background: "linear-gradient(90deg,#1B5E45,#3DBE7A)" }}
+                    />
                   </div>
                 </div>
-                <Badge text="In Progress" type="warning" />
               </div>
-
-              <div className="flex items-center justify-between p-3 rounded-lg" style={{ background: "var(--color-surface-tint)" }}>
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "var(--color-green-soft)", color: "var(--color-green-deep)" }}>
-                    <CheckCircle className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium" style={{ color: "var(--color-text-primary)" }}>AC Filter Replacement</p>
-                    <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>Completed yesterday</p>
-                  </div>
-                </div>
-                <Badge text="Completed" type="success" />
-              </div>
-
-              <Link href="/tenant/complaint/new">
-                <button className="w-full mt-4 px-4 py-3 rounded-lg font-medium text-sm transition-all active:scale-95" style={{ background: "var(--gradient-green)", color: "white" }}>
-                  Request Maintenance
-                </button>
-              </Link>
             </div>
-          </div>
+          </Reveal>
+
+          {/* Quick Actions — 1/3 */}
+          <Reveal delay={0.1}>
+            <div className="rounded-[1.8rem] border overflow-hidden h-full flex flex-col"
+              style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", boxShadow: "var(--shadow-card)" }}>
+              <div className="flex items-center gap-3 px-6 pt-6 pb-4 border-b"
+                style={{ borderColor: "var(--color-border-light)" }}>
+                <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-[#3DBE7A] text-white">
+                  <Zap className="w-4 h-4" />
+                </div>
+                <h3 className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Quick Actions</h3>
+              </div>
+
+              <div className="p-4 flex-1 grid grid-cols-2 gap-3 content-start">
+                {[
+                  { href: "/tenant/payments", icon: <DollarSign className="w-5 h-5" />, label: "Pay Rent", bg: "var(--color-surface-tint)", color: "var(--color-green-deep)" },
+                  { href: "/tenant/complaint/new", icon: <MessageSquare className="w-5 h-5" />, label: "Report Issue", bg: "#FFF5F5", color: "#dc2626" },
+                  { href: "/tenant/documents", icon: <FileCheck className="w-5 h-5" />, label: "Documents", bg: "var(--color-background-alt)", color: "var(--color-text-muted)" },
+                  { href: "/tenant/complaints", icon: <Activity className="w-5 h-5" />, label: "My Tickets", bg: "var(--color-background-alt)", color: "var(--color-text-muted)" },
+                ].map((action, i) => (
+                  <Link key={i} href={action.href}>
+                    <button className="w-full aspect-square flex flex-col items-center justify-center gap-2.5 rounded-2xl border transition-all hover:shadow-md hover:-translate-y-0.5 active:scale-95"
+                      style={{ background: action.bg, borderColor: "var(--color-border-light)" }}>
+                      <span style={{ color: action.color }}>{action.icon}</span>
+                      <span className="text-[10px] font-black text-center leading-tight"
+                        style={{ color: "var(--color-text-primary)" }}>{action.label}</span>
+                    </button>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </Reveal>
         </div>
 
-        {/* ── Important Documents & Announcements ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-10">
-          <div
-            className="rounded-xl md:rounded-[2.5rem] p-4 md:p-8"
-            style={{
-              background: "var(--color-card)",
-              border: "1px solid var(--color-border-light)",
-              boxShadow: "var(--shadow-card)",
-            }}
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <div
-                className="w-8 md:w-10 h-8 md:h-10 rounded-lg text-white flex items-center justify-center"
-                style={{ background: "var(--color-dark)" }}
-              >
-                <FileCheck className="w-4 md:w-5 h-4 md:h-5" />
-              </div>
-              <h3 className="text-lg md:text-xl font-medium md:font-black tracking-tight" style={{ color: "var(--color-text-primary)" }}>
-                Documents
-              </h3>
-            </div>
+        {/* ── PROPERTY + MAINTENANCE ────────────────────────────────────────── */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-            <div className="space-y-3">
-              {[
-                { name: "Lease Agreement", date: "Jan 2024", type: "PDF" },
-                { name: "House Rules", date: "Dec 2023", type: "PDF" },
-                { name: "Payment Receipt", date: "Feb 2024", type: "PDF" },
-              ].map((doc, i) => (
-                <div key={i} className="flex items-center justify-between p-3 rounded-lg transition-all hover:shadow-sm" style={{ background: "var(--color-background-alt)" }}>
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "var(--color-surface-tint)", color: "var(--color-text-muted)" }}>
-                      <FileText className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium" style={{ color: "var(--color-text-primary)" }}>{doc.name}</p>
-                      <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>{doc.date}</p>
-                    </div>
+          {/* Property Details */}
+          <Reveal>
+            <div className="rounded-[1.8rem] border overflow-hidden"
+              style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", boxShadow: "var(--shadow-card)" }}>
+              {/* Hero image */}
+              <div className="relative h-44 overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&q=80"
+                  alt="Unit Interior"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                <div className="absolute bottom-4 left-5 right-5 flex items-end justify-between">
+                  <div>
+                    <p className="text-white font-black text-base leading-none">Unit {currentTenant.unitId}</p>
+                    <p className="text-white/55 text-[10px] font-bold uppercase tracking-widest mt-1">2BR Apartment · 5th Floor</p>
                   </div>
-                  <button className="p-2 rounded-lg transition-all hover:bg-white" style={{ color: "var(--color-green-deep)" }}>
-                    <Download className="w-4 h-4" />
+                  <div className="px-2.5 py-1 rounded-full border border-[#3DBE7A]/30 text-[9px] font-black text-[#3DBE7A] uppercase tracking-widest"
+                    style={{ background: "rgba(61,190,122,0.12)" }}>
+                    Active Lease
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-6 space-y-5">
+                {/* Spec grid */}
+                <div className="grid grid-cols-2 gap-3">
+                  {[
+                    { label: "Sq. Footage", val: "1,200 sq ft" },
+                    { label: "Lease Term", val: "12 Months" },
+                    { label: "Move-in", val: "Jan 2024" },
+                    { label: "Lease End", val: "Dec 2024" },
+                  ].map((spec, i) => (
+                    <div key={i} className="rounded-xl p-3 border"
+                      style={{ background: "var(--color-background-alt)", borderColor: "var(--color-border-light)" }}>
+                      <p className="text-[8px] font-black uppercase tracking-[0.3em] mb-1" style={{ color: "var(--color-text-muted)" }}>{spec.label}</p>
+                      <p className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>{spec.val}</p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Amenities */}
+                <div className="pt-1">
+                  <p className="text-[9px] font-black uppercase tracking-[0.3em] mb-3" style={{ color: "var(--color-text-muted)" }}>Amenities</p>
+                  <div className="flex flex-wrap gap-2">
+                    {[
+                      { icon: <Wifi className="w-3 h-3" />, label: "WiFi" },
+                      { icon: <Car className="w-3 h-3" />, label: "Parking" },
+                      { icon: <Dumbbell className="w-3 h-3" />, label: "Gym" },
+                      { icon: <Users className="w-3 h-3" />, label: "Pool" },
+                    ].map((a, i) => (
+                      <div key={i} className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-bold"
+                        style={{ background: "var(--color-surface-tint)", borderColor: "var(--color-border-mid)", color: "var(--color-text-muted)" }}>
+                        {a.icon}{a.label}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+
+          {/* Maintenance */}
+          <Reveal delay={0.08}>
+            <div className="rounded-[1.8rem] border overflow-hidden flex flex-col"
+              style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", boxShadow: "var(--shadow-card)" }}>
+              {/* Header image strip */}
+              <div className="relative h-24 overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1581092921461-7031e4bfb83e?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&q=80"
+                  alt="Maintenance"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#1A1A1A]/85 to-[#1A1A1A]/40" />
+                <div className="absolute inset-0 flex items-center px-6 gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-red-500/20 border border-red-400/30 flex items-center justify-center">
+                    <Wrench className="w-4 h-4 text-red-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-black text-white">Maintenance</h3>
+                    <p className="text-[9px] font-bold uppercase tracking-widest text-white/40">Service Requests</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-6 flex-1 space-y-3">
+                {[
+                  { title: "Kitchen Faucet Repair", time: "2 days ago", status: "warning", statusLabel: "In Progress" },
+                  { title: "AC Filter Replacement", time: "Completed yesterday", status: "success", statusLabel: "Completed" },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center justify-between p-4 rounded-2xl border transition-all hover:shadow-sm"
+                    style={{ background: "var(--color-background-alt)", borderColor: "var(--color-border-light)" }}>
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-xl flex items-center justify-center"
+                        style={{
+                          background: item.status === "success" ? "var(--color-surface-tint)" : "#FFF5F5",
+                          color: item.status === "success" ? "var(--color-green-deep)" : "#dc2626",
+                        }}>
+                        {item.status === "success" ? <CheckCircle className="w-4 h-4" /> : <Clock className="w-4 h-4" />}
+                      </div>
+                      <div>
+                        <p className="text-xs font-black" style={{ color: "var(--color-text-primary)" }}>{item.title}</p>
+                        <p className="text-[9px] font-bold mt-0.5" style={{ color: "var(--color-text-muted)" }}>{item.time}</p>
+                      </div>
+                    </div>
+                    <Badge text={item.statusLabel} type={item.status as any} />
+                  </div>
+                ))}
+
+                <Link href="/tenant/complaint/new" className="block pt-2">
+                  <button className="w-full py-3 rounded-2xl text-white text-xs font-black uppercase tracking-widest transition-all hover:-translate-y-0.5 hover:shadow-lg flex items-center justify-center gap-2"
+                    style={{ background: "linear-gradient(135deg,#1B5E45,#3DBE7A)", boxShadow: "0 4px 16px rgba(27,94,69,0.25)" }}>
+                    <Plus className="w-3.5 h-3.5" /> Request Maintenance
                   </button>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div
-            className="rounded-xl md:rounded-[2.5rem] p-4 md:p-8"
-            style={{
-              background: "var(--color-card)",
-              border: "1px solid var(--color-border-light)",
-              boxShadow: "var(--shadow-card)",
-            }}
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <div
-                className="w-8 md:w-10 h-8 md:h-10 rounded-lg text-white flex items-center justify-center"
-                style={{ background: "#FA0A12" }}
-              >
-                <Bell className="w-4 md:w-5 h-4 md:h-5" />
-              </div>
-              <h3 className="text-lg md:text-xl font-medium md:font-black tracking-tight" style={{ color: "var(--color-text-primary)" }}>
-                Announcements
-              </h3>
-            </div>
-
-            <div className="space-y-4">
-              <div className="p-4 rounded-lg border-l-4" style={{ background: "var(--color-background-alt)", borderLeftColor: "var(--color-green-deep)" }}>
-                <div className="flex items-start gap-3">
-                  <div className="w-2 h-2 rounded-full mt-2" style={{ background: "var(--color-green-deep)" }} />
-                  <div>
-                    <p className="text-sm font-medium mb-1" style={{ color: "var(--color-text-primary)" }}>Scheduled Maintenance</p>
-                    <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>Elevator maintenance on March 15th, 2-4 PM</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-4 rounded-lg border-l-4" style={{ background: "var(--color-background-alt)", borderLeftColor: "#FA0A12" }}>
-                <div className="flex items-start gap-3">
-                  <div className="w-2 h-2 rounded-full mt-2" style={{ background: "#FA0A12" }} />
-                  <div>
-                    <p className="text-sm font-medium mb-1" style={{ color: "var(--color-text-primary)" }}>Community Event</p>
-                    <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>Neighborhood cleanup this Saturday at 9 AM</p>
-                  </div>
-                </div>
+                </Link>
               </div>
             </div>
-          </div>
-
-          <div
-            className="rounded-xl md:rounded-[2.5rem] p-4 md:p-8"
-            style={{
-              background: "var(--color-card)",
-              border: "1px solid var(--color-border-light)",
-              boxShadow: "var(--shadow-card)",
-            }}
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <div
-                className="w-8 md:w-10 h-8 md:h-10 rounded-lg text-white flex items-center justify-center"
-                style={{ background: "var(--color-dark)" }}
-              >
-                <Phone className="w-4 md:w-5 h-4 md:h-5" />
-              </div>
-              <h3 className="text-lg md:text-xl font-medium md:font-black tracking-tight" style={{ color: "var(--color-text-primary)" }}>
-                Emergency Contacts
-              </h3>
-            </div>
-
-            <div className="space-y-4">
-              <div className="flex items-center justify-between p-3 rounded-lg" style={{ background: "var(--color-background-alt)" }}>
-                <div>
-                  <p className="text-sm font-medium" style={{ color: "var(--color-text-primary)" }}>Property Manager</p>
-                  <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>+254 700 123 456</p>
-                </div>
-                <button className="p-2 rounded-lg transition-all hover:bg-white" style={{ color: "var(--color-green-deep)" }}>
-                  <Phone className="w-4 h-4" />
-                </button>
-              </div>
-
-              <div className="flex items-center justify-between p-3 rounded-lg" style={{ background: "var(--color-background-alt)" }}>
-                <div>
-                  <p className="text-sm font-medium" style={{ color: "var(--color-text-primary)" }}>Maintenance</p>
-                  <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>+254 700 654 321</p>
-                </div>
-                <button className="p-2 rounded-lg transition-all hover:bg-white" style={{ color: "var(--color-green-deep)" }}>
-                  <Phone className="w-4 h-4" />
-                </button>
-              </div>
-
-              <div className="flex items-center justify-between p-3 rounded-lg" style={{ background: "var(--color-background-alt)" }}>
-                <div>
-                  <p className="text-sm font-medium" style={{ color: "var(--color-text-primary)" }}>Security</p>
-                  <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>+254 700 987 654</p>
-                </div>
-                <button className="p-2 rounded-lg transition-all hover:bg-white" style={{ color: "var(--color-green-deep)" }}>
-                  <Phone className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          </div>
+          </Reveal>
         </div>
 
-        {/* ── Property Guidelines ── */}
-        <div
-          className="rounded-xl md:rounded-[2.5rem] p-4 md:p-8"
-          style={{
-            background: "var(--color-card)",
-            border: "1px solid var(--color-border-light)",
-            boxShadow: "var(--shadow-card)",
-          }}
-        >
-          <div className="flex items-center gap-3 mb-6">
-            <div
-              className="w-8 md:w-10 h-8 md:h-10 rounded-lg text-white flex items-center justify-center"
-              style={{ background: "var(--gradient-green)", boxShadow: "var(--shadow-green)" }}
-            >
-              <BookOpen className="w-4 md:w-5 h-4 md:h-5" />
-            </div>
-            <h3 className="text-lg md:text-xl font-medium md:font-black tracking-tight" style={{ color: "var(--color-text-primary)" }}>
-              Property Guidelines
-            </h3>
-          </div>
+        {/* ── ACTIVITY: PAYMENTS + COMPLAINTS ──────────────────────────────── */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="p-4 rounded-lg" style={{ background: "var(--color-background-alt)" }}>
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "var(--color-green-soft)", color: "var(--color-green-deep)" }}>
-                  <Clock className="w-4 h-4" />
-                </div>
-                <h4 className="text-sm font-medium" style={{ color: "var(--color-text-primary)" }}>Quiet Hours</h4>
-              </div>
-              <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>10 PM - 8 AM daily</p>
-            </div>
-
-            <div className="p-4 rounded-lg" style={{ background: "var(--color-background-alt)" }}>
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "var(--color-green-soft)", color: "var(--color-green-deep)" }}>
-                  <Users className="w-4 h-4" />
-                </div>
-                <h4 className="text-sm font-medium" style={{ color: "var(--color-text-primary)" }}>Guests</h4>
-              </div>
-              <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>Max 2 overnight guests</p>
-            </div>
-
-            <div className="p-4 rounded-lg" style={{ background: "var(--color-background-alt)" }}>
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "var(--color-green-soft)", color: "var(--color-green-deep)" }}>
-                  <Car className="w-4 h-4" />
-                </div>
-                <h4 className="text-sm font-medium" style={{ color: "var(--color-text-primary)" }}>Parking</h4>
-              </div>
-              <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>1 assigned space per unit</p>
-            </div>
-
-            <div className="p-4 rounded-lg" style={{ background: "var(--color-background-alt)" }}>
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "var(--color-green-soft)", color: "var(--color-green-deep)" }}>
-                  <Wrench className="w-4 h-4" />
-                </div>
-                <h4 className="text-sm font-medium" style={{ color: "var(--color-text-primary)" }}>Maintenance</h4>
-              </div>
-              <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>24/7 emergency response</p>
-            </div>
-          </div>
-
-          <div className="mt-6 pt-6 border-t" style={{ borderColor: "var(--color-border-light)" }}>
-            <Link href="/tenant/guidelines">
-              <button className="flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all hover:shadow-md" style={{ background: "var(--color-surface-tint)", color: "var(--color-text-primary)" }}>
-                <Eye className="w-4 h-4" />
-                View Full Guidelines
-              </button>
-            </Link>
-          </div>
-        </div>
-
-        {/* ── Activity Streams & History ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-10">
-          {/* Ledger History - Mobile Optimized */}
-          <div
-            className="rounded-lg md:rounded-[2.5rem] p-4 md:p-8 lg:p-10"
-            style={{
-              background: "var(--color-card)",
-              border: "1px solid var(--color-border-light)",
-              boxShadow: "var(--shadow-card)",
-            }}
-          >
-            {/* Header */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 md:mb-8">
-              <div className="flex items-center gap-2 md:gap-3">
-                <div
-                  className="w-8 md:w-10 h-8 md:h-10 rounded-lg md:rounded-xl text-white flex items-center justify-center flex-shrink-0"
-                  style={{ background: "var(--color-dark)" }}
-                >
-                  <History className="w-4 md:w-5 h-4 md:h-5" />
-                </div>
-                <h3 className="text-base md:text-lg lg:text-xl font-semibold md:font-bold tracking-tight" style={{ color: "var(--color-text-primary)" }}>
-                  Ledger History
-                </h3>
-              </div>
-              <Link
-                href="/tenant/payments"
-                className="text-[9px] md:text-[10px] font-medium uppercase tracking-wider md:tracking-widest flex items-center gap-1 md:gap-2 transition-transform hover:translate-x-1 whitespace-nowrap"
-                style={{ color: "var(--color-green-deep)" }}
-              >
-                View All <ArrowRight className="w-3 h-3" />
-              </Link>
-            </div>
-
-            {/* Payment Items */}
-            <div className="space-y-2 md:space-y-3 lg:space-y-4">
-              {tenantPayments.slice(0, 4).map((payment) => (
-                <div
-                  key={payment.id}
-                  className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 p-3 md:p-4 lg:p-5 rounded-lg md:rounded-2xl lg:rounded-3xl transition-all duration-300 hover:shadow-lg"
-                  style={{
-                    background: "var(--color-background-alt)",
-                    border: "1px solid transparent",
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLDivElement).style.background = "var(--color-card)";
-                    (e.currentTarget as HTMLDivElement).style.borderColor = "var(--color-border-light)";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLDivElement).style.background = "var(--color-background-alt)";
-                    (e.currentTarget as HTMLDivElement).style.borderColor = "transparent";
-                  }}
-                >
-                  {/* Left side - Icon & Details */}
-                  <div className="flex items-center gap-3 md:gap-4 flex-1">
-                    <div
-                      className="w-10 h-10 md:w-12 md:h-12 rounded-lg md:rounded-2xl flex items-center justify-center flex-shrink-0"
-                      style={{ background: "var(--color-card)", border: "1px solid var(--color-border-light)", color: "var(--color-text-muted)" }}
-                    >
-                      <Calendar className="w-5 h-5 md:w-6 md:h-6" />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <p className="text-sm md:text-base font-medium tracking-tight truncate" style={{ color: "var(--color-text-primary)" }}>
-                        {payment.month}
-                      </p>
-                      <p className="text-[10px] md:text-xs font-medium uppercase tracking-wider mt-0.5 md:mt-1" style={{ color: "var(--color-text-muted)" }}>
-                        {payment.date}
-                      </p>
-                    </div>
+          {/* Payment History */}
+          <Reveal>
+            <div className="rounded-[1.8rem] border overflow-hidden"
+              style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", boxShadow: "var(--shadow-card)" }}>
+              <div className="flex items-center justify-between px-6 pt-6 pb-5 border-b"
+                style={{ borderColor: "var(--color-border-light)" }}>
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-[#3DBE7A]">
+                    <History className="w-4 h-4 text-white" />
                   </div>
+                  <div>
+                    <h3 className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Ledger History</h3>
+                    <p className="text-[9px] font-bold uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>Payment records</p>
+                  </div>
+                </div>
+                <Link href="/tenant/payments"
+                  className="text-[9px] font-black uppercase tracking-widest flex items-center gap-1 hover:gap-2 transition-all"
+                  style={{ color: "var(--color-green-deep)" }}>
+                  View All <ArrowRight className="w-3 h-3" />
+                </Link>
+              </div>
 
-                  {/* Right side - Amount & Badge */}
-                  <div className="flex items-center justify-between sm:flex-col sm:items-end gap-2 sm:gap-1 md:gap-2">
-                    <p className="font-medium tabular-nums text-sm md:text-base lg:text-lg leading-none" style={{ color: "var(--color-text-primary)" }}>
-                      KSh {payment.amount.toLocaleString()}
-                    </p>
-                    <div className="scale-95 md:scale-100 origin-right">
+              <div className="p-5 space-y-2">
+                {tenantPayments.slice(0, 4).map((payment) => (
+                  <div key={payment.id}
+                    className="flex items-center justify-between p-4 rounded-2xl border transition-all hover:shadow-sm group"
+                    style={{ background: "var(--color-background-alt)", borderColor: "transparent" }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLElement).style.borderColor = "var(--color-border-light)";
+                      (e.currentTarget as HTMLElement).style.background = "var(--color-card)";
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLElement).style.borderColor = "transparent";
+                      (e.currentTarget as HTMLElement).style.background = "var(--color-background-alt)";
+                    }}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-xl flex items-center justify-center border"
+                        style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", color: "var(--color-text-muted)" }}>
+                        <Calendar className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-black" style={{ color: "var(--color-text-primary)" }}>{payment.month}</p>
+                        <p className="text-[9px] font-bold mt-0.5" style={{ color: "var(--color-text-muted)" }}>{payment.date}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <p className="text-sm font-black tabular-nums" style={{ color: "var(--color-text-primary)" }}>
+                        KSh {payment.amount.toLocaleString()}
+                      </p>
                       <Badge
-                        text={payment.status === "completed" ? "Verified" : "Syncing"}
+                        text={payment.status === "completed" ? "Verified" : "Pending"}
                         type={payment.status === "completed" ? "success" : "warning"}
                       />
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+          </Reveal>
 
           {/* Support Requests */}
-          <div
-            className="rounded-[2.5rem] p-8 md:p-10"
-            style={{
-              background: "var(--color-card)",
-              border: "1px solid var(--color-border-light)",
-              boxShadow: "var(--shadow-card)",
-            }}
-          >
-            <div className="flex items-center justify-between mb-8">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl text-white flex items-center justify-center" style={{ background: "#FA0A12" }}>
-                  <Activity className="w-5 h-5" />
+          <Reveal delay={0.08}>
+            <div className="rounded-[1.8rem] border overflow-hidden"
+              style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", boxShadow: "var(--shadow-card)" }}>
+              <div className="flex items-center justify-between px-6 pt-6 pb-5 border-b"
+                style={{ borderColor: "var(--color-border-light)" }}>
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-red-500">
+                    <Activity className="w-4 h-4 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Support Requests</h3>
+                    <p className="text-[9px] font-bold uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>Active tickets</p>
+                  </div>
                 </div>
-                <h3 className="text-xl font-semibold tracking-tight" style={{ color: "var(--color-text-primary)" }}>
-                  Support Requests
-                </h3>
+                <Link href="/tenant/complaints"
+                  className="text-[9px] font-black uppercase tracking-widest flex items-center gap-1 hover:gap-2 transition-all"
+                  style={{ color: "var(--color-green-deep)" }}>
+                  All Tickets <ArrowRight className="w-3 h-3" />
+                </Link>
               </div>
-              <Link
-                href="/tenant/complaints"
-                className="text-[10px] font-medium uppercase tracking-widest flex items-center gap-2 transition-transform hover:translate-x-1"
-                style={{ color: "var(--color-green-deep)" }}
-              >
-                Tickets <ArrowRight className="w-3 h-3" />
-              </Link>
-            </div>
 
-            <div className="space-y-4">
-              {tenantComplaints.map((complaint) => (
-                <div
-                  key={complaint.id}
-                  className="p-6 border-l-4 rounded-r-3xl transition-all duration-300"
-                  style={{ background: "var(--color-background-alt)", borderLeftColor: "var(--color-border-mid)" }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLDivElement).style.borderLeftColor = "var(--color-green-deep)";
-                    (e.currentTarget as HTMLDivElement).style.background = "var(--color-card)";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLDivElement).style.borderLeftColor = "var(--color-border-mid)";
-                    (e.currentTarget as HTMLDivElement).style.background = "var(--color-background-alt)";
-                  }}
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="space-y-2">
-                      <span className="text-[9px] font-medium uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>
-                        {complaint.category}
-                      </span>
-                      <p className="font-medium tracking-tight leading-snug" style={{ color: "var(--color-text-primary)" }}>
-                        {complaint.title}
-                      </p>
+              <div className="p-5 space-y-2">
+                {tenantComplaints.length > 0 ? tenantComplaints.map((complaint) => (
+                  <div key={complaint.id}
+                    className="p-4 rounded-2xl border-l-[3px] transition-all hover:shadow-sm"
+                    style={{
+                      background: "var(--color-background-alt)",
+                      borderLeftColor: complaint.status === "resolved" ? "var(--color-green-deep)" : complaint.status === "in-progress" ? "#f59e0b" : "#ef4444",
+                    }}>
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <p className="text-[8px] font-black uppercase tracking-[0.3em] mb-1" style={{ color: "var(--color-text-muted)" }}>
+                          {complaint.category}
+                        </p>
+                        <p className="text-xs font-black leading-snug" style={{ color: "var(--color-text-primary)" }}>
+                          {complaint.title}
+                        </p>
+                      </div>
+                      <Badge
+                        text={complaint.status === "resolved" ? "Resolved" : complaint.status === "in-progress" ? "Active" : "New"}
+                        type={complaint.status === "resolved" ? "success" : complaint.status === "in-progress" ? "warning" : "error"}
+                      />
                     </div>
-                    <Badge
-                      text={complaint.status === "resolved" ? "Resolved" : complaint.status === "in-progress" ? "Active" : "New"}
-                      type={complaint.status === "resolved" ? "success" : complaint.status === "in-progress" ? "warning" : "error"}
-                    />
                   </div>
-                </div>
-              ))}
-              {tenantComplaints.length === 0 && (
-                <div className="py-20 text-center space-y-4">
-                  <div
-                    className="w-16 h-16 rounded-full flex items-center justify-center mx-auto"
-                    style={{ background: "var(--color-surface-tint)", color: "var(--color-green-bright)" }}
-                  >
-                    <ShieldCheck className="w-8 h-8" />
+                )) : (
+                  <div className="py-14 flex flex-col items-center gap-3">
+                    <div className="w-14 h-14 rounded-2xl flex items-center justify-center"
+                      style={{ background: "var(--color-surface-tint)", color: "#3DBE7A" }}>
+                      <ShieldCheck className="w-7 h-7" strokeWidth={1.5} />
+                    </div>
+                    <p className="text-[9px] font-black uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>
+                      No Active Incidents
+                    </p>
                   </div>
-                  <p className="text-sm font-medium uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>
-                    No Active Incidents
-                  </p>
-                </div>
-              )}
+                )}
+              </div>
             </div>
-          </div>
+          </Reveal>
         </div>
+
+        {/* ── DOCS + ANNOUNCEMENTS + CONTACTS ──────────────────────────────── */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+          {/* Documents */}
+          <Reveal>
+            <div className="rounded-[1.8rem] border overflow-hidden"
+              style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", boxShadow: "var(--shadow-card)" }}>
+              <div className="flex items-center gap-3 px-6 pt-6 pb-5 border-b"
+                style={{ borderColor: "var(--color-border-light)" }}>
+                <div className="w-9 h-9 rounded-xl bg-[#3DBE7A] flex items-center justify-center">
+                  <FileCheck className="w-4 h-4 text-white" />
+                </div>
+                <h3 className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Documents</h3>
+              </div>
+
+              <div className="p-5 space-y-2">
+                {[
+                  { name: "Lease Agreement", date: "Jan 2024" },
+                  { name: "House Rules", date: "Dec 2023" },
+                  { name: "Payment Receipt", date: "Feb 2024" },
+                ].map((doc, i) => (
+                  <div key={i}
+                    className="flex items-center justify-between p-3.5 rounded-xl border transition-all hover:shadow-sm"
+                    style={{ background: "var(--color-background-alt)", borderColor: "var(--color-border-light)" }}>
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg flex items-center justify-center"
+                        style={{ background: "var(--color-surface-tint)", color: "var(--color-text-muted)" }}>
+                        <FileText className="w-3.5 h-3.5" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-black" style={{ color: "var(--color-text-primary)" }}>{doc.name}</p>
+                        <p className="text-[9px] font-bold" style={{ color: "var(--color-text-muted)" }}>{doc.date}</p>
+                      </div>
+                    </div>
+                    <button className="w-7 h-7 rounded-lg flex items-center justify-center transition-all hover:bg-[#E8F5EE]"
+                      style={{ color: "var(--color-green-deep)" }}>
+                      <Download className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+
+          {/* Announcements */}
+          <Reveal delay={0.06}>
+            <div className="rounded-[1.8rem] border overflow-hidden"
+              style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", boxShadow: "var(--shadow-card)" }}>
+              <div className="flex items-center gap-3 px-6 pt-6 pb-5 border-b"
+                style={{ borderColor: "var(--color-border-light)" }}>
+                <div className="w-9 h-9 rounded-xl bg-red-500 flex items-center justify-center">
+                  <Bell className="w-4 h-4 text-white" />
+                </div>
+                <h3 className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Announcements</h3>
+              </div>
+
+              <div className="p-5 space-y-3">
+                {[
+                  {
+                    title: "Scheduled Maintenance",
+                    desc: "Elevator maintenance on March 15th, 2–4 PM.",
+                    color: "var(--color-green-deep)",
+                  },
+                  {
+                    title: "Community Event",
+                    desc: "Neighborhood cleanup this Saturday at 9 AM.",
+                    color: "#ef4444",
+                  },
+                  {
+                    title: "Utility Notice",
+                    desc: "Water interruption on March 18th, 8–10 AM.",
+                    color: "#f59e0b",
+                  },
+                ].map((item, i) => (
+                  <div key={i} className="p-4 rounded-2xl border-l-[3px]"
+                    style={{ background: "var(--color-background-alt)", borderLeftColor: item.color }}>
+                    <div className="flex items-start gap-2.5">
+                      <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{ background: item.color }} />
+                      <div>
+                        <p className="text-xs font-black mb-0.5" style={{ color: "var(--color-text-primary)" }}>{item.title}</p>
+                        <p className="text-[10px] font-medium leading-relaxed" style={{ color: "var(--color-text-muted)" }}>{item.desc}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+
+          {/* Emergency Contacts */}
+          <Reveal delay={0.12}>
+            <div className="rounded-[1.8rem] border overflow-hidden"
+              style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", boxShadow: "var(--shadow-card)" }}>
+              {/* Image header */}
+              <div className="relative h-24 overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1423666639041-f56000c27a9a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                  alt="Contacts"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#1A1A1A]/85 to-[#1A1A1A]/40" />
+                <div className="absolute inset-0 flex items-center px-6 gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center">
+                    <Phone className="w-4 h-4 text-white/70" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-black text-white">Emergency Contacts</h3>
+                    <p className="text-[9px] font-bold uppercase tracking-widest text-white/40">Available 24/7</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-5 space-y-2">
+                {[
+                  { role: "Property Manager", num: "+254 700 123 456" },
+                  { role: "Maintenance", num: "+254 700 654 321" },
+                  { role: "Security", num: "+254 700 987 654" },
+                ].map((contact, i) => (
+                  <div key={i}
+                    className="flex items-center justify-between p-3.5 rounded-xl border"
+                    style={{ background: "var(--color-background-alt)", borderColor: "var(--color-border-light)" }}>
+                    <div>
+                      <p className="text-xs font-black" style={{ color: "var(--color-text-primary)" }}>{contact.role}</p>
+                      <p className="text-[10px] font-bold mt-0.5" style={{ color: "var(--color-text-muted)" }}>{contact.num}</p>
+                    </div>
+                    <button className="w-8 h-8 rounded-xl flex items-center justify-center transition-all hover:bg-[#E8F5EE]"
+                      style={{ color: "var(--color-green-deep)" }}>
+                      <Phone className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+        </div>
+
       </div>
     </TenantLayout>
   );

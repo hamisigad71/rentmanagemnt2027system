@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { 
   Building2, Users, TrendingUp, ArrowRight, CheckCircle2, 
   ShieldCheck, Zap, Globe, Heart, MessageSquare, CreditCard,
@@ -391,40 +392,145 @@ export default function LandingPage() {
             </div>
 
             {/* Developer Section - Collapsible */}
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-8">
-              {/* Developer Info - Toggleable */}
-              <div className={`overflow-hidden transition-all duration-500 ease-in-out ${showDeveloper ? 'max-h-20 opacity-100' : 'max-h-0 opacity-0'}`}>
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-[#1B5E45] to-[#3DBE7A] flex items-center justify-center shadow-lg shadow-[#1B5E45]/20">
-                    <span className="text-white font-black text-xs md:text-sm">D</span>
-                  </div>
-                  <div className="flex flex-col">
-                    <p className="text-[7px] md:text-[8px] font-black uppercase tracking-[0.2em]" style={{ color: "var(--color-text-muted)" }}>Crafted by</p>
-                    <p className="text-xs md:text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Daysman Gad</p>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Status Badge & Toggle Button */}
-              <div className="flex items-center gap-3 md:gap-4">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border bg-slate-50" style={{ borderColor: "var(--color-border-light)" }}>
-                  <div className="w-2 h-2 rounded-full bg-[#3DBE7A] animate-pulse" />
-                  <span className="text-[7px] md:text-[8px] font-black uppercase tracking-[0.2em] whitespace-nowrap" style={{ color: "var(--color-text-muted)" }}>Crafted with precision</span>
-                </div>
-                
-                <button
-                  onClick={() => setShowDeveloper(!showDeveloper)}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full border transition-all duration-300 hover:bg-slate-100 whitespace-nowrap"
-                  style={{ borderColor: "var(--color-border-light)" }}
-                  title={showDeveloper ? "Hide developer" : "Show developer"}
+           <Box position="relative" w={{ base: "100%", md: "auto" }}>
+              <Button
+                className="ft-creator-btn"
+                size="xs"
+                h={{ base: "36px", md: "32px" }}
+                px={4}
+                w="auto"
+                bg={L.card}
+                color={L.muted}
+                border="1px solid"
+                borderColor={L.cardBorder}
+                borderRadius="full"
+                fontWeight="600"
+                fontSize="11px"
+                rightIcon={
+                  <Icon
+                    as={creatorOpen ? FiChevronUp : FiChevronDown}
+                    boxSize={3}
+                    transition="transform .2s ease"
+                  />
+                }
+                _hover={{}}
+                onClick={() => setCreatorOpen(!creatorOpen)}
+              >
+                <Icon as={FiCode} boxSize={3} mr={1.5} color={L.accentLight} />
+                Built by
+              </Button>
+
+              {creatorOpen && (
+                <Box
+                  position="absolute"
+                  bottom="calc(100% + 8px)"
+                  right={0}
+                  bg={L.card}
+                  border="1px solid"
+                  borderColor={L.cardBorder}
+                  borderRadius="20px"
+                  boxShadow="0 16px 48px rgba(0,0,0,0.12)"
+                  p={5}
+                  w="260px"
+                  zIndex={100}
                 >
-                  <span className="text-[7px] md:text-[8px] font-black uppercase tracking-[0.2em]" style={{ color: "var(--color-text-muted)" }}>
-                    {showDeveloper ? 'Hide' : 'Show'}
-                  </span>
-                  <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${showDeveloper ? 'rotate-180' : ''}`} style={{ color: "var(--color-text-muted)" }} />
-                </button>
-              </div>
-            </div>
+                  {/* Top accent */}
+                  <Box
+                    h="3px"
+                    mx={-5}
+                    mt={-5}
+                    mb={4}
+                    bg={`linear-gradient(90deg, ${L.accent}, ${L.accentLight}, #72b872)`}
+                    borderRadius="20px 20px 0 0"
+                  />
+
+                  <VStack spacing={4} align="stretch">
+                    {/* Avatar + name */}
+                    <HStack spacing={3}>
+                      <Image
+                        src="/profile-avatar.jpg"
+                        alt="Daysman Gad"
+                        boxSize="44px"
+                        borderRadius="full"
+                        objectFit="cover"
+                      />
+                      <Box>
+                        <Text
+                          fontFamily="'Syne', sans-serif"
+                          fontSize="15px"
+                          fontWeight="800"
+                          color={L.text}
+                          letterSpacing="-0.01em"
+                        >
+                          Daysman Gad
+                        </Text>
+                        <Text fontSize="11px" color={L.muted}>
+                          Full-stack Developer
+                        </Text>
+                      </Box>
+                    </HStack>
+
+                    <Divider borderColor={L.cardBorder} />
+
+                    <VStack spacing={2.5} align="stretch">
+                      <Text fontSize="12px" color={L.muted} lineHeight="1.6">
+                        Designed & built with care. Crafted for DriveKE —
+                        Kenya's premier car hire platform.
+                      </Text>
+                      <HStack spacing={2} flexWrap="wrap">
+                        {["Next.js", "Chakra UI", "TypeScript"].map((t) => (
+                          <Box
+                            key={t}
+                            bg={L.accentGlow}
+                            border="1px solid"
+                            borderColor={L.cardBorder}
+                            borderRadius="full"
+                            px={2.5}
+                            py={0.5}
+                          >
+                            <Text
+                              fontSize="10px"
+                              fontWeight="700"
+                              color={L.accentLight}
+                            >
+                              {t}
+                            </Text>
+                          </Box>
+                        ))}
+                      </HStack>
+                    </VStack>
+
+                    <Divider borderColor={L.cardBorder} />
+
+                    <HStack justify="space-between" align="center">
+                      <Text fontSize="11px" color={L.subtle}>
+                        Made with{" "}
+                        <Text as="span" className="heart" color={L.accent}>
+                          ♥
+                        </Text>{" "}
+                        in Nairobi
+                      </Text>
+                      <Box
+                        px={3}
+                        py={1}
+                        bg={L.accentGlow2}
+                        borderRadius="full"
+                        border="1px solid"
+                        borderColor={L.cardBorder}
+                      >
+                        <Text
+                          fontSize="10px"
+                          fontWeight="700"
+                          color={L.accentLight}
+                        >
+                          v1.0.0
+                        </Text>
+                      </Box>
+                    </HStack>
+                  </VStack>
+                </Box>
+              )}
+            </Box>
           </div>
         </div>
       </footer>

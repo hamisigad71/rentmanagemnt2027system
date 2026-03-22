@@ -54,22 +54,22 @@ export default function LandlordLayout({ children }: { children: React.ReactNode
           sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         } ${sidebarCollapsed ? "md:w-20" : "md:w-64"}`}
         style={{
-          background: "var(--color-dark)",
-          borderRight: "1px solid var(--color-border-dark)",
-          boxShadow: "4px 0 24px rgba(0,0,0,0.25)",
+          background: "#FFFFFF",
+          borderRight: "1px solid #E5E7EB",
+          boxShadow: "4px 0 24px rgba(0,0,0,0.08)",
         }}
       >
         {/* Logo */}
         <div
           className={`flex items-center transition-all duration-300 ${sidebarCollapsed ? "flex-col p-4 gap-4" : "p-6 justify-between"}`}
-          style={{ borderBottom: "1px solid var(--color-border-dark)" }}
+          style={{ borderBottom: "1px solid #E5E7EB" }}
         >
           <Logo size="sm" isDark variant={sidebarCollapsed ? "icon" : "full"} />
           
           <div className="flex items-center gap-1">
             <button
-              className="hidden md:flex p-1.5 rounded-lg transition-colors hover:bg-white/10"
-              style={{ color: "var(--color-text-muted)" }}
+              className="hidden md:flex p-1.5 rounded-lg transition-colors hover:bg-gray-200"
+              style={{ color: "#6B7280" }}
               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
               title={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
             >
@@ -81,7 +81,7 @@ export default function LandlordLayout({ children }: { children: React.ReactNode
             </button>
             <button
               className="md:hidden transition-colors"
-              style={{ color: "var(--color-text-muted)" }}
+              style={{ color: "#6B7280" }}
               onClick={() => setSidebarOpen(false)}
             >
               <X className="w-5 h-5" />
@@ -101,14 +101,14 @@ export default function LandlordLayout({ children }: { children: React.ReactNode
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${sidebarCollapsed ? "md:justify-center md:px-3" : ""}`}
                 style={{
                   background: isActive ? "rgba(61, 190, 122, 0.12)" : "transparent",
-                  color: isActive ? "#3DBE7A" : "white",
+                  color: isActive ? "#3DBE7A" : "#374151",
                   borderLeft: isActive ? "2px solid #3DBE7A" : "2px solid transparent",
                 }}
                 title={sidebarCollapsed ? link.label : ""}
               >
                 <span
                   className="transition-colors flex-shrink-0"
-                  style={{ color: isActive ? "#3DBE7A" : "rgba(250, 250, 248, 0.5)" }}
+                  style={{ color: isActive ? "#3DBE7A" : "#9CA3AF" }}
                 >
                   {link.icon}
                 </span>
@@ -123,12 +123,12 @@ export default function LandlordLayout({ children }: { children: React.ReactNode
         {/* Logout */}
         <div
           className="p-4"
-          style={{ borderTop: "1px solid var(--color-border-dark)" }}
+          style={{ borderTop: "1px solid #e5e5e5" }}
         >
           <button
             onClick={() => { logout(); setSidebarOpen(false); }}
             suppressHydrationWarning
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-red-400 hover:text-red-300 hover:bg-red-900/20 font-medium text-sm ${sidebarCollapsed ? "md:justify-center md:px-3" : ""}`}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-red-500 hover:text-red-600 hover:bg-red-50 font-medium text-sm ${sidebarCollapsed ? "md:justify-center md:px-3" : ""}`}
             title={sidebarCollapsed ? "Logout" : ""}
           >
             <LogOut className="w-5 h-5 flex-shrink-0" />
@@ -196,9 +196,7 @@ export default function LandlordLayout({ children }: { children: React.ReactNode
         </div>
 
         <div className="p-4 border-t" style={{ borderColor: "var(--color-border-light)", background: "var(--color-background)" }}>
-          <div className="flex justify-end">
-            <DeveloperPanel />
-          </div>
+          <DeveloperPanel />
         </div>
 
         <BottomNav

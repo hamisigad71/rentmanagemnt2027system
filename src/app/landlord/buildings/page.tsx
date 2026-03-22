@@ -1,421 +1,576 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import LandlordLayout from "@/components/LandlordLayout";
-import Button from "@/components/Button";
-import Badge from "@/components/Badge";
 import Modal from "@/components/Modal";
 import BuildingLedgerModal from "@/components/BuildingLedgerModal";
-import { mockBuildings, mockUnits } from "@/data/mockData";
-import { 
-  Plus, 
-  Building2, 
-  MapPin, 
-  Calendar, 
-  LayoutGrid, 
-  CheckCircle2, 
-  MoreVertical, 
-  Search, 
-  Filter, 
-  Camera, 
-  ShieldCheck, 
-  Map, 
-  Briefcase, 
-  Users, 
-  TrendingUp, 
-  Activity,
-  ArrowRight,
-  Database
+import { mockBuildings, mockUnits, mockTenants } from "@/data/mockData";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import {
+  Plus, Building2, MapPin, Calendar, LayoutGrid, CheckCircle2,
+  Search, Camera, ShieldCheck, Users, TrendingUp, ArrowRight,
+  ArrowUpRight, ChevronRight, Home, DollarSign, Layers,
+  Wifi, Car, Dumbbell, Zap, Shield, X,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { LOADER_DURATION } from "@/utils/constants";
 
+/* ─── helpers ───────────────────────────────────────────────────────────────── */
+function getOccupancyRate(buildingId: string) {
+  const units = mockUnits.filter(u => u.buildingId === buildingId);
+  if (!units.length) return 30;
+  return Math.round((units.filter(u => u.status === "occupied").length / units.length) * 100);
+}
+function getBuildingUnits(buildingId: string) {
+  return mockUnits.filter(u => u.buildingId === buildingId);
+}
+function getBuildingTenants(buildingId: string) {
+  const unitIds = getBuildingUnits(buildingId).map(u => u.id);
+  return mockTenants.filter(t => unitIds.includes(t.unitId));
+}
+function getBuildingRevenue(buildingId: string) {
+  return getBuildingTenants(buildingId).reduce((s, t) => s + t.rent, 0);
+}
+function getBuildingArrears(buildingId: string) {
+  return getBuildingTenants(buildingId).filter(t => t.arrears > 0).length;
+}
+
+/* ─── animation wrapper ─────────────────────────────────────────────────────── */
+function Reveal({ children, delay = 0, className = "" }: {
+  children: React.ReactNode; delay?: number; className?: string;
+}) {
+  const ref    = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-30px" });
+  return (
+    <motion.div ref={ref}
+      initial={{ opacity: 0, y: 18 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] }}
+      className={className}>
+      {children}
+    </motion.div>
+  );
+}
+
+/* ─── animated occupancy bar ─────────────────────────────────────────────── */
+function OccBar({ pct }: { pct: number }) {
+  return (
+    <div className="h-1 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.12)" }}>
+      <motion.div className="h-full rounded-full"
+        style={{ background: "linear-gradient(90deg,#1B5E45,#3DBE7A)" }}
+        initial={{ width: 0 }}
+        animate={{ width: `${pct}%` }}
+        transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }} />
+    </div>
+  );
+}
+
+/* ─── form field ────────────────────────────────────────────────────────────── */
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="space-y-1.5">
+      <label className="text-[8px] font-black uppercase tracking-[0.38em]"
+        style={{ color: "var(--color-text-muted)" }}>
+        {label}
+      </label>
+      {children}
+    </div>
+  );
+}
+
+const inputCls = "w-full px-4 py-3 rounded-xl border text-sm font-medium outline-none transition-all focus:border-[#3DBE7A]";
+const inputStyle = {
+  background: "var(--color-background-alt)",
+  borderColor: "var(--color-border-light)",
+  color: "var(--color-text-primary)",
+};
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
 export default function BuildingsPage() {
   const router = useRouter();
   const [buildings, setBuildings] = useState(mockBuildings);
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal]     = useState(false);
+  const [showLedger, setShowLedger]   = useState(false);
   const [selectedBuilding, setSelectedBuilding] = useState<any>(null);
-  const [isAdding, setIsAdding] = useState(false);
-  const [showLedger, setShowLedger] = useState(false);
-  const [isInitializing, setIsInitializing] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [isAdding, setIsAdding]       = useState(false);
+  const [search, setSearch]           = useState("");
 
   const [formData, setFormData] = useState({
-    name: "",
-    address: "",
-    neighborhood: "",
-    propertyType: "Residential Complex",
-    units: "",
-    yearBuilt: new Date().getFullYear().toString(),
-    floors: "",
-    amenities: [] as string[],
-    description: "",
-    image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1000&q=80"
+    name: "", address: "", propertyType: "Residential Complex",
+    units: "", yearBuilt: new Date().getFullYear().toString(),
+    floors: "", amenities: [] as string[], description: "",
+    image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1000&q=80",
   });
 
-  const getOccupancyRate = (buildingId: string) => {
-    const buildingUnits = mockUnits.filter((u) => u.buildingId === buildingId);
-    if (buildingUnits.length === 0) return 30;
-    const occupied = buildingUnits.filter((u) => u.status === "occupied").length;
-    return Math.round((occupied / buildingUnits.length) * 100);
-  };
-
-  const handleToggleAmenity = (amenity: string) => {
-    setFormData(prev => ({
-      ...prev,
-      amenities: prev.amenities.includes(amenity) 
-        ? prev.amenities.filter(a => a !== amenity)
-        : [...prev.amenities, amenity]
-    }));
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData(p => ({ ...p, [name]: value }));
   };
+
+  const toggleAmenity = (a: string) =>
+    setFormData(p => ({
+      ...p,
+      amenities: p.amenities.includes(a) ? p.amenities.filter(x => x !== a) : [...p.amenities, a],
+    }));
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData(prev => ({ ...prev, image: reader.result as string }));
-      };
-      reader.readAsDataURL(file);
-    }
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onloadend = () => setFormData(p => ({ ...p, image: reader.result as string }));
+    reader.readAsDataURL(file);
   };
 
-  const handleAddBuilding = () => {
-    setIsInitializing(true);
+  const handleAdd = () => {
+    setIsAdding(true);
     setTimeout(() => {
-      const newBuilding = {
-        id: `bld-00${buildings.length + 1}`,
-        name: formData.name || "Unnamed Asset",
-        address: formData.address || "Unknown Location",
+      setBuildings(p => [{
+        id: `bld-${Date.now()}`,
+        name: formData.name || "Unnamed Property",
+        address: formData.address || "—",
         units: parseInt(formData.units) || 0,
         occupiedUnits: 0,
         image: formData.image,
         yearBuilt: parseInt(formData.yearBuilt),
         description: formData.description,
         amenities: formData.amenities,
-        floors: parseInt(formData.floors) || 1
-      };
-      setBuildings(prev => [newBuilding, ...prev]);
-      setIsInitializing(false);
+        floors: parseInt(formData.floors) || 1,
+      }, ...p]);
+      setIsAdding(false);
       setShowModal(false);
-      setFormData({
-        name: "",
-        address: "",
-        neighborhood: "",
-        propertyType: "Residential Complex",
-        units: "",
-        yearBuilt: new Date().getFullYear().toString(),
-        floors: "",
-        amenities: [] as string[],
-        description: "",
-        image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1000&q=80"
-      });
+      setFormData({ name:"",address:"",propertyType:"Residential Complex",units:"",yearBuilt:new Date().getFullYear().toString(),floors:"",amenities:[],description:"",image:"https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1000&q=80" });
     }, LOADER_DURATION);
+  };
+
+  /* summary stats */
+  const totalUnits    = buildings.reduce((s, b) => s + b.units, 0);
+  const totalOccupied = mockUnits.filter(u => u.status === "occupied").length;
+  const totalRevenue  = mockTenants.reduce((s, t) => s + t.rent, 0);
+  const portfolioOcc  = totalUnits ? Math.round((totalOccupied / totalUnits) * 100) : 0;
+
+  const filtered = buildings.filter(b =>
+    `${b.name} ${b.address}`.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const AMENITY_ICONS: Record<string, React.ReactNode> = {
+    "High-Speed WiFi": <Wifi className="w-4 h-4" />,
+    "Parking":         <Car className="w-4 h-4" />,
+    "Gym":             <Dumbbell className="w-4 h-4" />,
+    "24/7 Security":   <Shield className="w-4 h-4" />,
+    "Backup Power":    <Zap className="w-4 h-4" />,
+    "CCTV":            <Camera className="w-4 h-4" />,
   };
 
   return (
     <LandlordLayout>
-      <div className="p-6 md:p-10 space-y-12" style={{ background: "var(--color-background)" }}>
-        
-        {/* Editorial Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 pb-10 border-b" style={{ borderColor: "var(--color-border-light)" }}>
-          <div className="space-y-4">
-            <div 
-              className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em]" 
-              style={{ background: "var(--color-surface-tint)", color: "var(--color-green-deep)" }}
-            >
-              <ShieldCheck className="w-3.5 h-3.5" />
-              Verified Portfolio
+      <div className="min-h-screen" style={{ background: "var(--color-background)" }}>
+
+        {/* ── PAGE HEADER ─────────────────────────────────────────────────── */}
+        <div className="px-6 md:px-8 pt-7 pb-0">
+          <Reveal className="flex flex-col md:flex-row md:items-center justify-between gap-5 mb-8">
+            <div>
+              <div className="flex items-center gap-2.5 mb-3">
+                <div className="w-8 h-8 rounded-xl bg-[#1A1A1A] flex items-center justify-center">
+                  <Building2 className="w-4 h-4 text-[#3DBE7A]" />
+                </div>
+                <p className="text-[9px] font-black uppercase tracking-[0.42em]"
+                  style={{ color: "var(--color-text-muted)" }}>
+                  Property Portfolio
+                </p>
+              </div>
+              <h1 className="text-3xl md:text-4xl font-black tracking-tighter leading-none"
+                style={{ color: "var(--color-text-primary)" }}>
+                Buildings &{" "}
+                <span className="bg-gradient-to-r from-[#1B5E45] to-[#3DBE7A] bg-clip-text text-transparent">
+                  Properties
+                </span>
+              </h1>
             </div>
-            <h2 className="text-4xl md:text-6xl font-black tracking-tighter whitespace-nowrap md:whitespace-normal" style={{ color: "var(--color-text-primary)" }}>
-              Property <span className="opacity-30 italic">Inventory</span>
-            </h2>
-          </div>
-          
-          <div className="flex flex-nowrap md:flex-wrap items-center gap-3 md:gap-4">
-            <div className="relative group flex-shrink-0">
-              <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors" style={{ color: "var(--color-text-muted)" }} />
-              <input 
-                type="text" 
-                placeholder="Find property..." 
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                suppressHydrationWarning
-                className="pl-12 pr-8 py-4 rounded-[1.5rem] w-40 md:w-72 text-sm font-black transition-all shadow-sm focus:ring-8 focus:ring-[#1B5E45]/5 focus:border-[#1B5E45] outline-none"
-                style={{ background: "var(--color-card)", border: "1px solid var(--color-border-light)", color: "var(--color-text-primary)" }}
-              />
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5"
+                  style={{ color: "var(--color-text-muted)" }} />
+                <input type="text" placeholder="Search properties…" value={search}
+                  onChange={e => setSearch(e.target.value)}
+                  className="pl-9 pr-4 py-2.5 rounded-xl text-sm font-medium outline-none transition-all w-52"
+                  style={{ background: "var(--color-card)", border: "1px solid var(--color-border-light)", color: "var(--color-text-primary)" }}
+                  suppressHydrationWarning />
+              </div>
+              <button
+                onClick={() => setShowModal(true)}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-white text-xs font-black uppercase tracking-widest transition-all hover:-translate-y-0.5 whitespace-nowrap"
+                style={{ background: "linear-gradient(135deg,#1B5E45,#3DBE7A)", boxShadow: "0 4px 14px rgba(27,94,69,0.28)" }}>
+                <Plus className="w-3.5 h-3.5" /> Add Building
+              </button>
             </div>
-            <Button 
-              variant="premium" 
-              className="h-14 px-6 md:px-10 rounded-2xl shadow-xl shadow-[#1B5E45]/20 flex-shrink-0 whitespace-nowrap w-40 md:w-auto" 
-              onClick={() => { setIsAdding(true); setShowModal(true); }}
-            >
-              <Plus className="w-5 h-5 mr-2" />
-              New Asset
-            </Button>
-          </div>
+          </Reveal>
+
+          {/* Portfolio summary strip */}
+          <Reveal delay={0.05}>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+              {[
+                { label: "Total Buildings",  val: buildings.length,               icon: Building2,  accent: true },
+                { label: "Total Units",      val: totalUnits,                     icon: Home },
+                { label: "Portfolio Occ.",   val: `${portfolioOcc}%`,             icon: TrendingUp },
+                { label: "Monthly Revenue",  val: `KSh ${totalRevenue.toLocaleString()}`, icon: DollarSign },
+              ].map(({ label, val, icon: Icon, accent }, i) => (
+                <div key={i}
+                  className="relative rounded-2xl p-4 border overflow-hidden transition-all hover:shadow-lg hover:-translate-y-0.5"
+                  style={{
+                    background: accent ? "linear-gradient(135deg,#1B5E45,#246B4F)" : "var(--color-card)",
+                    borderColor: accent ? "transparent" : "var(--color-border-light)",
+                    boxShadow: accent ? "0 8px 28px rgba(27,94,69,0.22)" : "var(--shadow-card)",
+                  }}>
+                  {accent && <div className="absolute -top-4 -right-4 w-16 h-16 bg-white/8 rounded-full" />}
+                  <div className={`w-8 h-8 rounded-xl flex items-center justify-center mb-3 ${accent ? "bg-white/15" : "bg-[#E8F5EE] border border-[#C4D4C9]"}`}>
+                    <Icon className="w-4 h-4" style={{ color: accent ? "rgba(255,255,255,0.9)" : "#1B5E45" }} />
+                  </div>
+                  <p className="text-2xl font-black leading-none mb-1"
+                    style={{ color: accent ? "white" : "var(--color-text-primary)" }}>
+                    {val}
+                  </p>
+                  <p className="text-[9px] font-black uppercase tracking-[0.32em]"
+                    style={{ color: accent ? "rgba(255,255,255,0.48)" : "var(--color-text-muted)" }}>
+                    {label}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </Reveal>
         </div>
 
-        {/* Global Inventory Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
-          {buildings.filter(b => 
-            b.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-            b.address.toLowerCase().includes(searchTerm.toLowerCase())
-          ).map((building) => (
-            <div
-              key={building.id}
-              onClick={() => router.push(`/landlord/buildings/${building.id}`)}
-              className="group relative rounded-xl md:rounded-2xl border transition-all duration-500 hover:-translate-y-1 hover:shadow-lg hover:shadow-[#1B5E45]/10 cursor-pointer flex flex-col overflow-hidden" 
-              style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", boxShadow: "var(--shadow-card)" }}
-            >
-              <div className="relative h-32 md:h-40 lg:h-48 overflow-hidden">
-                <img
-                  src={building.image}
-                  alt={building.name}
-                  className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A]/40 via-transparent to-transparent opacity-40 group-hover:opacity-30 transition-opacity" />
-                
-                <div className="absolute top-3 left-3 flex gap-2">
-                  <Badge 
-                    text="Premium" 
-                    className="bg-white/10 backdrop-blur-sm text-white border-white/20 px-2 py-0.5 font-black text-[7px] md:text-[8px] tracking-[0.15em] uppercase rounded-full" 
-                  />
-                </div>
-                <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between">
-                  <div 
-                    className="px-3 py-1.5 rounded-xl md:rounded-2xl backdrop-blur-xl border border-white/20 text-white shadow-lg"
-                    style={{ background: "rgba(27, 94, 69, 0.4)" }}
+        {/* ── BUILDINGS GRID ───────────────────────────────────────────────── */}
+        <div className="px-6 md:px-8 pb-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+            <AnimatePresence>
+              {filtered.map((building, i) => {
+                const occ      = getOccupancyRate(building.id);
+                const units    = getBuildingUnits(building.id);
+                const tenants  = getBuildingTenants(building.id);
+                const revenue  = getBuildingRevenue(building.id);
+                const arrears  = getBuildingArrears(building.id);
+                const occupied = units.filter(u => u.status === "occupied").length;
+                const vacant   = units.length - occupied;
+
+                return (
+                  <motion.div key={building.id}
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.45, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                    className="group rounded-2xl border overflow-hidden flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-1.5"
+                    style={{
+                      background: "var(--color-card)",
+                      borderColor: "var(--color-border-light)",
+                      boxShadow: "var(--shadow-card)",
+                    }}
+                    onMouseEnter={e => (e.currentTarget as HTMLElement).style.borderColor = "rgba(27,94,69,0.22)"}
+                    onMouseLeave={e => (e.currentTarget as HTMLElement).style.borderColor = "var(--color-border-light)"}
                   >
-                    <p className="text-[7px] md:text-[8px] font-black uppercase tracking-widest opacity-80">Occ.</p>
-                    <p className="text-sm md:text-base font-black">{getOccupancyRate(building.id)}%</p>
-                  </div>
-                </div>
-              </div>
+                    {/* Property image */}
+                    <div className="relative h-44 overflow-hidden flex-shrink-0">
+                      <img src={building.image} alt={building.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D]/80 via-[#0D0D0D]/20 to-transparent" />
+                      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#3DBE7A]/40 to-transparent" />
 
-              <div className="p-3 md:p-4 lg:p-5 flex-1 flex flex-col border-t" style={{ borderColor: "var(--color-border-light)" }}>
-                <div className="mb-2 md:mb-3">
-                  <h3 className="text-sm md:text-base lg:text-lg font-bold italic tracking-tight mb-1 group-hover:text-[#1B5E45] transition-colors line-clamp-1" style={{ color: "var(--color-text-primary)" }}>
-                    {building.name}
-                  </h3>
-                  <div className="flex items-center gap-1.5 text-[7px] md:text-[8px] font-bold uppercase tracking-wider" style={{ color: "var(--color-text-muted)" }}>
-                    <MapPin className="w-2.5 h-2.5 md:w-3 md:h-3 text-[#3DBE7A]" />
-                    <span className="line-clamp-1">{building.address.split(',')[0]}</span>
-                  </div>
-                </div>
-
-                <p className="text-[10px] md:text-xs font-medium leading-tight mb-3 md:mb-4 line-clamp-1 italic opacity-70" style={{ color: "var(--color-text-muted)" }}>
-                  Strategic residential asset
-                </p>
-
-                <div className="grid grid-cols-2 gap-2 md:gap-3 py-2 md:py-3 border-y mb-3 md:mb-4 text-[10px] md:text-xs" style={{ borderColor: "var(--color-border-light)" }}>
-                  <div className="space-y-0.5">
-                    <p className="text-[7px] md:text-[8px] font-bold uppercase tracking-[0.2em] opacity-60" style={{ color: "var(--color-text-muted)" }}>Units</p>
-                    <div className="flex items-baseline gap-0.5">
-                      <span className="text-base md:text-lg font-bold" style={{ color: "var(--color-text-primary)" }}>{building.units}</span>
-                    </div>
-                  </div>
-                  <div className="space-y-0.5">
-                    <p className="text-[7px] md:text-[8px] font-bold uppercase tracking-[0.2em] opacity-60" style={{ color: "var(--color-text-muted)" }}>Est.</p>
-                    <div className="flex items-baseline gap-0.5">
-                      <span className="text-base md:text-lg font-bold" style={{ color: "var(--color-text-primary)" }}>{building.yearBuilt}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between mt-auto gap-2 text-[9px] md:text-[10px]">
-                   <div className="flex -space-x-1.5 md:-space-x-2">
-                      {[1,2,3].map(i => (
-                        <div key={i} className="w-5 h-5 md:w-6 md:h-6 rounded-full border border-white bg-[#F0F5F0] overflow-hidden shadow-sm">
-                           <img src={`https://i.pravatar.cc/100?img=${i + 22}`} alt="Admin" />
+                      {/* Occ badge */}
+                      <div className="absolute bottom-4 left-4 right-4">
+                        <div className="flex items-end justify-between mb-1.5">
+                          <div>
+                            <p className="text-[8px] font-black uppercase tracking-widest text-white/50 mb-0.5">Occupancy</p>
+                            <p className="text-xl font-black text-white leading-none">{occ}%</p>
+                          </div>
+                          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-white/15"
+                            style={{ background: "rgba(61,190,122,0.15)" }}>
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#3DBE7A] animate-pulse" />
+                            <span className="text-[8px] font-black uppercase tracking-widest text-white/60">Live</span>
+                          </div>
                         </div>
-                      ))}
-                   </div>
-                   <div className="flex items-center gap-1 group/btn font-bold opacity-70 group-hover:opacity-100 transition-opacity">
-                     <span className="text-[8px] md:text-[9px] font-bold uppercase tracking-[0.15em] transform group-hover/btn:translate-x-0.5 transition-transform" style={{ color: "#1B5E45" }}>
-                       View
-                     </span>
-                     <ArrowRight className="w-3 h-3 md:w-3.5 md:h-3.5 transition-transform group-hover:translate-x-0.5" style={{ color: "#1B5E45" }} />
-                   </div>
-                </div>
-              </div>
-            </div>
-          ))}
+                        <OccBar pct={occ} />
+                      </div>
+                    </div>
 
-          {/* New Asset Digital Twin Entry Card */}
-          <div 
-            onClick={() => { setIsAdding(true); setShowModal(true); }}
-            className="group rounded-xl md:rounded-2xl border-2 border-dashed p-4 md:p-6 lg:p-8 flex flex-col items-center justify-center text-center gap-4 md:gap-6 hover:border-[#3DBE7A] hover:bg-[#E8F5EE]/50 transition-all duration-500 cursor-pointer min-h-[280px] md:min-h-[320px]"
-            style={{ borderColor: "var(--color-border-light)" }}
-          >
-            <div className="w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 rounded-lg md:rounded-xl lg:rounded-2xl flex items-center justify-center transition-all duration-700 group-hover:rotate-12 group-hover:scale-110 shadow-lg text-[#1B5E45]" style={{ background: "var(--color-surface-tint)" }}>
-               <Plus className="w-7 h-7 md:w-8 md:h-8 lg:w-10 lg:h-10" />
-            </div>
-            <div className="space-y-2">
-              <p className="text-base md:text-lg lg:text-xl font-bold italic tracking-tight" style={{ color: "var(--color-text-primary)" }}>Add Property</p>
-              <p className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest leading-relaxed max-w-[180px] mx-auto opacity-60">New asset to portfolio</p>
-            </div>
+                    {/* Card body */}
+                    <div className="p-5 flex flex-col gap-4 flex-1">
+
+                      {/* Name + address */}
+                      <div>
+                        <h3 className="text-base font-black tracking-tight group-hover:text-[#1B5E45] transition-colors"
+                          style={{ color: "var(--color-text-primary)" }}>
+                          {building.name}
+                        </h3>
+                        <div className="flex items-center gap-1.5 mt-1">
+                          <MapPin className="w-3 h-3 text-[#3DBE7A] flex-shrink-0" />
+                          <p className="text-xs font-medium truncate" style={{ color: "var(--color-text-muted)" }}>
+                            {building.address}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Stat grid */}
+                      <div className="grid grid-cols-4 gap-2">
+                        {[
+                          { label: "Units",    val: building.units },
+                          { label: "Occupied", val: occupied },
+                          { label: "Vacant",   val: vacant },
+                          { label: "Est.",     val: building.yearBuilt },
+                        ].map((s, i) => (
+                          <div key={i} className="rounded-xl p-2.5 text-center border"
+                            style={{ background: "var(--color-background-alt)", borderColor: "var(--color-border-light)" }}>
+                            <p className="text-[9px] font-black uppercase tracking-widest mb-0.5"
+                              style={{ color: "var(--color-text-muted)" }}>{s.label}</p>
+                            <p className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>{s.val}</p>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Revenue + arrears row */}
+                      <div className="flex items-center justify-between py-3 border-t border-b"
+                        style={{ borderColor: "var(--color-border-light)" }}>
+                        <div>
+                          <p className="text-[8px] font-black uppercase tracking-widest mb-0.5"
+                            style={{ color: "var(--color-text-muted)" }}>Monthly Revenue</p>
+                          <p className="text-sm font-black" style={{ color: "var(--color-green-deep)" }}>
+                            {revenue > 0 ? `KSh ${revenue.toLocaleString()}` : "—"}
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-[8px] font-black uppercase tracking-widest mb-0.5"
+                            style={{ color: "var(--color-text-muted)" }}>Arrears</p>
+                          <p className="text-sm font-black" style={{ color: arrears > 0 ? "#dc2626" : "#3DBE7A" }}>
+                            {arrears > 0 ? `${arrears} tenant${arrears > 1 ? "s" : ""}` : "All clear"}
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-[8px] font-black uppercase tracking-widest mb-0.5"
+                            style={{ color: "var(--color-text-muted)" }}>Tenants</p>
+                          <p className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>
+                            {tenants.length}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Amenities chips */}
+                      {building.amenities?.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5">
+                          {building.amenities.slice(0, 4).map((a, i) => (
+                            <span key={i}
+                              className="text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full border"
+                              style={{ background: "var(--color-surface-tint)", color: "var(--color-green-deep)", borderColor: "var(--color-border-mid)" }}>
+                              {a}
+                            </span>
+                          ))}
+                          {building.amenities.length > 4 && (
+                            <span className="text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full border"
+                              style={{ background: "var(--color-background-alt)", color: "var(--color-text-muted)", borderColor: "var(--color-border-light)" }}>
+                              +{building.amenities.length - 4}
+                            </span>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Action row */}
+                      <div className="flex items-center gap-2 mt-auto">
+                        <button
+                          onClick={() => router.push(`/landlord/buildings/${building.id}`)}
+                          className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-white text-xs font-black uppercase tracking-widest transition-all hover:-translate-y-0.5"
+                          style={{ background: "linear-gradient(135deg,#1B5E45,#3DBE7A)", boxShadow: "0 4px 12px rgba(27,94,69,0.22)" }}>
+                          View Details <ChevronRight className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          onClick={e => { e.stopPropagation(); setSelectedBuilding(building); setShowLedger(true); }}
+                          className="flex items-center justify-center w-10 h-10 rounded-xl border transition-all hover:bg-[#E8F5EE] hover:border-[#C4D4C9]"
+                          style={{ borderColor: "var(--color-border-light)" }}
+                          title="View Ledger">
+                          <Layers className="w-4 h-4" style={{ color: "var(--color-text-muted)" }} />
+                        </button>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
+
+            {/* Add card */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, delay: filtered.length * 0.06, ease: [0.22, 1, 0.36, 1] }}
+              onClick={() => setShowModal(true)}
+              className="group rounded-2xl border-2 border-dashed flex flex-col items-center justify-center text-center gap-5 cursor-pointer transition-all duration-300 hover:border-[#3DBE7A] hover:shadow-xl hover:-translate-y-1"
+              style={{ borderColor: "var(--color-border-light)", minHeight: 320, background: "var(--color-card)" }}
+              onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = "rgba(61,190,122,0.03)"}
+              onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "var(--color-card)"}
+            >
+              <div className="w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:bg-[#1B5E45] border"
+                style={{ background: "var(--color-surface-tint)", borderColor: "var(--color-border-mid)", color: "#1B5E45" }}>
+                <Plus className="w-6 h-6 group-hover:text-white transition-colors" />
+              </div>
+              <div>
+                <p className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Add New Building</p>
+                <p className="text-[9px] font-bold uppercase tracking-widest mt-1.5"
+                  style={{ color: "var(--color-text-muted)" }}>
+                  Expand your portfolio
+                </p>
+              </div>
+            </motion.div>
           </div>
         </div>
       </div>
 
+      {/* ── ADD BUILDING MODAL ───────────────────────────────────────────────── */}
       <Modal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
-        size="7xl"
         title=""
-        className="rounded-[4rem] p-0 overflow-hidden shadow-2xl border-none"
+        size="7xl"
+        className="rounded-[1.5rem] p-0 overflow-hidden border-none"
       >
-        <div className="flex flex-col h-full max-h-[95vh]" style={{ background: "var(--color-background)" }}>
-          <div className="p-12 md:p-16 border-b space-y-4" style={{ borderColor: "var(--color-border-light)" }}>
-              <div 
-                className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em]" 
-                style={{ background: "var(--color-surface-tint)", color: "var(--color-green-deep)" }}
-              >
-                <Database className="w-3.5 h-3.5" />
-                Asset Registry
-              </div>
-              <h3 className="text-5xl md:text-6xl font-black tracking-tighter" style={{ color: "var(--color-text-primary)" }}>Asset <span className="opacity-30 italic">Registration</span></h3>
-          </div>
-          
-          <form className="p-12 md:p-16 space-y-12 overflow-auto scrollbar-hide">
-            <div className="grid md:grid-cols-2 gap-12">
-              <div className="space-y-8">
-                <div className="space-y-3">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] px-1">Building Identity</label>
-                  <input 
-                    type="text" 
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    placeholder="Enter asset name..." 
-                    className="w-full px-8 py-5 border rounded-3xl text-md font-bold focus:outline-none focus:ring-8 focus:ring-[#1B5E45]/10 focus:border-[#1B5E45] transition-all italic"
-                    style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", color: "var(--color-text-primary)" }}
-                  />
+        <div className="flex flex-col max-h-[92vh]" style={{ background: "var(--color-background)" }}>
+
+          {/* Modal hero header */}
+          <div className="relative overflow-hidden flex-shrink-0" style={{ background: "#0F0F0F", minHeight: 110 }}>
+            <div className="absolute inset-0 opacity-[0.04]"
+              style={{ backgroundImage: "radial-gradient(circle at 1px 1px,rgba(255,255,255,0.5) 1px,transparent 0)", backgroundSize: "24px 24px" }} />
+            <div className="absolute top-0 right-0 w-64 h-64 rounded-full blur-[80px] -mr-20 -mt-20"
+              style={{ background: "rgba(61,190,122,0.14)" }} />
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#3DBE7A]/40 to-transparent" />
+            <div className="relative z-10 px-8 py-7 flex items-start justify-between">
+              <div className="space-y-2">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-xl bg-[#1B5E45]/30 border border-[#3DBE7A]/25 flex items-center justify-center">
+                    <Building2 className="w-4 h-4 text-[#3DBE7A]" />
+                  </div>
+                  <p className="text-[8px] font-black uppercase tracking-[0.42em] text-white/30">Portfolio</p>
                 </div>
-                <div className="space-y-3">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] px-1">Property Classification</label>
-                  <select 
-                    name="propertyType"
-                    value={formData.propertyType}
-                    onChange={handleInputChange}
-                    className="w-full px-8 py-5 border rounded-3xl text-md font-black italic focus:outline-none focus:ring-8 focus:ring-[#1B5E45]/10 focus:border-[#1B5E45] appearance-none transition-all"
-                    style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", color: "var(--color-text-primary)" }}
-                  >
+                <h3 className="text-xl font-black text-white tracking-tight">Register New Building</h3>
+                <p className="text-[10px] text-white/30">Add a property to your managed portfolio</p>
+              </div>
+              <button onClick={() => setShowModal(false)}
+                className="w-8 h-8 rounded-xl flex items-center justify-center transition-all hover:bg-white/15"
+                style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.1)" }}>
+                <X className="w-4 h-4 text-white/50" />
+              </button>
+            </div>
+          </div>
+
+          {/* Form */}
+          <div className="overflow-auto p-7 space-y-6">
+            <div className="grid md:grid-cols-2 gap-5">
+              {/* Left */}
+              <div className="space-y-4">
+                <Field label="Building Name">
+                  <input type="text" name="name" value={formData.name} onChange={handleInput}
+                    placeholder="e.g. Sunrise Apartments" className={inputCls} style={inputStyle} />
+                </Field>
+                <Field label="Property Type">
+                  <select name="propertyType" value={formData.propertyType} onChange={handleInput}
+                    className={inputCls} style={inputStyle}>
                     <option>Residential Complex</option>
                     <option>Commercial Center</option>
                     <option>Mixed Use</option>
-                    <option>Industrial Warehouse</option>
+                    <option>Industrial</option>
                   </select>
-                </div>
-              </div>
-              
-              <div className="space-y-8">
-                <div className="space-y-3">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] px-1">Geolocation</label>
+                </Field>
+                <Field label="Address">
                   <div className="relative">
-                    <MapPin className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-[#3DBE7A]" />
-                    <input 
-                      type="text" 
-                      name="address"
-                      value={formData.address}
-                      onChange={handleInputChange}
-                      placeholder="Latitude / Longitude / Address" 
-                      className="w-full pl-16 pr-8 py-5 border rounded-3xl text-md font-bold focus:outline-none focus:ring-8 focus:ring-[#1B5E45]/10 focus:border-[#1B5E45] transition-all italic"
-                      style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", color: "var(--color-text-primary)" }}
-                    />
+                    <MapPin className="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#3DBE7A]" />
+                    <input type="text" name="address" value={formData.address} onChange={handleInput}
+                      placeholder="Street address, city" className={`${inputCls} pl-10`} style={inputStyle} />
                   </div>
+                </Field>
+                <Field label="Description">
+                  <textarea name="description" value={formData.description} onChange={handleInput}
+                    placeholder="Brief description of the property…"
+                    className={`${inputCls} min-h-[80px] resize-none`} style={inputStyle} />
+                </Field>
+              </div>
+
+              {/* Right */}
+              <div className="space-y-4">
+                <div className="grid grid-cols-3 gap-3">
+                  <Field label="Total Units">
+                    <input type="number" name="units" value={formData.units} onChange={handleInput}
+                      placeholder="24" className={inputCls} style={inputStyle} />
+                  </Field>
+                  <Field label="Floors">
+                    <input type="number" name="floors" value={formData.floors} onChange={handleInput}
+                      placeholder="5" className={inputCls} style={inputStyle} />
+                  </Field>
+                  <Field label="Year Built">
+                    <input type="number" name="yearBuilt" value={formData.yearBuilt} onChange={handleInput}
+                      placeholder="2020" className={inputCls} style={inputStyle} />
+                  </Field>
                 </div>
-                <div className="grid grid-cols-2 gap-8">
-                    <div className="space-y-3">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] px-1">Total Nodes</label>
-                      <input type="number" name="units" value={formData.units} onChange={handleInputChange} placeholder="24" className="w-full px-8 py-5 border rounded-3xl text-md font-bold focus:outline-none focus:ring-8 focus:ring-[#1B5E45]/10 focus:border-[#1B5E45] transition-all" style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", color: "var(--color-text-primary)" }} />
+
+                {/* Amenities */}
+                <Field label="Amenities">
+                  <div className="grid grid-cols-3 gap-2">
+                    {Object.entries(AMENITY_ICONS).map(([amenity, icon]) => {
+                      const active = formData.amenities.includes(amenity);
+                      return (
+                        <button key={amenity} type="button" onClick={() => toggleAmenity(amenity)}
+                          className="flex items-center gap-2 px-3 py-2.5 rounded-xl border text-xs font-black transition-all"
+                          style={{
+                            background: active ? "var(--color-surface-tint)" : "var(--color-background-alt)",
+                            borderColor: active ? "var(--color-border-mid)" : "var(--color-border-light)",
+                            color: active ? "var(--color-green-deep)" : "var(--color-text-muted)",
+                          }}>
+                          {icon}
+                          <span className="text-[9px] uppercase tracking-widest truncate">{amenity}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </Field>
+
+                {/* Image upload */}
+                <Field label="Property Photo">
+                  <div
+                    onClick={() => document.getElementById("bldg-img-upload")?.click()}
+                    className="relative h-28 rounded-xl border-2 border-dashed overflow-hidden cursor-pointer transition-all hover:border-[#3DBE7A]"
+                    style={{ borderColor: "var(--color-border-light)", background: "var(--color-background-alt)" }}>
+                    {formData.image && formData.image.startsWith("data:") && (
+                      <img src={formData.image} alt="preview" className="absolute inset-0 w-full h-full object-cover opacity-40" />
+                    )}
+                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
+                      <div className="w-9 h-9 rounded-xl bg-white border flex items-center justify-center shadow-sm"
+                        style={{ color: "#1B5E45" }}>
+                        <Camera className="w-4 h-4" />
+                      </div>
+                      <p className="text-[9px] font-black uppercase tracking-widest"
+                        style={{ color: "var(--color-text-muted)" }}>
+                        {formData.image.startsWith("data:") ? "Photo uploaded" : "Upload photo"}
+                      </p>
                     </div>
-                    <div className="space-y-3">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] px-1">Structure Floors</label>
-                      <input type="number" name="floors" value={formData.floors} onChange={handleInputChange} placeholder="5" className="w-full px-8 py-5 border rounded-3xl text-md font-bold focus:outline-none focus:ring-8 focus:ring-[#1B5E45]/10 focus:border-[#1B5E45] transition-all" style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", color: "var(--color-text-primary)" }} />
-                    </div>
-                </div>
+                    <input id="bldg-img-upload" type="file" accept="image/*" className="hidden" onChange={handleFileSelect} />
+                  </div>
+                </Field>
               </div>
             </div>
 
-            <div className="space-y-3">
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] px-1">Architecture Narrative</label>
-              <textarea 
-                name="description"
-                value={formData.description}
-                onChange={handleInputChange}
-                placeholder="Log internal architecture data and asset value..." 
-                className="w-full px-8 py-6 border rounded-3xl text-md font-medium italic focus:outline-none focus:ring-8 focus:ring-[#1B5E45]/10 focus:border-[#1B5E45] transition-all min-h-[160px] resize-none"
-                style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", color: "var(--color-text-primary)" }}
-              />
+            {/* Actions */}
+            <div className="flex gap-3 pt-2 border-t" style={{ borderColor: "var(--color-border-light)" }}>
+              <button onClick={handleAdd} disabled={isAdding}
+                className="flex-1 py-3 rounded-xl text-white text-sm font-black uppercase tracking-widest transition-all hover:-translate-y-0.5 disabled:opacity-60"
+                style={{ background: "linear-gradient(135deg,#1B5E45,#3DBE7A)", boxShadow: "0 4px 16px rgba(27,94,69,0.25)" }}>
+                {isAdding ? "Adding…" : "Add Building"}
+              </button>
+              <button onClick={() => setShowModal(false)} disabled={isAdding}
+                className="flex-1 py-3 rounded-xl text-sm font-black uppercase tracking-widest border transition-all hover:bg-[#F7F8F5]"
+                style={{ borderColor: "var(--color-border-light)", color: "var(--color-text-muted)" }}>
+                Cancel
+              </button>
             </div>
-
-            {/* Premium Amenities Checklist */}
-            <div className="space-y-8">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] px-1">Infrastructure Specs</label>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                  {["Fiber 1Gbps", "24/7 Shield", "Backup Grid", "Life Studio", "CCTV AI", "Solar Grid"].map((item) => (
-                    <div 
-                      key={item}
-                      onClick={() => handleToggleAmenity(item)}
-                      className="px-4 py-5 border rounded-3xl flex flex-col items-center gap-3 cursor-pointer transition-all duration-500 hover:scale-105"
-                      style={formData.amenities.includes(item) ? { background: "var(--color-green-deep)", borderColor: "var(--color-green-deep)", color: "#fff", transform: "translateY(-5px)", boxShadow: "0 20px 30px -10px rgba(27, 94, 69, 0.3)" } : { background: "var(--color-card)", borderColor: "var(--color-border-light)", color: "var(--color-text-secondary)" }}
-                    >
-                        <CheckCircle2 className={`w-6 h-6 ${formData.amenities.includes(item) ? "text-[#3DBE7A]" : "text-slate-100"}`} />
-                        <span className="text-[8px] font-black uppercase tracking-widest text-center">{item}</span>
-                    </div>
-                  ))}
-                </div>
-            </div>
-
-            {/* Media Upload Area */}
-            <div className="space-y-3">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] px-1">Visual Asset</label>
-                <div 
-                  onClick={() => document.getElementById('building-image-upload')?.click()}
-                  className="w-full h-56 border-4 border-dashed rounded-[3rem] flex flex-col items-center justify-center gap-4 transition-all duration-700 cursor-pointer relative overflow-hidden group" 
-                  style={{ borderColor: "var(--color-border-light)", background: "var(--color-background-alt)" }}
-                >
-                  <div className="absolute inset-0 bg-[#E8F5EE]/30 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  {formData.image && formData.image.startsWith('data:') ? (
-                    <img src={formData.image} alt="Preview" className="absolute inset-0 w-full h-full object-cover opacity-30" />
-                  ) : null}
-                  <div className="p-4 bg-white rounded-2xl shadow-xl transition-transform group-hover:scale-110 relative z-10" style={{ color: "#1B5E45" }}>
-                    <Camera className="w-8 h-8" />
-                  </div>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] group-hover:text-[#1B5E45] transition-colors relative z-10">
-                    {formData.image && formData.image.startsWith('data:') ? 'Asset Uploaded' : 'Upload Cinematic Imagery'}
-                  </p>
-                  <input id="building-image-upload" type="file" accept="image/*" className="hidden" onChange={handleFileSelect} />
-                </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-6 pt-12 border-t mt-12" style={{ borderColor: "var(--color-border-light)" }}>
-                <Button 
-                  variant="premium" 
-                  size="xl" 
-                  className="flex-1 h-20 rounded-3xl text-xl font-black italic shadow-2xl" 
-                  onClick={handleAddBuilding}
-                  disabled={isInitializing}
-                >
-                  {isInitializing ? "Processing Digital Twin..." : "Confirm Asset Node"}
-                </Button>
-                <Button variant="secondary" size="xl" className="px-12 h-20 rounded-3xl text-sm font-black uppercase tracking-widest" onClick={() => setShowModal(false)} disabled={isInitializing}>Discard</Button>
-            </div>
-          </form>
+          </div>
         </div>
       </Modal>
 
-      <BuildingLedgerModal 
-        isOpen={showLedger} 
-        onClose={() => setShowLedger(false)} 
-        building={selectedBuilding} 
+      <BuildingLedgerModal
+        isOpen={showLedger}
+        onClose={() => setShowLedger(false)}
+        building={selectedBuilding}
       />
     </LandlordLayout>
   );
