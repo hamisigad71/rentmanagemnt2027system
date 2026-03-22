@@ -1,267 +1,605 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import TenantLayout from "@/components/TenantLayout";
 import { mockTenants } from "@/data/mockData";
-import { Receipt, CreditCard, AlertCircle, CheckCircle2, ArrowRight, Loader2 } from "lucide-react";
-import Button from "@/components/Button";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import {
+  Receipt, CreditCard, AlertCircle, CheckCircle2,
+  ArrowRight, Loader2, ShieldCheck, TrendingUp,
+  Calendar, Home, Zap, Wifi, Droplets, CheckCheck,
+  Clock, DollarSign, ChevronRight,
+} from "lucide-react";
 
-export default function RentStatusPage() {
-  const currentTenant = mockTenants[0];
-  const [isLoading, setIsLoading] = useState(true);
+/* ─── Reveal ──────────────────────────────────────────────────────────────── */
+function Reveal({ children, delay = 0, className = "" }: {
+  children: React.ReactNode; delay?: number; className?: string;
+}) {
+  const ref    = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-30px" });
+  return (
+    <motion.div ref={ref}
+      initial={{ opacity: 0, y: 20 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.58, delay, ease: [0.22, 1, 0.36, 1] }}
+      className={className}>
+      {children}
+    </motion.div>
+  );
+}
+
+/* ─── Animated counter ────────────────────────────────────────────────────── */
+function Counter({ to, prefix = "" }: { to: number; prefix?: string }) {
+  const [count, setCount] = useState(0);
+  const ref    = useRef(null);
+  const inView = useInView(ref, { once: true });
+  useEffect(() => {
+    if (!inView) return;
+    let start = 0;
+    const step = (ts: number) => {
+      if (!start) start = ts;
+      const p = Math.min((ts - start) / 1200, 1);
+      setCount(Math.floor(p * to));
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, [inView, to]);
+  return <span ref={ref}>{prefix}{count.toLocaleString()}</span>;
+}
+
+/* ─── Radial progress ─────────────────────────────────────────────────────── */
+function RadialRing({ pct, size = 120, stroke = 8, color = "#3DBE7A" }: {
+  pct: number; size?: number; stroke?: number; color?: string;
+}) {
+  const r    = (size - stroke * 2) / 2;
+  const circ = 2 * Math.PI * r;
+  return (
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="-rotate-90">
+      <circle cx={size/2} cy={size/2} r={r} fill="none"
+        stroke="rgba(0,0,0,0.07)" strokeWidth={stroke} />
+      <motion.circle cx={size/2} cy={size/2} r={r} fill="none"
+        stroke={color} strokeWidth={stroke} strokeLinecap="round"
+        strokeDasharray={circ}
+        initial={{ strokeDashoffset: circ }}
+        animate={{ strokeDashoffset: circ - (pct / 100) * circ }}
+        transition={{ duration: 1.5, delay: 0.5, ease: [0.22, 1, 0.36, 1] }} />
+    </svg>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LOADING SCREEN
+══════════════════════════════════════════════════════════════════════════════*/
+function LoadingScreen() {
+  const [step, setStep] = useState(0);
+  const [progress, setProgress] = useState(0);
+
+  const steps = [
+    "Authenticating session…",
+    "Fetching account data…",
+    "Validating payment status…",
+    "Securing your data…",
+  ];
 
   useEffect(() => {
-    // Force loading for 5-6 seconds
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 5500); // 5.5 seconds
-
-    return () => clearTimeout(timer);
+    const intervals = [
+      setTimeout(() => { setStep(1); setProgress(28); }, 800),
+      setTimeout(() => { setStep(2); setProgress(58); }, 2000),
+      setTimeout(() => { setStep(3); setProgress(82); }, 3500),
+      setTimeout(() => { setProgress(100); }, 4800),
+    ];
+    return () => intervals.forEach(clearTimeout);
   }, []);
-
-  if (isLoading) {
-    return (
-      <TenantLayout>
-        <div className="min-h-screen flex items-center justify-center" style={{ background: "var(--color-background)" }}>
-          <div className="text-center space-y-6 md:space-y-8">
-            {/* Animated Logo/Icon */}
-            <div className="relative">
-              <div className="w-20 h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 mx-auto rounded-full bg-gradient-to-br from-[#1B5E45] to-[#246B4F] flex items-center justify-center shadow-2xl">
-                <Receipt className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-white animate-pulse" />
-              </div>
-              <div className="absolute -top-2 -right-2 w-6 h-6 md:w-8 md:h-8 bg-[#3DBE7A] rounded-full flex items-center justify-center animate-bounce">
-                <Loader2 className="w-3 h-3 md:w-4 md:h-4 text-white animate-spin" />
-              </div>
-            </div>
-
-            {/* Loading Text */}
-            <div className="space-y-2">
-              <h2 className="text-xl md:text-2xl lg:text-3xl font-bold" style={{ color: "var(--color-text-primary)" }}>
-                Loading Rent Status
-              </h2>
-              <p className="text-sm md:text-base text-gray-600 font-medium">
-                Retrieving your account information...
-              </p>
-            </div>
-
-            {/* Progress Bar */}
-            <div className="w-64 md:w-80 mx-auto">
-              <div className="bg-gray-200 rounded-full h-2 md:h-3 overflow-hidden">
-                <div className="bg-gradient-to-r from-[#1B5E45] to-[#3DBE7A] h-full rounded-full animate-pulse" 
-                     style={{ 
-                       animation: 'loading 5.5s ease-in-out forwards',
-                       width: '0%'
-                     }} />
-              </div>
-              <p className="text-xs md:text-sm text-gray-500 mt-2 font-medium">Please wait while we secure your data</p>
-            </div>
-
-            {/* Loading Steps */}
-            <div className="space-y-2 text-left max-w-xs mx-auto">
-              <div className="flex items-center gap-3 text-xs md:text-sm">
-                <div className="w-2 h-2 bg-[#3DBE7A] rounded-full animate-pulse" />
-                <span className="text-gray-600 font-medium">Authenticating session...</span>
-              </div>
-              <div className="flex items-center gap-3 text-xs md:text-sm">
-                <div className="w-2 h-2 bg-gray-300 rounded-full" />
-                <span className="text-gray-400 font-medium">Fetching account data...</span>
-              </div>
-              <div className="flex items-center gap-3 text-xs md:text-sm">
-                <div className="w-2 h-2 bg-gray-300 rounded-full" />
-                <span className="text-gray-400 font-medium">Validating payment status...</span>
-              </div>
-            </div>
-          </div>
-
-          <style jsx>{`
-            @keyframes loading {
-              0% { width: 0%; }
-              20% { width: 25%; }
-              40% { width: 50%; }
-              60% { width: 75%; }
-              80% { width: 90%; }
-              100% { width: 100%; }
-            }
-          `}</style>
-        </div>
-      </TenantLayout>
-    );
-  }
 
   return (
     <TenantLayout>
-      <div className="p-4 md:p-8 lg:p-10 min-h-full" style={{ background: "var(--color-background)" }}>
-        <div className="max-w-4xl mx-auto space-y-6 md:space-y-8">
-          {/* Header */}
-          <div className="mb-6 md:mb-8">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-black tracking-tight" style={{ color: "var(--color-text-primary)" }}>
-              Rent Status
+      <div className="min-h-screen flex items-center justify-center"
+        style={{ background: "var(--color-background)" }}>
+        <div className="flex flex-col items-center gap-8 w-full max-w-sm px-6">
+
+          {/* Icon assembly */}
+          <div className="relative">
+            {/* Outer pulsing ring */}
+            <motion.div
+              animate={{ scale: [1, 1.12, 1], opacity: [0.15, 0.3, 0.15] }}
+              transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute inset-0 rounded-full -m-4"
+              style={{ background: "radial-gradient(circle,rgba(27,94,69,0.4),transparent 70%)", filter: "blur(12px)" }}
+            />
+            <div className="relative w-20 h-20 rounded-2xl flex items-center justify-center shadow-2xl"
+              style={{ background: "linear-gradient(135deg,#0A1F15,#1B5E45)" }}>
+              <div className="absolute inset-0 rounded-2xl opacity-[0.06]"
+                style={{ backgroundImage: "radial-gradient(circle at 1px 1px,rgba(255,255,255,0.8) 1px,transparent 0)", backgroundSize: "14px 14px" }} />
+              <Receipt className="w-9 h-9 text-white relative z-10" strokeWidth={1.5} />
+            </div>
+            {/* Spinning orbit */}
+            <motion.div animate={{ rotate: 360 }}
+              transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+              className="absolute -inset-3">
+              <div className="w-full h-full rounded-full border border-dashed border-[#3DBE7A]/30" />
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1 w-2 h-2 rounded-full bg-[#3DBE7A]" />
+            </motion.div>
+          </div>
+
+          {/* Title */}
+          <div className="text-center space-y-1.5">
+            <h2 className="text-xl font-black tracking-tighter"
+              style={{ color: "var(--color-text-primary)" }}>
+              Loading Rent Status
             </h2>
-            <p style={{ color: "var(--color-text-muted)" }} className="mt-1 md:mt-2 text-sm md:text-base font-medium">
-              Detailed breakdown of your rental account protocol
+            <p className="text-sm font-medium" style={{ color: "var(--color-text-muted)" }}>
+              Securing your account data
             </p>
           </div>
 
-          {/* Rent Information Card */}
-          <div className="bg-white border shadow-md md:shadow-lg p-4 md:p-8 lg:p-10 space-y-6 md:space-y-8" style={{ borderColor: "var(--color-border-light)" }}>
-            {/* Unit Information */}
-            <div className="pb-6 md:pb-8 lg:pb-10 border-b-2" style={{ borderColor: "var(--color-border-light)" }}>
-              <div className="flex items-center gap-2 md:gap-3 mb-6 md:mb-8">
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-lg bg-gradient-to-br from-[#1B5E45] to-[#246B4F] flex items-center justify-center text-white shadow-md flex-shrink-0">
-                  <Receipt className="w-5 h-5 md:w-6 md:h-6" />
+          {/* Progress bar */}
+          <div className="w-full space-y-2">
+            <div className="h-2 rounded-full overflow-hidden"
+              style={{ background: "var(--color-border-light)" }}>
+              <motion.div className="h-full rounded-full"
+                style={{ background: "linear-gradient(90deg,#1B5E45,#3DBE7A)" }}
+                animate={{ width: `${progress}%` }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }} />
+            </div>
+            <div className="flex justify-between text-[9px] font-black uppercase tracking-widest"
+              style={{ color: "var(--color-text-muted)" }}>
+              <span>Initialising</span>
+              <span>{progress}%</span>
+            </div>
+          </div>
+
+          {/* Steps */}
+          <div className="w-full space-y-2.5">
+            {steps.map((s, i) => (
+              <motion.div key={i}
+                initial={{ opacity: 0, x: -8 }}
+                animate={{ opacity: i <= step ? 1 : 0.3, x: 0 }}
+                transition={{ duration: 0.4, delay: i * 0.1 }}
+                className="flex items-center gap-3">
+                <div className={`w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-500 ${
+                  i < step ? "bg-[#1B5E45]" : i === step ? "bg-[#3DBE7A] animate-pulse" : "bg-transparent border border-[#E5E7EB]"
+                }`}>
+                  {i < step && <CheckCheck style={{ width: 9, height: 9, color: "white" }} />}
                 </div>
-                <div>
-                  <h3 className="text-lg md:text-xl lg:text-2xl font-bold" style={{ color: "var(--color-text-primary)" }}>Unit Information</h3>
-                  <p className="text-xs md:text-sm text-gray-500 font-medium mt-0.5 md:mt-1">Property details and occupancy</p>
-                </div>
+                <span className="text-xs font-bold"
+                  style={{ color: i <= step ? "var(--color-text-primary)" : "var(--color-text-muted)" }}>
+                  {s}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </TenantLayout>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PAGE
+══════════════════════════════════════════════════════════════════════════════*/
+export default function RentStatusPage() {
+  const currentTenant = mockTenants[0];
+  const [isLoading, setIsLoading]   = useState(true);
+
+  useEffect(() => {
+    const t = setTimeout(() => setIsLoading(false), 5500);
+    return () => clearTimeout(t);
+  }, []);
+
+  if (isLoading) return <LoadingScreen />;
+
+  const settlePct  = Math.min(100, Math.round((currentTenant.paidAmount / currentTenant.rent) * 100));
+  const allClear   = currentTenant.arrears === 0;
+  const nextDue    = new Date();
+  nextDue.setDate(1);
+  nextDue.setMonth(nextDue.getMonth() + 1);
+
+  return (
+    <TenantLayout>
+      <div className="min-h-screen p-5 md:p-8 space-y-6 max-w-[900px] mx-auto"
+        style={{ background: "var(--color-background)" }}>
+
+        {/* ── HEADER ──────────────────────────────────────────────────────── */}
+        <Reveal className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-2.5 mb-2">
+              <div className="w-7 h-7 rounded-lg bg-[#1B5E45] flex items-center justify-center">
+                <Receipt className="w-3.5 h-3.5 text-white" />
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 lg:gap-6">
-                <div className="bg-gradient-to-br from-gray-50 to-white p-3 md:p-4 lg:p-5 rounded-lg md:rounded-xl border border-gray-100 hover:border-[#3DBE7A] transition-colors">
-                  <p className="text-[10px] md:text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1 md:mb-2">Unit Number</p>
-                  <p className="text-lg md:text-2xl font-bold text-[#1B5E45]">{currentTenant.unitId}</p>
+              <p className="text-[8px] font-black uppercase tracking-[0.45em]"
+                style={{ color: "var(--color-text-muted)" }}>
+                Tenant Portal
+              </p>
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-black tracking-tighter leading-none"
+              style={{ color: "var(--color-text-primary)" }}>
+              Rent{" "}
+              <span className="bg-gradient-to-r from-[#1B5E45] to-[#3DBE7A] bg-clip-text text-transparent">
+                Status
+              </span>
+            </h1>
+            <p className="text-sm font-medium mt-1" style={{ color: "var(--color-text-muted)" }}>
+              Full breakdown of your rental account
+            </p>
+          </div>
+
+          {/* Status chip */}
+          <motion.div
+            initial={{ scale: 0.85, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.3, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="flex items-center gap-2 self-start sm:self-auto px-4 py-2.5 rounded-2xl border"
+            style={{
+              background: allClear ? "var(--color-surface-tint)" : "#FFF5F5",
+              borderColor: allClear ? "var(--color-border-mid)" : "#FECACA",
+            }}>
+            {allClear
+              ? <CheckCircle2 className="w-4 h-4" style={{ color: "#1B5E45" }} />
+              : <AlertCircle className="w-4 h-4 text-red-500" />}
+            <span className="text-xs font-black uppercase tracking-widest"
+              style={{ color: allClear ? "#1B5E45" : "#dc2626" }}>
+              {allClear ? "Account Clear" : "Balance Due"}
+            </span>
+          </motion.div>
+        </Reveal>
+
+        {/* ── HERO METRICS ROW ─────────────────────────────────────────────── */}
+        <Reveal delay={0.04}>
+          <div className="relative rounded-[1.8rem] overflow-hidden border"
+            style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", boxShadow: "var(--shadow-card)" }}>
+            <div className="absolute inset-0 opacity-[0.03]"
+              style={{ backgroundImage: "radial-gradient(circle at 1px 1px,rgba(27,94,69,0.8) 1px,transparent 0)", backgroundSize: "22px 22px" }} />
+            <motion.div
+              animate={{ scale: [1, 1.15, 1], opacity: [0.06, 0.12, 0.06] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute top-0 right-0 w-80 h-80 rounded-full -mr-32 -mt-32"
+              style={{ background: "radial-gradient(circle,rgba(61,190,122,1),transparent 70%)", filter: "blur(70px)" }} />
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#3DBE7A]/30 to-transparent" />
+
+            <div className="relative z-10 p-7 md:p-9">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-center">
+
+                {/* Ring chart + settlement */}
+                <div className="flex flex-col items-center gap-3">
+                  <div className="relative">
+                    <RadialRing pct={settlePct} size={120} stroke={9} color="#3DBE7A" />
+                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                      <p className="text-2xl font-black leading-none" style={{ color: "var(--color-text-primary)" }}>{settlePct}%</p>
+                      <p className="text-[8px] font-black uppercase tracking-widest mt-0.5" style={{ color: "var(--color-text-muted)" }}>Settled</p>
+                    </div>
+                  </div>
+                  <p className="text-[9px] font-black uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>Settlement Progress</p>
                 </div>
-                <div className="bg-gradient-to-br from-gray-50 to-white p-3 md:p-4 lg:p-5 rounded-lg md:rounded-xl border border-gray-100 hover:border-[#3DBE7A] transition-colors">
-                  <p className="text-[10px] md:text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1 md:mb-2">Move-in Date</p>
-                  <p className="text-lg md:text-xl font-bold text-gray-900">{currentTenant.moveInDate}</p>
-                </div>
-                <div className="bg-gradient-to-br from-[#E8F5EE] to-[#F0F9F6] p-3 md:p-4 lg:p-5 rounded-lg md:rounded-xl border border-[#C4D4C9] col-span-2 md:col-span-1">
-                  <p className="text-[10px] md:text-xs font-semibold uppercase tracking-wider text-[#1B5E45] mb-1 md:mb-2">Status</p>
-                  <p className="text-lg md:text-xl font-bold text-[#1B5E45]">Active</p>
+
+                {/* Key metrics */}
+                <div className="md:col-span-2 grid grid-cols-2 sm:grid-cols-3 gap-4">
+                  {[
+                    { label: "Monthly Rent",  val: currentTenant.rent,       prefix: "KSh ", color: "var(--color-text-primary)" },
+                    { label: "Amount Paid",   val: currentTenant.paidAmount, prefix: "KSh ", color: "#1B5E45" },
+                    { label: "Outstanding",   val: currentTenant.arrears,    prefix: "KSh ", color: allClear ? "#1B5E45" : "#dc2626" },
+                    { label: "Unit",          val: 0, display: currentTenant.unitId, color: "var(--color-text-primary)" },
+                    { label: "Next Due",      val: 0, display: nextDue.toLocaleDateString("en-KE", { month: "short", day: "numeric" }), color: "var(--color-text-primary)" },
+                    { label: "Status",        val: 0, display: "Active", color: "#1B5E45" },
+                  ].map((item, i) => (
+                    <div key={i}
+                      className="rounded-2xl p-3.5 border"
+                      style={{ background: "var(--color-background-alt)", borderColor: "var(--color-border-light)" }}>
+                      <p className="text-[8px] font-black uppercase tracking-widest mb-1" style={{ color: "var(--color-text-muted)" }}>{item.label}</p>
+                      <p className="text-base font-black leading-none" style={{ color: item.color }}>
+                        {item.display ?? (
+                          <Counter to={item.val} prefix={item.prefix} />
+                        )}
+                      </p>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
+          </div>
+        </Reveal>
 
-            {/* Rent Amount Breakdown */}
-            <div className="pb-6 md:pb-8 lg:pb-10 border-b-2" style={{ borderColor: "var(--color-border-light)" }}>
-              <div className="flex items-center gap-2 md:gap-3 mb-6 md:mb-8">
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white shadow-md flex-shrink-0">
-                  <CreditCard className="w-5 h-5 md:w-6 md:h-6" />
-                </div>
-                <div>
-                  <h3 className="text-lg md:text-xl lg:text-2xl font-bold" style={{ color: "var(--color-text-primary)" }}>Rent Breakdown</h3>
-                  <p className="text-xs md:text-sm text-gray-500 font-medium mt-0.5 md:mt-1">Monthly charges and inclusions</p>
-                </div>
+        {/* ── UNIT INFORMATION ─────────────────────────────────────────────── */}
+        <Reveal delay={0.06}>
+          <div className="rounded-[1.8rem] border overflow-hidden"
+            style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", boxShadow: "var(--shadow-card)" }}>
+            <div className="flex items-center gap-3 px-6 pt-6 pb-5 border-b"
+              style={{ borderColor: "var(--color-border-light)" }}>
+              <div className="w-9 h-9 rounded-xl bg-[#1B5E45] flex items-center justify-center">
+                <Home className="w-4 h-4 text-white" />
               </div>
-              <div className="space-y-3 md:space-y-4">
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 md:gap-4 p-3 md:p-4 lg:p-6 bg-gradient-to-r from-blue-50 to-white rounded-lg md:rounded-xl border border-blue-100 hover:shadow-md transition-shadow">
-                  <div>
-                    <p className="text-xs md:text-sm font-semibold text-gray-600">Base Monthly Rent</p>
-                    <p className="text-[10px] md:text-xs text-gray-500 mt-0.5 md:mt-1">Due on 1st of each month</p>
-                  </div>
-                  <span className="text-xl md:text-2xl lg:text-3xl font-bold text-blue-600 whitespace-nowrap">
-                    KSh {currentTenant.rent.toLocaleString()}
-                  </span>
-                </div>
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 md:gap-4 p-3 md:p-4 lg:p-6 bg-gradient-to-r from-green-50 to-white rounded-lg md:rounded-xl border border-green-100 hover:shadow-md transition-shadow">
-                  <div>
-                    <p className="text-xs md:text-sm font-semibold text-gray-600">Utilities & Services</p>
-                    <p className="text-[10px] md:text-xs text-gray-500 mt-0.5 md:mt-1">Water, electricity, internet</p>
-                  </div>
-                  <span className="px-3 md:px-4 py-1.5 md:py-2 bg-gradient-to-r from-[#1B5E45] to-[#246B4F] text-white text-[9px] md:text-xs font-bold uppercase tracking-wider md:tracking-widest rounded-lg">
-                    Inclusive
-                  </span>
-                </div>
+              <div>
+                <h3 className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Unit Information</h3>
+                <p className="text-[8px] font-black uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>
+                  Property details & occupancy
+                </p>
               </div>
             </div>
 
-            {/* Payment Summary */}
-            <div className="pb-6 md:pb-8 lg:pb-10 border-b-2" style={{ borderColor: "var(--color-border-light)" }}>
-              <div className="flex items-center gap-2 md:gap-3 mb-6 md:mb-8">
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-lg bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center text-white shadow-md flex-shrink-0">
-                  <AlertCircle className="w-5 h-5 md:w-6 md:h-6" />
-                </div>
-                <div>
-                  <h3 className="text-lg md:text-xl lg:text-2xl font-bold" style={{ color: "var(--color-text-primary)" }}>Current Balance</h3>
-                  <p className="text-xs md:text-sm text-gray-500 font-medium mt-0.5 md:mt-1">Payment status overview</p>
-                </div>
+            <div className="p-6 grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {[
+                { label: "Unit Number",  val: currentTenant.unitId,   highlight: true },
+                { label: "Move-in Date", val: currentTenant.moveInDate },
+                { label: "Lease Status", val: "Active",               green: true },
+                { label: "Floor",        val: "5th Floor" },
+                { label: "Type",         val: "2BR Apartment" },
+                { label: "Lease Term",   val: "12 Months" },
+              ].map((item, i) => (
+                <motion.div key={i}
+                  whileHover={{ y: -2, transition: { duration: 0.15 } }}
+                  className="rounded-2xl p-4 border cursor-default transition-all"
+                  style={{
+                    background: item.highlight ? "var(--color-surface-tint)" : item.green ? "#F0FDF4" : "var(--color-background-alt)",
+                    borderColor: item.highlight ? "var(--color-border-mid)" : item.green ? "#BBF7D0" : "var(--color-border-light)",
+                  }}>
+                  <p className="text-[8px] font-black uppercase tracking-[0.35em] mb-1.5"
+                    style={{ color: "var(--color-text-muted)" }}>{item.label}</p>
+                  <p className="text-base font-black"
+                    style={{ color: item.highlight ? "var(--color-green-deep)" : item.green ? "#1B5E45" : "var(--color-text-primary)" }}>
+                    {item.val}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+
+        {/* ── RENT BREAKDOWN ───────────────────────────────────────────────── */}
+        <Reveal delay={0.08}>
+          <div className="rounded-[1.8rem] border overflow-hidden"
+            style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", boxShadow: "var(--shadow-card)" }}>
+            <div className="flex items-center gap-3 px-6 pt-6 pb-5 border-b"
+              style={{ borderColor: "var(--color-border-light)" }}>
+              <div className="w-9 h-9 rounded-xl bg-[#1B5E45] flex items-center justify-center">
+                <CreditCard className="w-4 h-4 text-white" />
               </div>
-              <div className="space-y-3 md:space-y-4 mb-4 md:mb-6">
-                <div className="flex items-center justify-between p-3 md:p-4 lg:p-5 bg-gray-50 rounded-lg md:rounded-xl border border-gray-200">
-                  <span className="text-xs md:text-sm font-semibold text-gray-700">Total Due</span>
-                  <span className="text-lg md:text-xl font-bold text-gray-900">
-                    KSh {currentTenant.rent.toLocaleString()}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between p-3 md:p-4 lg:p-5 bg-green-50 rounded-lg md:rounded-xl border border-green-200">
-                  <span className="text-xs md:text-sm font-semibold text-gray-700">Amount Settled</span>
-                  <span className="text-lg md:text-xl font-bold text-[#1B5E45]">
-                    KSh {currentTenant.paidAmount.toLocaleString()}
-                  </span>
-                </div>
+              <div>
+                <h3 className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Rent Breakdown</h3>
+                <p className="text-[8px] font-black uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>
+                  Monthly charges & inclusions
+                </p>
               </div>
-              <div className={`flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-3 p-4 md:p-5 lg:p-6 rounded-lg md:rounded-xl border-2 font-bold text-base md:text-lg ${
-                currentTenant.arrears > 0
-                  ? "bg-red-50 border-red-300 text-red-700"
-                  : "bg-green-50 border-[#3DBE7A] text-[#1B5E45]"
-              }`}>
-                <span className="uppercase tracking-tight md:tracking-wide text-xs md:text-sm">Net Balance</span>
-                <span className="text-2xl md:text-3xl font-black">
-                  KSh {currentTenant.arrears.toLocaleString()}
+            </div>
+
+            <div className="p-6 space-y-3">
+              {/* Base rent row */}
+              <div className="flex items-center justify-between p-4 rounded-2xl border transition-all hover:shadow-md"
+                style={{ background: "var(--color-background-alt)", borderColor: "var(--color-border-light)" }}>
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-[#E8F5EE] flex items-center justify-center">
+                    <DollarSign className="w-4 h-4" style={{ color: "#1B5E45" }} />
+                  </div>
+                  <div>
+                    <p className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Base Monthly Rent</p>
+                    <p className="text-[9px] font-bold uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>
+                      Due 1st of each month
+                    </p>
+                  </div>
+                </div>
+                <p className="text-xl font-black tabular-nums" style={{ color: "var(--color-text-primary)" }}>
+                  KSh {currentTenant.rent.toLocaleString()}
+                </p>
+              </div>
+
+              {/* Utilities row */}
+              <div className="flex items-center justify-between p-4 rounded-2xl border transition-all hover:shadow-md"
+                style={{ background: "var(--color-surface-tint)", borderColor: "var(--color-border-mid)" }}>
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-[#1B5E45] flex items-center justify-center">
+                    <Zap className="w-4 h-4 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Utilities & Services</p>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      {[<Wifi className="w-3 h-3" />, <Droplets className="w-3 h-3" />, <Zap className="w-3 h-3" />].map((ic, i) => (
+                        <span key={i} style={{ color: "var(--color-text-muted)" }}>{ic}</span>
+                      ))}
+                      <p className="text-[9px] font-bold uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>
+                        WiFi, Water, Electricity
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <span className="px-3 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest text-white"
+                  style={{ background: "linear-gradient(135deg,#1B5E45,#246B4F)" }}>
+                  Inclusive
                 </span>
               </div>
             </div>
+          </div>
+        </Reveal>
 
-            {/* Status Message */}
-            <div className={`p-4 md:p-5 lg:p-6 rounded-lg md:rounded-xl border-2 flex gap-3 md:gap-4 items-start transition-all ${
-              currentTenant.arrears === 0 
-              ? "bg-green-50 border-[#3DBE7A] text-[#1B5E45]" 
-              : "bg-red-50 border-red-300 text-red-700"
-            }`}>
-              {currentTenant.arrears === 0 ? (
-                <CheckCircle2 className="w-5 h-5 md:w-6 md:h-6 shrink-0 mt-0.5" />
-              ) : (
-                <AlertCircle className="w-5 h-5 md:w-6 md:h-6 shrink-0 mt-0.5" />
-              )}
-              <div className="flex-1 min-w-0">
-                <p className="font-bold text-base md:text-lg leading-tight">
-                  {currentTenant.arrears === 0
-                    ? "Account Status: Verified & Current"
-                    : `Outstanding Balance: KSh ${currentTenant.arrears.toLocaleString()}`}
-                </p>
-                <p className="text-xs md:text-sm mt-1 md:mt-2 opacity-90 font-medium leading-relaxed">
-                  {currentTenant.arrears === 0
-                    ? "Your rental account is up to date. Thank you for maintaining timely payments."
-                    : "Please settle this amount at your earliest convenience to avoid service interruption."}
+        {/* ── PAYMENT SUMMARY ──────────────────────────────────────────────── */}
+        <Reveal delay={0.1}>
+          <div className="rounded-[1.8rem] border overflow-hidden"
+            style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", boxShadow: "var(--shadow-card)" }}>
+            <div className="flex items-center gap-3 px-6 pt-6 pb-5 border-b"
+              style={{ borderColor: "var(--color-border-light)" }}>
+              <div className="w-9 h-9 rounded-xl bg-[#1B5E45] flex items-center justify-center">
+                <TrendingUp className="w-4 h-4 text-white" />
+              </div>
+              <div>
+                <h3 className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Current Balance</h3>
+                <p className="text-[8px] font-black uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>
+                  Payment status overview
                 </p>
               </div>
             </div>
 
-            {/* M-Pesa Integration */}
-            <div className="bg-gradient-to-br from-[#1A1A1A] to-[#0F0F0F] p-4 md:p-6 lg:p-8 rounded-lg md:rounded-xl lg:rounded-2xl space-y-6 md:space-y-8 relative overflow-hidden group border border-gray-700 shadow-xl">
-              <div className="absolute top-0 right-0 p-8 md:p-10 opacity-5 group-hover:rotate-12 transition-transform duration-1000">
-                <CreditCard className="w-32 h-32 md:w-40 md:h-40" />
-              </div>
-              
-              <div className="relative z-10">
-                <div className="flex items-center gap-2 md:gap-3 mb-6 md:mb-8">
-                  <div className="h-10 md:h-12 px-3 md:px-4 bg-white rounded-lg flex items-center justify-center border border-white/10 group-hover:scale-105 transition-transform shadow-lg">
-                    <img src="/images/mpesa-logo.png" alt="M-Pesa" className="h-5 md:h-6" />
-                  </div>
-                  <div className="h-8 md:h-10 px-3 md:px-4 bg-[#3DBE7A]/20 rounded-lg border border-[#3DBE7A]/40 flex items-center gap-2">
-                    <div className="w-2 h-2 bg-[#3DBE7A] rounded-full animate-pulse" />
-                    <span className="text-[9px] md:text-xs font-bold text-[#3DBE7A] uppercase tracking-widest">Live Payment Gateway</span>
+            <div className="p-6 space-y-3">
+              {/* Row trio */}
+              {[
+                { label: "Total Due",       val: currentTenant.rent,        color: "var(--color-text-primary)", bg: "var(--color-background-alt)", border: "var(--color-border-light)" },
+                { label: "Amount Settled",  val: currentTenant.paidAmount,  color: "#1B5E45",                  bg: "var(--color-surface-tint)",    border: "var(--color-border-mid)" },
+              ].map((row, i) => (
+                <div key={i} className="flex items-center justify-between p-4 rounded-2xl border"
+                  style={{ background: row.bg, borderColor: row.border }}>
+                  <p className="text-sm font-black" style={{ color: "var(--color-text-muted)" }}>{row.label}</p>
+                  <p className="text-xl font-black tabular-nums" style={{ color: row.color }}>
+                    KSh {row.val.toLocaleString()}
+                  </p>
+                </div>
+              ))}
+
+              {/* Net balance — large */}
+              <div className="flex items-center justify-between p-5 rounded-2xl border-2"
+                style={{
+                  background: allClear ? "var(--color-surface-tint)" : "#FFF5F5",
+                  borderColor: allClear ? "var(--color-border-mid)" : "#FECACA",
+                }}>
+                <div>
+                  <p className="text-[8px] font-black uppercase tracking-[0.38em]" style={{ color: "var(--color-text-muted)" }}>Net Balance</p>
+                  <div className="flex items-center gap-2 mt-1">
+                    {allClear
+                      ? <CheckCircle2 className="w-4 h-4" style={{ color: "#1B5E45" }} />
+                      : <AlertCircle className="w-4 h-4 text-red-500" />}
+                    <p className="text-xs font-black" style={{ color: allClear ? "#1B5E45" : "#dc2626" }}>
+                      {allClear ? "Account fully settled" : "Action required"}
+                    </p>
                   </div>
                 </div>
+                <p className="text-3xl font-black tabular-nums"
+                  style={{ color: allClear ? "#1B5E45" : "#dc2626" }}>
+                  KSh {currentTenant.arrears.toLocaleString()}
+                </p>
+              </div>
 
-                <div className="space-y-2 md:space-y-3 mb-6 md:mb-8">
-                  <p className="text-white font-bold text-base md:text-lg leading-tight">
+              {/* Settlement progress bar */}
+              <div className="space-y-2 pt-1">
+                <div className="flex justify-between">
+                  <span className="text-[9px] font-black uppercase tracking-widest"
+                    style={{ color: "var(--color-text-muted)" }}>Settlement Progress</span>
+                  <span className="text-[9px] font-black" style={{ color: "var(--color-green-deep)" }}>{settlePct}%</span>
+                </div>
+                <div className="h-2.5 rounded-full overflow-hidden" style={{ background: "var(--color-border-light)" }}>
+                  <motion.div className="h-full rounded-full relative overflow-hidden"
+                    style={{ background: "linear-gradient(90deg,#1B5E45,#3DBE7A)" }}
+                    initial={{ width: 0 }}
+                    animate={{ width: `${settlePct}%` }}
+                    transition={{ duration: 1.3, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}>
+                    <motion.div className="absolute inset-0"
+                      style={{ background: "linear-gradient(90deg,transparent,rgba(255,255,255,0.35),transparent)" }}
+                      animate={{ x: ["-100%", "200%"] }}
+                      transition={{ duration: 2.5, repeat: Infinity, ease: "linear", delay: 1.8 }} />
+                  </motion.div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+
+        {/* ── STATUS ALERT ─────────────────────────────────────────────────── */}
+        <Reveal delay={0.12}>
+          <motion.div
+            initial={{ scale: 0.97 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.15, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="flex items-start gap-4 p-5 rounded-2xl border-2"
+            style={{
+              background: allClear ? "var(--color-surface-tint)" : "#FFF5F5",
+              borderColor: allClear ? "var(--color-border-mid)" : "#FECACA",
+            }}>
+            <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
+              allClear ? "bg-[#E8F5EE]" : "bg-red-100"
+            }`}>
+              {allClear
+                ? <ShieldCheck className="w-5 h-5" style={{ color: "#1B5E45" }} />
+                : <AlertCircle className="w-5 h-5 text-red-500" />}
+            </div>
+            <div>
+              <p className="text-sm font-black mb-1"
+                style={{ color: allClear ? "#1B5E45" : "#dc2626" }}>
+                {allClear ? "Account Verified & Current" : `Outstanding Balance: KSh ${currentTenant.arrears.toLocaleString()}`}
+              </p>
+              <p className="text-xs font-medium leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
+                {allClear
+                  ? "Your rental account is fully up to date. Thank you for maintaining timely payments."
+                  : "Please settle this outstanding amount at your earliest convenience to avoid any service interruption."}
+              </p>
+            </div>
+          </motion.div>
+        </Reveal>
+
+        {/* ── M-PESA PAYMENT CTA ───────────────────────────────────────────── */}
+        <Reveal delay={0.14}>
+          <div className="relative rounded-[1.8rem] overflow-hidden border"
+            style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", boxShadow: "var(--shadow-card)" }}>
+            {/* Subtle dot grid */}
+            <div className="absolute inset-0 opacity-[0.025]"
+              style={{ backgroundImage: "radial-gradient(circle at 1px 1px,rgba(27,94,69,0.8) 1px,transparent 0)", backgroundSize: "20px 20px" }} />
+            {/* Green glow */}
+            <motion.div
+              animate={{ scale: [1, 1.12, 1], opacity: [0.06, 0.12, 0.06] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute top-0 right-0 w-72 h-72 rounded-full -mr-24 -mt-24"
+              style={{ background: "radial-gradient(circle,rgba(61,190,122,1),transparent 70%)", filter: "blur(60px)" }} />
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#3DBE7A]/25 to-transparent" />
+
+            <div className="relative z-10 p-7 md:p-9">
+              {/* M-Pesa badge + live tag */}
+              <div className="flex items-center gap-3 mb-6">
+                <div className="h-10 px-4 rounded-xl flex items-center justify-center shadow-sm border"
+                  style={{ background: "var(--color-background-alt)", borderColor: "var(--color-border-light)" }}>
+                  <img src="/images/mpesa-logo.png" alt="M-Pesa"
+                    className="h-5"
+                    onError={e => {
+                      (e.target as HTMLImageElement).style.display = "none";
+                      (e.target as HTMLImageElement).parentElement!.innerHTML =
+                        '<span style="font-size:13px;font-weight:900;color:#4CAF50">M-PESA</span>';
+                    }} />
+                </div>
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border"
+                  style={{ background: "var(--color-surface-tint)", borderColor: "var(--color-border-mid)" }}>
+                  <motion.span
+                    animate={{ scale: [1, 1.3, 1] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                    className="w-1.5 h-1.5 rounded-full bg-[#3DBE7A]" />
+                  <span className="text-[9px] font-black uppercase tracking-widest"
+                    style={{ color: "var(--color-green-deep)" }}>
+                    Live Payment Gateway
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                <div className="space-y-2 max-w-sm">
+                  <p className="text-xl font-black tracking-tight" style={{ color: "var(--color-text-primary)" }}>
                     Settle Your Balance Securely
                   </p>
-                  <p className="text-white/50 font-medium text-xs md:text-sm leading-relaxed">
-                    Use M-Pesa for instant payment. Rent is due by the 1st of each month. Secure and verified transactions.
+                  <p className="text-sm font-medium leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
+                    Use M-Pesa for instant, verified rent payment. Rent is due by the 1st of each month.
                   </p>
+                  <div className="flex items-center gap-4 pt-1">
+                    {[
+                      { icon: <ShieldCheck className="w-3.5 h-3.5" />, label: "Encrypted" },
+                      { icon: <CheckCircle2 className="w-3.5 h-3.5" />, label: "Instant" },
+                      { icon: <Clock className="w-3.5 h-3.5" />, label: "24/7 Access" },
+                    ].map((badge, i) => (
+                      <div key={i} className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest"
+                        style={{ color: "var(--color-text-muted)" }}>
+                        {badge.icon} {badge.label}
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
-                <a href="/tenant/payments" className="block">
-                  <Button className="w-full bg-gradient-to-r from-[#3DBE7A] to-[#2AE299] hover:from-[#2AE299] hover:to-[#1B5E45] text-white h-12 md:h-14 rounded-lg font-bold text-xs md:text-sm lg:text-base shadow-2xl group border-none transition-all hover:shadow-[0_0_30px_rgba(61,190,122,0.3)]">
+                <a href="/tenant/payments" className="shrink-0 w-full md:w-auto">
+                  <motion.button
+                    whileHover={{ y: -2, boxShadow: "0 20px 50px rgba(27,94,69,0.3)" }}
+                    whileTap={{ scale: 0.97 }}
+                    className="w-full md:w-auto flex items-center justify-center gap-3 px-8 py-4 rounded-2xl text-sm font-black text-white transition-all"
+                    style={{
+                      background: "linear-gradient(135deg,#1B5E45,#246B4F)",
+                      boxShadow: "0 8px 28px rgba(27,94,69,0.28)",
+                    }}>
                     Pay Now via M-Pesa
-                    <ArrowRight className="w-4 h-4 md:w-5 md:h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </Button>
+                    <ArrowRight className="w-4 h-4" />
+                  </motion.button>
                 </a>
               </div>
             </div>
           </div>
-        </div>
+        </Reveal>
+
       </div>
     </TenantLayout>
   );

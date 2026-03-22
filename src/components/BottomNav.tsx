@@ -23,11 +23,11 @@ export default function BottomNav({ items }: BottomNavProps) {
       <nav
         className="flex items-center justify-around p-2 pointer-events-auto rounded-2xl"
         style={{
-          background: "rgba(26, 26, 26, 0.95)",
+          background: "rgba(255, 255, 255, 0.95)",
           backdropFilter: "blur(20px)",
           WebkitBackdropFilter: "blur(20px)",
-          border: "1px solid var(--color-border-dark)",
-          boxShadow: "0 8px 32px rgba(0, 0, 0, 0.4)",
+          border: "1px solid rgba(0, 0, 0, 0.05)",
+          boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
         }}
       >
         {items.map((item) => {
@@ -38,7 +38,7 @@ export default function BottomNav({ items }: BottomNavProps) {
               href={item.href}
               className="flex flex-col items-center justify-center py-2 px-1 rounded-xl transition-all duration-300 w-full"
               style={{
-                color: isActive ? "#3DBE7A" : "rgba(250, 250, 248, 0.5)",
+                color: isActive ? "#3DBE7A" : "rgba(30, 41, 59, 0.6)",
                 background: isActive ? "rgba(61, 190, 122, 0.1)" : "transparent",
               }}
             >

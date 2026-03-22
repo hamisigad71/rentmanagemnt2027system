@@ -48,7 +48,7 @@ export default function DeveloperPanel() {
             {/* Avatar + name */}
             <div className="flex items-center gap-3">
               <img
-                src="https://api.dicebear.com/7.x/avataaars/svg?seed=Daysman"
+                src="/profile-avatar.jpg"
                 alt="Daysman Gad"
                 className="w-11 h-11 rounded-full object-cover"
               />

@@ -1,33 +1,47 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import LandlordLayout from "@/components/LandlordLayout";
+import React, { useState, useRef } from "react";
+import TenantLayout from "@/components/TenantLayout";
+import Badge from "@/components/Badge";
 import Modal from "@/components/Modal";
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { mockComplaints } from "@/data/mockData";
-import { getAvatarUrl } from "@/utils/avatarUtils";
+import { mockComplaints, mockTenants } from "@/data/mockData";
+import { useAuth } from "@/context/AuthContext";
 import {
-  AlertCircle, Search, Wrench, ShieldAlert,
-  Calendar, ChevronRight, X, Plus,
-  CheckCheck, Timer, CircleDot,
+  AlertCircle, Plus, Search, CheckCircle2, Clock,
+  CircleDot, ChevronRight, X, Calendar, Tag,
+  Wrench, Wifi, Droplets, Zap, Shield, MoreHorizontal,
+  MessageSquare, ArrowRight, ShieldCheck, Timer,
+  CheckCheck, Filter,
 } from "lucide-react";
 
-type Status = "all" | "pending" | "in-progress" | "resolved";
+/* ─── types ──────────────────────────────────────────────────────────────── */
+type Priority = "low" | "medium" | "high";
+type Status   = "all" | "pending" | "in-progress" | "resolved";
 
-/* ─── config helpers ────────────────────────────────────────────────────────── */
-function priorityConfig(p: string) {
-  if (p === "high")   return { label: "High",   dot: "#ef4444", bg: "#FFF5F5", text: "#dc2626", border: "#FECACA", barBg: "rgba(239,68,68,0.12)" };
-  if (p === "medium") return { label: "Medium", dot: "#f59e0b", bg: "#FFFBEB", text: "#d97706", border: "#FDE68A", barBg: "rgba(245,158,11,0.12)" };
-  return                     { label: "Low",    dot: "#3DBE7A", bg: "#F0FDF4", text: "#1B5E45", border: "#BBF7D0", barBg: "rgba(61,190,122,0.1)" };
+/* ─── config ─────────────────────────────────────────────────────────────── */
+function priorityConf(p: string) {
+  if (p === "high")   return { label: "High",   dot: "#ef4444", bg: "#FFF5F5", text: "#dc2626", border: "#FECACA" };
+  if (p === "medium") return { label: "Medium", dot: "#f59e0b", bg: "#FFFBEB", text: "#d97706", border: "#FDE68A" };
+  return                     { label: "Low",    dot: "#3DBE7A", bg: "#F0FDF4", text: "#1B5E45", border: "#BBF7D0" };
 }
 
-function statusConfig(s: string) {
-  if (s === "resolved")    return { label: "Resolved",    icon: CheckCheck, color: "#1B5E45", bg: "var(--color-surface-tint)", border: "var(--color-border-mid)" };
-  if (s === "in-progress") return { label: "In Progress", icon: Timer,      color: "#d97706", bg: "#FFFBEB",                    border: "#FDE68A" };
-  return                          { label: "Pending",     icon: CircleDot,  color: "#dc2626", bg: "#FFF5F5",                    border: "#FECACA" };
+function statusConf(s: string) {
+  if (s === "resolved")    return { label: "Resolved",    Icon: CheckCheck,  color: "#1B5E45", bg: "var(--color-surface-tint)", border: "var(--color-border-mid)" };
+  if (s === "in-progress") return { label: "In Progress", Icon: Timer,       color: "#d97706", bg: "#FFFBEB",                    border: "#FDE68A" };
+  return                          { label: "Pending",     Icon: CircleDot,   color: "#dc2626", bg: "#FFF5F5",                    border: "#FECACA" };
 }
 
-/* ─── animation wrapper ────────────────────────────────────────────────────── */
+const CATEGORIES = [
+  { label: "Plumbing",     icon: <Droplets className="w-4 h-4" /> },
+  { label: "Electrical",   icon: <Zap className="w-4 h-4" /> },
+  { label: "Internet",     icon: <Wifi className="w-4 h-4" /> },
+  { label: "Maintenance",  icon: <Wrench className="w-4 h-4" /> },
+  { label: "Security",     icon: <Shield className="w-4 h-4" /> },
+  { label: "Other",        icon: <MoreHorizontal className="w-4 h-4" /> },
+];
+
+/* ─── reveal ─────────────────────────────────────────────────────────────── */
 function Reveal({ children, delay = 0, className = "" }: {
   children: React.ReactNode; delay?: number; className?: string;
 }) {
@@ -44,391 +58,500 @@ function Reveal({ children, delay = 0, className = "" }: {
   );
 }
 
-/* ─── animated progress ring ─────────────────────────────────────────────── */
-function ProgressRing({ pct, size = 56, stroke = 5, color = "#3DBE7A" }: {
+/* ─── progress ring ──────────────────────────────────────────────────────── */
+function Ring({ pct, size = 56, stroke = 5, color = "#3DBE7A" }: {
   pct: number; size?: number; stroke?: number; color?: string;
 }) {
   const r    = (size - stroke * 2) / 2;
   const circ = 2 * Math.PI * r;
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="-rotate-90">
-      <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth={stroke} />
+      <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="rgba(0,0,0,0.06)" strokeWidth={stroke} />
       <motion.circle cx={size/2} cy={size/2} r={r} fill="none"
         stroke={color} strokeWidth={stroke} strokeLinecap="round"
         strokeDasharray={circ}
         initial={{ strokeDashoffset: circ }}
         animate={{ strokeDashoffset: circ - (pct / 100) * circ }}
-        transition={{ duration: 0.9, delay: 0.25, ease: [0.22, 1, 0.36, 1] }} />
+        transition={{ duration: 1.1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }} />
     </svg>
   );
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════ */
-export default function ComplaintsPage() {
+/* ═══════════════════════════════════════════════════════════════════════════
+   PAGE
+══════════════════════════════════════════════════════════════════════════════*/
+export default function TenantComplaintsPage() {
+  const { userName } = useAuth();
+  const currentTenant = mockTenants[0];
+
+  /* filter tenant's own complaints */
+  const myComplaints = mockComplaints.filter(c => c.tenantId === currentTenant.id);
+
   const [filter, setFilter]       = useState<Status>("all");
   const [search, setSearch]       = useState("");
   const [selected, setSelected]   = useState<any>(null);
-  const [isMounted, setIsMounted] = useState(false);
+  const [showForm, setShowForm]   = useState(false);
 
-  useEffect(() => { setIsMounted(true); }, []);
+  /* form state */
+  const [form, setForm] = useState({
+    title: "", category: "", priority: "medium" as Priority, description: "",
+  });
+  const [submitted, setSubmitted] = useState(false);
 
-  const total      = mockComplaints.length;
-  const pending    = mockComplaints.filter(c => c.status === "pending").length;
-  const inProgress = mockComplaints.filter(c => c.status === "in-progress").length;
-  const resolved   = mockComplaints.filter(c => c.status === "resolved").length;
-  const highPrio   = mockComplaints.filter(c => c.priority === "high").length;
+  /* stats */
+  const total      = myComplaints.length;
+  const pending    = myComplaints.filter(c => c.status === "pending").length;
+  const inProgress = myComplaints.filter(c => c.status === "in-progress").length;
+  const resolved   = myComplaints.filter(c => c.status === "resolved").length;
+  const resolvePct = total ? Math.round((resolved / total) * 100) : 0;
 
-  const filtered = mockComplaints.filter(c => {
+  /* filtered list */
+  const filtered = myComplaints.filter(c => {
     const matchStatus = filter === "all" || c.status === filter;
-    const matchSearch = `${c.title} ${c.tenantName} ${c.category}`.toLowerCase().includes(search.toLowerCase());
+    const matchSearch = `${c.title} ${c.category}`.toLowerCase().includes(search.toLowerCase());
     return matchStatus && matchSearch;
   });
 
+  /* submit handler */
+  const handleSubmit = () => {
+    if (!form.title || !form.category || !form.description) return;
+    setSubmitted(true);
+    setTimeout(() => {
+      setSubmitted(false);
+      setShowForm(false);
+      setForm({ title: "", category: "", priority: "medium", description: "" });
+    }, 2000);
+  };
+
   return (
-    <LandlordLayout>
-      <div className="min-h-screen" style={{ background: "var(--color-background)" }}>
+    <TenantLayout>
+      <div className="min-h-screen p-5 md:p-8 space-y-6 max-w-[1200px] mx-auto"
+        style={{ background: "var(--color-background)" }}>
 
-        {/* ── PAGE HEADER ─────────────────────────────────────────────────── */}
-        <div className="px-6 md:px-8 pt-7 pb-0">
+        {/* ── HEADER ────────────────────────────────────────────────────── */}
+        <Reveal>
+          <div className="relative rounded-[1.8rem] border overflow-hidden"
+            style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", boxShadow: "var(--shadow-card)", minHeight: 160 }}>
+            {/* Subtle green glow top-right */}
+            <div className="absolute inset-0 opacity-[0.03]"
+              style={{ backgroundImage: "radial-gradient(circle at 1px 1px,rgba(27,94,69,0.8) 1px,transparent 0)", backgroundSize: "26px 26px" }} />
+            <motion.div
+              animate={{ scale: [1, 1.15, 1], opacity: [0.06, 0.12, 0.06] }}
+              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute top-0 right-0 w-80 h-80 rounded-full -mr-32 -mt-32"
+              style={{ background: "radial-gradient(circle,rgba(61,190,122,1),transparent 70%)", filter: "blur(80px)" }} />
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#3DBE7A]/25 to-transparent" />
 
-          {/* Title row */}
-          <Reveal className="flex flex-col md:flex-row md:items-center justify-between gap-5 mb-8">
-            <div>
-              <div className="flex items-center gap-2.5 mb-3">
-                <div className="w-8 h-8 rounded-xl bg-[#3DBE7A] flex items-center justify-center text-white">
-                  <Wrench className="w-4 h-4" />
+            <div className="relative z-10 p-7 md:p-9 flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6">
+              <div className="space-y-3">
+                {/* Label */}
+                <div className="flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-lg bg-[#1B5E45] flex items-center justify-center">
+                    <AlertCircle className="w-3.5 h-3.5 text-white" />
+                  </div>
+                  <p className="text-[8px] font-black uppercase tracking-[0.45em]"
+                    style={{ color: "var(--color-text-muted)" }}>
+                    Tenant Portal
+                  </p>
                 </div>
-                <p className="text-[9px] font-black uppercase tracking-[0.42em]"
-                  style={{ color: "var(--color-text-muted)" }}>
-                  Maintenance & Issues
-                </p>
+
+                {/* Heading */}
+                <div>
+                  <h1 className="text-3xl md:text-4xl font-black tracking-tighter leading-[0.9]"
+                    style={{ color: "var(--color-text-primary)" }}>
+                    My{" "}
+                    <span className="bg-gradient-to-r from-[#1B5E45] to-[#3DBE7A] bg-clip-text text-transparent">
+                      Complaints
+                    </span>
+                  </h1>
+                  <p className="text-sm font-medium mt-2"
+                    style={{ color: "var(--color-text-muted)" }}>
+                    Track, manage and submit your property issues
+                  </p>
+                </div>
+
+                {/* Inline mini stats */}
+                <div className="flex items-center gap-5 pt-1">
+                  {[
+                    { label: "Total",    val: total,      color: "var(--color-text-primary)" },
+                    { label: "Pending",  val: pending,    color: pending > 0 ? "#dc2626" : "var(--color-text-primary)" },
+                    { label: "Resolved", val: resolved,   color: resolved > 0 ? "#1B5E45" : "var(--color-text-primary)" },
+                  ].map((item, i) => (
+                    <React.Fragment key={i}>
+                      {i > 0 && <div className="w-px h-6" style={{ background: "var(--color-border-light)" }} />}
+                      <div>
+                        <p className="text-lg font-black tracking-tight" style={{ color: item.color }}>{item.val}</p>
+                        <p className="text-[8px] font-black uppercase tracking-widest mt-0.5"
+                          style={{ color: "var(--color-text-muted)" }}>{item.label}</p>
+                      </div>
+                    </React.Fragment>
+                  ))}
+                </div>
               </div>
-              <h1 className="text-3xl md:text-4xl font-black tracking-tighter leading-none"
-                style={{ color: "var(--color-text-primary)" }}>
-                Issue{" "}
-                <span className="bg-gradient-to-r from-[#1B5E45] to-[#3DBE7A] bg-clip-text text-transparent">
-                  Tracker
-                </span>
-              </h1>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="relative">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5"
-                  style={{ color: "var(--color-text-muted)" }} />
-                <input type="text" placeholder="Search issues…" value={search}
-                  onChange={e => setSearch(e.target.value)}
-                  className="pl-9 pr-4 py-2.5 rounded-xl text-sm font-medium outline-none transition-all w-52"
-                  style={{
-                    background: "var(--color-card)",
-                    border: "1px solid var(--color-border-light)",
-                    color: "var(--color-text-primary)",
-                  }} />
-              </div>
-              <button className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-white text-xs font-black uppercase tracking-widest transition-all hover:-translate-y-0.5 whitespace-nowrap"
-                style={{ background: "linear-gradient(135deg,#1B5E45,#3DBE7A)", boxShadow: "0 4px 14px rgba(27,94,69,0.28)" }}>
-                <Plus className="w-3.5 h-3.5" /> New Issue
+
+              {/* CTA button */}
+              <button
+                onClick={() => setShowForm(true)}
+                className="self-start sm:self-auto flex items-center gap-2 px-5 py-3 rounded-xl text-white text-sm font-black transition-all hover:-translate-y-0.5 whitespace-nowrap"
+                style={{ background: "linear-gradient(135deg,#1B5E45,#246B4F)", boxShadow: "0 6px 20px rgba(27,94,69,0.28)" }}>
+                <Plus className="w-4 h-4" /> New Complaint
               </button>
             </div>
-          </Reveal>
+          </div>
+        </Reveal>
 
-          {/* Stats strip */}
-          <Reveal delay={0.05}>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-7">
-              {[
-                { label: "Total Issues",  val: total,      icon: AlertCircle, accent: true },
-                { label: "Pending",       val: pending,    icon: CircleDot,   danger: true },
-                { label: "In Progress",   val: inProgress, icon: Timer,       warn: true },
-                { label: "Resolved",      val: resolved,   icon: CheckCheck },
-              ].map(({ label, val, icon: Icon, accent, danger, warn }, i) => (
-                <div key={i}
-                  className="relative rounded-2xl p-4 border overflow-hidden transition-all hover:shadow-lg hover:-translate-y-0.5"
-                  style={{
-                    background: accent ? "linear-gradient(135deg,#1B5E45,#246B4F)"
-                      : danger ? "#FFF5F5" : warn ? "#FFFBEB" : "var(--color-card)",
-                    borderColor: accent ? "transparent" : danger ? "#FECACA" : warn ? "#FDE68A" : "var(--color-border-light)",
-                    boxShadow: accent ? "0 8px 28px rgba(27,94,69,0.22)" : "var(--shadow-card)",
-                  }}>
-                  {accent && <div className="absolute -top-4 -right-4 w-16 h-16 bg-white/8 rounded-full" />}
-                  <div className="flex items-center justify-between mb-2">
-                    <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${
-                      accent ? "bg-white/15" : danger ? "bg-red-100" : warn ? "bg-amber-100" : "bg-[#E8F5EE]"
-                    }`}>
-                      <Icon className="w-4 h-4"
-                        style={{ color: accent ? "rgba(255,255,255,0.9)" : danger ? "#dc2626" : warn ? "#d97706" : "#1B5E45" }} />
-                    </div>
-                    {accent && highPrio > 0 && (
-                      <span className="text-[8px] font-black px-2 py-0.5 rounded-full bg-red-500/20 text-red-300 uppercase tracking-widest">
-                        {highPrio} high
-                      </span>
-                    )}
-                  </div>
-                  <p className="text-2xl font-black leading-none"
-                    style={{ color: accent ? "white" : danger ? "#dc2626" : warn ? "#d97706" : "var(--color-text-primary)" }}>
-                    {val}
-                  </p>
-                  <p className="text-[9px] font-black uppercase tracking-[0.32em] mt-1"
-                    style={{ color: accent ? "rgba(255,255,255,0.48)" : "var(--color-text-muted)" }}>
-                    {label}
-                  </p>
+        {/* ── STATS STRIP ────────────────────────────────────────────────── */}
+        <Reveal delay={0.04}>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {[
+              { label: "Total Logged",   val: total,      icon: AlertCircle,  accent: true },
+              { label: "Pending",        val: pending,    icon: CircleDot,    danger: true },
+              { label: "In Progress",    val: inProgress, icon: Timer,        warn: true },
+              { label: "Resolved",       val: resolved,   icon: CheckCheck },
+            ].map(({ label, val, icon: Icon, accent, danger, warn }, i) => (
+              <div key={i}
+                className="relative rounded-2xl p-4 border overflow-hidden transition-all hover:shadow-lg hover:-translate-y-0.5"
+                style={{
+                  background: accent ? "linear-gradient(135deg,#1B5E45,#246B4F)"
+                    : danger ? "#FFF5F5" : warn ? "#FFFBEB" : "var(--color-card)",
+                  borderColor: accent ? "transparent" : danger ? "#FECACA" : warn ? "#FDE68A" : "var(--color-border-light)",
+                  boxShadow: accent ? "0 8px 28px rgba(27,94,69,0.22)" : "var(--shadow-card)",
+                }}>
+                {accent && <div className="absolute -top-3 -right-3 w-12 h-12 bg-white/8 rounded-full" />}
+                <div className={`w-8 h-8 rounded-xl flex items-center justify-center mb-3 ${
+                  accent ? "bg-white/15" : danger ? "bg-red-100" : warn ? "bg-amber-100" : "bg-[#E8F5EE] border border-[#C4D4C9]"
+                }`}>
+                  <Icon className="w-4 h-4"
+                    style={{ color: accent ? "rgba(255,255,255,0.9)" : danger ? "#dc2626" : warn ? "#d97706" : "#1B5E45" }} />
                 </div>
-              ))}
-            </div>
-          </Reveal>
+                <p className="text-2xl font-black leading-none mb-1"
+                  style={{ color: accent ? "white" : danger ? "#dc2626" : warn ? "#d97706" : "var(--color-text-primary)" }}>
+                  {val}
+                </p>
+                <p className="text-[8px] font-black uppercase tracking-[0.32em]"
+                  style={{ color: accent ? "rgba(255,255,255,0.48)" : "var(--color-text-muted)" }}>
+                  {label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </Reveal>
 
-          {/* Filter tabs */}
-          <Reveal delay={0.08}>
-            <div className="flex items-center gap-0 mb-7 border-b" style={{ borderColor: "var(--color-border-light)" }}>
-              {(["all", "pending", "in-progress", "resolved"] as Status[]).map(s => {
-                const count  = s === "all" ? total : mockComplaints.filter(c => c.status === s).length;
-                const active = filter === s;
+        {/* ── RESOLUTION PROGRESS ──────────────────────────────────────────── */}
+        <Reveal delay={0.06}>
+          <div className="rounded-[1.8rem] border overflow-hidden"
+            style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", boxShadow: "var(--shadow-card)" }}>
+            <div className="p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-5">
+              {/* Ring */}
+              <div className="relative flex-shrink-0">
+                <Ring pct={resolvePct} size={72} stroke={7} color="#3DBE7A" />
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <span className="text-sm font-black leading-none" style={{ color: "var(--color-green-deep)" }}>
+                    {resolvePct}%
+                  </span>
+                </div>
+              </div>
+              {/* Bar + label */}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>
+                    Resolution Progress
+                  </p>
+                  <span className="text-[9px] font-black px-2 py-0.5 rounded-full"
+                    style={{ background: "var(--color-surface-tint)", color: "var(--color-green-deep)" }}>
+                    {resolved} / {total} resolved
+                  </span>
+                </div>
+                <div className="h-2.5 rounded-full overflow-hidden mb-1.5"
+                  style={{ background: "var(--color-border-light)" }}>
+                  <motion.div className="h-full rounded-full relative overflow-hidden"
+                    style={{ background: "linear-gradient(90deg,#1B5E45,#3DBE7A)" }}
+                    initial={{ width: 0 }}
+                    animate={{ width: `${resolvePct}%` }}
+                    transition={{ duration: 1.1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}>
+                    <motion.div className="absolute inset-0"
+                      style={{ background: "linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent)" }}
+                      animate={{ x: ["-100%", "200%"] }}
+                      transition={{ duration: 2.5, repeat: Infinity, ease: "linear", delay: 1.5 }} />
+                  </motion.div>
+                </div>
+                <p className="text-[9px] font-bold" style={{ color: "var(--color-text-muted)" }}>
+                  {total - resolved} complaint{total - resolved !== 1 ? "s" : ""} still requiring attention
+                </p>
+              </div>
+              {/* Metric tiles */}
+              <div className="flex sm:flex-col items-center sm:items-end gap-3 flex-shrink-0">
+                {[
+                  { label: "Avg Response", val: "< 24h" },
+                  { label: "SLA Rating",   val: "98%" },
+                ].map((s, i) => (
+                  <div key={i} className="rounded-xl px-3.5 py-2.5 border text-center"
+                    style={{ background: "var(--color-background-alt)", borderColor: "var(--color-border-light)" }}>
+                    <p className="text-[7px] font-black uppercase tracking-widest mb-0.5"
+                      style={{ color: "var(--color-text-muted)" }}>{s.label}</p>
+                    <p className="text-sm font-black" style={{ color: "var(--color-green-deep)" }}>{s.val}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </Reveal>
+
+        {/* ── SEARCH + FILTER ──────────────────────────────────────────────── */}
+        <Reveal delay={0.08}>
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <div className="relative flex-1 max-w-sm">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5"
+                style={{ color: "var(--color-text-muted)" }} />
+              <input type="text" placeholder="Search complaints…"
+                value={search} onChange={e => setSearch(e.target.value)}
+                className="w-full pl-9 pr-4 py-2.5 rounded-xl text-sm font-medium outline-none"
+                style={{ background: "var(--color-card)", border: "1px solid var(--color-border-light)", color: "var(--color-text-primary)" }}
+                suppressHydrationWarning />
+            </div>
+            <div className="flex items-center gap-2 flex-wrap">
+              {(["all", "pending", "in-progress", "resolved"] as Status[]).map(f => {
+                const count = f === "all" ? total : myComplaints.filter(c => c.status === f).length;
                 return (
-                  <button key={s}
-                    onClick={() => setFilter(s)}
-                    className="relative px-4 py-3 text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap"
-                    style={{ color: active ? "var(--color-green-deep)" : "var(--color-text-muted)" }}>
-                    {s.replace("-", " ")}
-                    {isMounted && (
-                      <span className="ml-1.5 text-[9px] px-1.5 py-0.5 rounded-full font-black"
-                        style={{
-                          background: active ? "var(--color-surface-tint)" : "transparent",
-                          color: active ? "var(--color-green-deep)" : "var(--color-text-muted)",
-                        }}>
-                        {count}
-                      </span>
-                    )}
-                    {active && (
-                      <motion.div layoutId="tabIndicator"
-                        className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full"
-                        style={{ background: "var(--color-green-deep)" }} />
-                    )}
+                  <button key={f} onClick={() => setFilter(f)}
+                    className="px-3.5 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all whitespace-nowrap"
+                    style={{
+                      background: filter === f ? "var(--color-surface-tint)" : "var(--color-card)",
+                      border: `1px solid ${filter === f ? "var(--color-border-mid)" : "var(--color-border-light)"}`,
+                      color: filter === f ? "var(--color-green-deep)" : "var(--color-text-muted)",
+                    }}>
+                    {f.replace("-", " ")} ({count})
                   </button>
                 );
               })}
             </div>
-          </Reveal>
-        </div>
+          </div>
+        </Reveal>
 
-        {/* ── ISSUE CARDS GRID ─────────────────────────────────────────────── */}
-        <div className="px-6 md:px-8 pb-10">
+        {/* ── COMPLAINT CARDS ───────────────────────────────────────────────── */}
+        <div className="space-y-3">
           {filtered.length === 0 ? (
             <div className="py-20 flex flex-col items-center gap-4 rounded-2xl border border-dashed"
               style={{ borderColor: "var(--color-border-light)" }}>
               <div className="w-14 h-14 rounded-2xl flex items-center justify-center border"
                 style={{ background: "var(--color-background-alt)", borderColor: "var(--color-border-light)" }}>
-                <ShieldAlert className="w-6 h-6" style={{ color: "var(--color-text-muted)" }} />
+                {filter === "resolved"
+                  ? <CheckCircle2 className="w-6 h-6" style={{ color: "#3DBE7A" }} />
+                  : <ShieldCheck className="w-6 h-6" style={{ color: "var(--color-text-muted)" }} />}
               </div>
               <div className="text-center">
-                <p className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>No issues found</p>
-                <p className="text-xs mt-1" style={{ color: "var(--color-text-muted)" }}>
-                  {filter === "all" ? "All clear — no incidents logged." : `No ${filter.replace("-"," ")} issues.`}
+                <p className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>
+                  {filter === "all" ? "No complaints logged" : `No ${filter.replace("-", " ")} complaints`}
+                </p>
+                <p className="text-xs font-medium mt-1" style={{ color: "var(--color-text-muted)" }}>
+                  {filter === "all" ? "Tap 'New Complaint' to report an issue." : "Try a different filter."}
                 </p>
               </div>
+              {filter === "all" && (
+                <button onClick={() => setShowForm(true)}
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-white text-xs font-black uppercase tracking-widest mt-1"
+                  style={{ background: "linear-gradient(135deg,#1B5E45,#3DBE7A)" }}>
+                  <Plus className="w-3.5 h-3.5" /> Report Issue
+                </button>
+              )}
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-              <AnimatePresence>
-                {filtered.map((c, i) => {
-                  const pConf = priorityConfig(c.priority);
-                  const sConf = statusConfig(c.status);
-                  const SIcon = sConf.icon;
-                  return (
-                    <motion.div key={c.id}
-                      initial={{ opacity: 0, y: 14 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.97 }}
-                      transition={{ duration: 0.38, delay: i * 0.04, ease: [0.22, 1, 0.36, 1] }}
-                      onClick={() => setSelected(c)}
-                      className="group relative rounded-2xl border overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 flex flex-col"
-                      style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", boxShadow: "var(--shadow-card)" }}
-                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.borderColor = "rgba(27,94,69,0.22)"}
-                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.borderColor = "var(--color-border-light)"}
-                    >
-                      {/* Coloured priority top bar */}
-                      <div className="h-1 w-full flex-shrink-0" style={{ background: pConf.dot }} />
-
-                      <div className="p-5 flex flex-col gap-4 flex-1">
-                        {/* Header */}
-                        <div className="flex items-start justify-between gap-3">
-                          <div className="flex-1 min-w-0">
-                            <p className="text-[8px] font-black uppercase tracking-[0.38em] mb-1.5"
-                              style={{ color: "var(--color-text-muted)" }}>
-                              {c.category}
-                            </p>
-                            <h3 className="text-sm font-black leading-snug group-hover:text-[#1B5E45] transition-colors"
-                              style={{ color: "var(--color-text-primary)" }}>
-                              {c.title}
-                            </h3>
-                          </div>
-                          <div className="flex-shrink-0 px-2.5 py-1 rounded-full border text-[8px] font-black uppercase tracking-widest"
-                            style={{ background: pConf.bg, color: pConf.text, borderColor: pConf.border }}>
-                            {pConf.label}
-                          </div>
+            <AnimatePresence>
+              {filtered.map((complaint, i) => {
+                const pConf = priorityConf(complaint.priority);
+                const sConf = statusConf(complaint.status);
+                return (
+                  <motion.div key={complaint.id}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.97 }}
+                    whileHover={{ y: -3, transition: { duration: 0.18 } }}
+                    transition={{ duration: 0.38, delay: i * 0.04, ease: [0.22, 1, 0.36, 1] }}
+                    onClick={() => setSelected(complaint)}
+                    className="group rounded-2xl border overflow-hidden cursor-pointer"
+                    style={{
+                      background: "var(--color-card)",
+                      borderColor: "var(--color-border-light)",
+                      borderLeft: `3px solid ${pConf.dot}`,
+                      boxShadow: "var(--shadow-card)",
+                    }}
+                    onMouseEnter={e => {
+                      (e.currentTarget as HTMLElement).style.borderColor = "rgba(27,94,69,0.22)";
+                      (e.currentTarget as HTMLElement).style.boxShadow = "0 12px 40px rgba(0,0,0,0.1)";
+                    }}
+                    onMouseLeave={e => {
+                      (e.currentTarget as HTMLElement).style.borderColor = "var(--color-border-light)";
+                      (e.currentTarget as HTMLElement).style.boxShadow = "var(--shadow-card)";
+                    }}
+                  >
+                    <div className="p-5 flex flex-col sm:flex-row sm:items-center gap-4">
+                      {/* Left content */}
+                      <div className="flex-1 min-w-0 space-y-2">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="text-[8px] font-black uppercase tracking-[0.38em]"
+                            style={{ color: "var(--color-text-muted)" }}>
+                            {complaint.category}
+                          </span>
+                          <span className="text-[8px]" style={{ color: "var(--color-border-light)" }}>·</span>
+                          <span className="text-[8px] font-black uppercase tracking-widest"
+                            style={{ color: "var(--color-text-muted)" }}>
+                            {complaint.createdDate}
+                          </span>
                         </div>
-
-                        {/* Description */}
+                        <p className="text-sm font-black leading-snug group-hover:text-[#1B5E45] transition-colors"
+                          style={{ color: "var(--color-text-primary)" }}>
+                          {complaint.title}
+                        </p>
                         <p className="text-xs leading-relaxed line-clamp-2"
                           style={{ color: "var(--color-text-muted)" }}>
-                          {c.description}
+                          {complaint.description}
                         </p>
+                      </div>
 
-                        {/* Reporter row */}
-                        <div className="flex items-center gap-2.5 py-3 border-t border-b"
-                          style={{ borderColor: "var(--color-border-light)" }}>
-                          <div className="w-7 h-7 rounded-lg overflow-hidden flex-shrink-0 border"
-                            style={{ borderColor: "var(--color-border-light)" }}>
-                            <img src={getAvatarUrl(c.tenantName)} alt={c.tenantName}
-                              className="w-full h-full object-cover" />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <p className="text-xs font-black truncate" style={{ color: "var(--color-text-primary)" }}>
-                              {c.tenantName}
-                            </p>
-                            <p className="text-[8px] font-bold uppercase tracking-widest"
-                              style={{ color: "var(--color-text-muted)" }}>
-                              Unit {c.unitId?.split("-").pop()}
-                            </p>
-                          </div>
-                          <div className="flex items-center gap-1 text-[9px] font-bold flex-shrink-0"
-                            style={{ color: "var(--color-text-muted)" }}>
-                            <Calendar className="w-3 h-3" />
-                            {c.createdDate}
-                          </div>
-                        </div>
-
-                        {/* Footer */}
-                        <div className="flex items-center justify-between">
+                      {/* Right badges + arrow */}
+                      <div className="flex sm:flex-col items-center sm:items-end gap-3 flex-shrink-0">
+                        <div className="flex items-center gap-2">
+                          {/* Priority badge */}
+                          <span className="px-2.5 py-1 rounded-full border text-[8px] font-black uppercase tracking-widest"
+                            style={{ background: pConf.bg, color: pConf.text, borderColor: pConf.border }}>
+                            {pConf.label}
+                          </span>
+                          {/* Status badge */}
                           <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border text-[9px] font-black"
                             style={{ background: sConf.bg, borderColor: sConf.border, color: sConf.color }}>
-                            <SIcon className="w-3 h-3" />
+                            <sConf.Icon className="w-3 h-3" />
                             {sConf.label}
                           </div>
-                          <div className="w-7 h-7 rounded-xl flex items-center justify-center border transition-all group-hover:bg-[#E8F5EE] group-hover:border-[#C4D4C9]"
-                            style={{ borderColor: "var(--color-border-light)" }}>
-                            <ChevronRight className="w-3.5 h-3.5" style={{ color: "var(--color-text-muted)" }} />
-                          </div>
+                        </div>
+                        <div className="w-7 h-7 rounded-xl flex items-center justify-center border transition-all group-hover:bg-[#E8F5EE] group-hover:border-[#C4D4C9]"
+                          style={{ borderColor: "var(--color-border-light)" }}>
+                          <ChevronRight className="w-3.5 h-3.5" style={{ color: "var(--color-text-muted)" }} />
                         </div>
                       </div>
-                    </motion.div>
-                  );
-                })}
-              </AnimatePresence>
-            </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
           )}
         </div>
       </div>
 
-      {/* ── DETAIL MODAL ────────────────────────────────────────────────────── */}
-      <Modal
-        isOpen={!!selected}
-        onClose={() => setSelected(null)}
-        title=""
-        size="5xl"
-        className="rounded-[1.5rem] p-0 overflow-hidden border-none"
-      >
+      {/* ═══ DETAIL MODAL ═════════════════════════════════════════════════════ */}
+      <Modal isOpen={!!selected} onClose={() => setSelected(null)}
+        title="" size="4xl" className="rounded-[1.5rem] p-0 overflow-hidden border-none">
         {selected && (() => {
-          const pConf      = priorityConfig(selected.priority);
-          const sConf      = statusConfig(selected.status);
-          const SIcon      = sConf.icon;
-          const progressPct = selected.status === "resolved" ? 100 : selected.status === "in-progress" ? 55 : 10;
+          const pConf = priorityConf(selected.priority);
+          const sConf = statusConf(selected.status);
+          const progressPct = selected.status === "resolved" ? 100
+            : selected.status === "in-progress" ? 55 : 10;
           return (
             <div style={{ background: "var(--color-background)" }}>
-
-              {/* Dark hero */}
-              <div className="relative overflow-hidden" style={{ background: "#0F0F0F", minHeight: 130 }}>
+              {/* Light mode modal header */}
+              <div className="relative overflow-hidden border-b"
+                style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", minHeight: 120 }}>
+                <div className="absolute inset-0 opacity-[0.03]"
+                  style={{ backgroundImage: "radial-gradient(circle at 1px 1px,rgba(27,94,69,0.8) 1px,transparent 0)", backgroundSize: "20px 20px" }} />
+                <div className="absolute top-0 right-0 w-48 h-48 rounded-full blur-3xl -mr-12 -mt-12"
+                  style={{ background: "rgba(61,190,122,0.1)" }} />
+                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#3DBE7A]/25 to-transparent" />
+                {/* Priority left stripe */}
+                <div className="absolute left-0 top-0 bottom-0 w-[3px]" style={{ background: pConf.dot }} />
                 <div className="absolute inset-0 opacity-[0.04]"
-                  style={{ backgroundImage: "radial-gradient(circle at 1px 1px,rgba(255,255,255,0.5) 1px,transparent 0)", backgroundSize: "24px 24px" }} />
-                <div className="absolute top-0 right-0 w-56 h-56 rounded-full blur-[80px] -mr-16 -mt-16"
+                  style={{ backgroundImage: "radial-gradient(circle at 1px 1px,rgba(255,255,255,0.5) 1px,transparent 0)", backgroundSize: "22px 22px" }} />
+                <div className="absolute top-0 right-0 w-48 h-48 rounded-full blur-3xl -mr-12 -mt-12"
                   style={{ background: `${pConf.dot}28` }} />
                 <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#3DBE7A]/40 to-transparent" />
                 {/* Priority left stripe */}
                 <div className="absolute left-0 top-0 bottom-0 w-[3px]" style={{ background: pConf.dot }} />
 
-                <div className="relative z-10 px-8 py-7 flex items-start justify-between gap-4">
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-3">
-                      <span className="text-[8px] font-black uppercase tracking-[0.42em] text-white/30">
+                <div className="relative z-10 px-7 py-6 flex items-start justify-between gap-4">
+                  <div className="space-y-2.5">
+                    <div className="flex items-center gap-2.5">
+                      <span className="text-[8px] font-black uppercase tracking-[0.42em]"
+                        style={{ color: "var(--color-text-muted)" }}>
                         {selected.category}
                       </span>
-                      <div className="w-px h-3 bg-white/15" />
+                      <div className="w-px h-3" style={{ background: "var(--color-border-light)" }} />
                       <span className="text-[8px] font-black uppercase tracking-widest"
-                        style={{ color: pConf.dot }}>
+                        style={{ color: pConf.text }}>
                         {pConf.label} Priority
                       </span>
                     </div>
-                    <h3 className="text-xl font-black text-white tracking-tight leading-tight max-w-lg">
+                    <h3 className="text-xl font-black tracking-tight leading-tight max-w-lg"
+                      style={{ color: "var(--color-text-primary)" }}>
                       {selected.title}
                     </h3>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2.5">
                       <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[9px] font-black"
-                        style={{ background: `${sConf.color}18`, borderColor: `${sConf.color}30`, color: sConf.color }}>
-                        <SIcon className="w-3 h-3" />
+                        style={{ background: `${sConf.color}14`, borderColor: `${sConf.color}28`, color: sConf.color }}>
+                        <sConf.Icon className="w-3 h-3" />
                         {sConf.label}
                       </div>
-                      <div className="flex items-center gap-1.5 text-[9px] font-bold text-white/30">
+                      <div className="flex items-center gap-1.5 text-[9px] font-bold"
+                        style={{ color: "var(--color-text-muted)" }}>
                         <Calendar className="w-3 h-3" />
                         {selected.createdDate}
                       </div>
                     </div>
                   </div>
                   <button onClick={() => setSelected(null)}
-                    className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 transition-all hover:bg-white/15"
-                    style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.1)" }}>
-                    <X className="w-4 h-4 text-white/50" />
+                    className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 transition-all hover:bg-[#F0F0F0]"
+                    style={{ background: "var(--color-background-alt)", border: "1px solid var(--color-border-light)" }}>
+                    <X className="w-4 h-4" style={{ color: "var(--color-text-muted)" }} />
                   </button>
                 </div>
               </div>
 
-              <div className="p-7 grid grid-cols-1 md:grid-cols-2 gap-5">
-
+              <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-5">
                 {/* Description */}
                 <div className="rounded-2xl border p-5"
                   style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)" }}>
                   <p className="text-[8px] font-black uppercase tracking-[0.38em] mb-4"
-                    style={{ color: "var(--color-text-muted)" }}>Incident Description</p>
+                    style={{ color: "var(--color-text-muted)" }}>Issue Description</p>
                   <p className="text-sm leading-relaxed italic"
                     style={{ color: "var(--color-text-primary)" }}>
                     "{selected.description}"
                   </p>
-                  <div className="mt-5 pt-4 border-t flex items-center gap-3"
+                  <div className="mt-5 pt-4 border-t flex flex-wrap gap-3"
                     style={{ borderColor: "var(--color-border-light)" }}>
-                    <div className="w-9 h-9 rounded-xl overflow-hidden border flex-shrink-0"
-                      style={{ borderColor: "var(--color-border-light)" }}>
-                      <img src={getAvatarUrl(selected.tenantName)} alt={selected.tenantName}
-                        className="w-full h-full object-cover" />
-                    </div>
-                    <div>
-                      <p className="text-xs font-black" style={{ color: "var(--color-text-primary)" }}>
-                        {selected.tenantName}
-                      </p>
-                      <p className="text-[8px] font-bold uppercase tracking-widest mt-0.5"
-                        style={{ color: "var(--color-text-muted)" }}>
-                        Unit {selected.unitId?.split("-").pop()}
-                      </p>
-                    </div>
+                    {[
+                      { label: "Ticket ID",  val: `#${selected.id.split("-").pop()}` },
+                      { label: "Category",   val: selected.category },
+                      { label: "Unit",       val: `Unit ${selected.unitId?.split("-").pop() || "—"}` },
+                    ].map((item, i) => (
+                      <div key={i} className="rounded-xl px-3 py-2 border"
+                        style={{ background: "var(--color-background-alt)", borderColor: "var(--color-border-light)" }}>
+                        <p className="text-[7px] font-black uppercase tracking-widest mb-0.5"
+                          style={{ color: "var(--color-text-muted)" }}>{item.label}</p>
+                        <p className="text-xs font-black" style={{ color: "var(--color-text-primary)" }}>{item.val}</p>
+                      </div>
+                    ))}
                   </div>
                 </div>
 
-                {/* Resolution — dark card */}
+                {/* Status / dark card */}
                 <div className="rounded-2xl overflow-hidden relative"
                   style={{ background: "linear-gradient(145deg,#0A1F15,#1B5E45)" }}>
-                  <div className="absolute top-0 right-0 w-32 h-32 rounded-full blur-2xl -mr-10 -mt-10"
+                  <div className="absolute top-0 right-0 w-28 h-28 rounded-full blur-2xl -mr-8 -mt-8"
                     style={{ background: "rgba(61,190,122,0.22)" }} />
-                  <div className="p-5 space-y-5 relative z-10">
+                  <div className="p-5 space-y-4 relative z-10">
                     <p className="text-[8px] font-black uppercase tracking-[0.38em] text-white/30">
-                      Resolution Progress
+                      Resolution Status
                     </p>
                     <div className="flex items-center gap-4">
                       <div className="relative flex-shrink-0">
-                        <ProgressRing pct={progressPct} size={56} stroke={5} color="#3DBE7A" />
+                        <Ring pct={progressPct} size={52} stroke={5} color="#3DBE7A" />
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <span className="text-xs font-black text-white">{progressPct}%</span>
+                          <span className="text-[9px] font-black text-white">{progressPct}%</span>
                         </div>
                       </div>
                       <div className="flex-1">
                         <p className="text-xs font-black text-white mb-1.5">
-                          {selected.status.replace("-"," ").replace(/\b\w/g, (l: string) => l.toUpperCase())}
+                          {selected.status.replace("-", " ").replace(/\b\w/g, (l: string) => l.toUpperCase())}
                         </p>
-                        <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.1)" }}>
+                        <div className="h-1.5 rounded-full overflow-hidden"
+                          style={{ background: "rgba(255,255,255,0.1)" }}>
                           <motion.div className="h-full rounded-full"
                             style={{ background: "linear-gradient(90deg,#1B5E45,#3DBE7A)" }}
                             initial={{ width: 0 }}
@@ -440,14 +563,14 @@ export default function ComplaintsPage() {
                     <div className="grid grid-cols-2 gap-2">
                       {[
                         { label: "Reported",  val: selected.createdDate },
-                        { label: "SLA",       val: "2.4 Hours" },
+                        { label: "SLA",       val: "24 Hours" },
                         { label: "Priority",  val: pConf.label },
-                        { label: "Category",  val: selected.category },
+                        { label: "Status",    val: sConf.label },
                       ].map((item, i) => (
-                        <div key={i} className="p-3 rounded-xl border border-white/8"
+                        <div key={i} className="p-2.5 rounded-xl border border-white/8"
                           style={{ background: "rgba(255,255,255,0.06)" }}>
                           <p className="text-[7px] font-black uppercase tracking-widest text-white/28 mb-0.5">{item.label}</p>
-                          <p className="text-[10px] font-black text-white truncate">{item.val}</p>
+                          <p className="text-[10px] font-black text-white">{item.val}</p>
                         </div>
                       ))}
                     </div>
@@ -456,17 +579,15 @@ export default function ComplaintsPage() {
               </div>
 
               {/* Actions */}
-              <div className="px-7 pb-7 flex gap-3">
-                <button className="flex-1 py-3 rounded-xl text-white text-xs font-black uppercase tracking-widest transition-all hover:-translate-y-0.5 hover:shadow-lg"
-                  style={{ background: "linear-gradient(135deg,#1B5E45,#3DBE7A)", boxShadow: "0 4px 16px rgba(27,94,69,0.25)" }}>
-                  {selected.status === "resolved" ? "Re-open Issue" : "Mark Resolved"}
-                </button>
-                <button className="flex-1 py-3 rounded-xl text-xs font-black uppercase tracking-widest border transition-all hover:bg-[#F7F8F5]"
-                  style={{ borderColor: "var(--color-border-light)", color: "var(--color-text-muted)" }}>
-                  Assign Contractor
-                </button>
+              <div className="px-6 pb-6 flex gap-3">
+                {selected.status !== "resolved" && (
+                  <button className="flex-1 py-3 rounded-xl text-white text-xs font-black uppercase tracking-widest transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                    style={{ background: "linear-gradient(135deg,#1B5E45,#3DBE7A)", boxShadow: "0 4px 16px rgba(27,94,69,0.25)" }}>
+                    Follow Up
+                  </button>
+                )}
                 <button onClick={() => setSelected(null)}
-                  className="px-5 py-3 rounded-xl text-xs font-black uppercase tracking-widest border transition-all hover:bg-[#F7F8F5]"
+                  className="flex-1 py-3 rounded-xl text-xs font-black uppercase tracking-widest border transition-all hover:bg-[#F7F8F5]"
                   style={{ borderColor: "var(--color-border-light)", color: "var(--color-text-muted)" }}>
                   Close
                 </button>
@@ -475,6 +596,160 @@ export default function ComplaintsPage() {
           );
         })()}
       </Modal>
-    </LandlordLayout>
+
+      {/* ═══ NEW COMPLAINT MODAL ══════════════════════════════════════════════ */}
+      <Modal isOpen={showForm} onClose={() => setShowForm(false)}
+        title="" size="5xl" className="rounded-[1.5rem] p-0 overflow-hidden border-none">
+        <div style={{ background: "var(--color-background)" }}>
+
+          {/* Light mode modal header */}
+          <div className="relative overflow-hidden border-b"
+            style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", minHeight: 100 }}>
+            <div className="absolute inset-0 opacity-[0.03]"
+              style={{ backgroundImage: "radial-gradient(circle at 1px 1px,rgba(27,94,69,0.8) 1px,transparent 0)", backgroundSize: "20px 20px" }} />
+            <div className="absolute top-0 right-0 w-40 h-40 rounded-full blur-3xl -mr-10 -mt-10"
+              style={{ background: "rgba(61,190,122,0.1)" }} />
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#3DBE7A]/22 to-transparent" />
+            <div className="relative z-10 px-7 py-6 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-[#1B5E45] flex items-center justify-center">
+                  <MessageSquare className="w-4 h-4 text-white" />
+                </div>
+                <div>
+                  <p className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Report an Issue</p>
+                  <p className="text-[8px] font-black uppercase tracking-widest"
+                    style={{ color: "var(--color-text-muted)" }}>
+                    Submit a new complaint
+                  </p>
+                </div>
+              </div>
+              <button onClick={() => setShowForm(false)}
+                className="w-8 h-8 rounded-xl flex items-center justify-center transition-all hover:bg-[#F0F0F0]"
+                style={{ background: "var(--color-background-alt)", border: "1px solid var(--color-border-light)" }}>
+                <X className="w-4 h-4" style={{ color: "var(--color-text-muted)" }} />
+              </button>
+            </div>
+          </div>
+
+          {/* Form */}
+          <div className="p-6 space-y-5">
+
+            {/* Success state */}
+            <AnimatePresence>
+              {submitted && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  className="flex flex-col items-center gap-3 py-8 text-center">
+                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center"
+                    style={{ background: "var(--color-surface-tint)", border: "1px solid var(--color-border-mid)" }}>
+                    <CheckCircle2 className="w-7 h-7 text-[#3DBE7A]" />
+                  </div>
+                  <p className="text-base font-black" style={{ color: "var(--color-text-primary)" }}>
+                    Complaint Submitted!
+                  </p>
+                  <p className="text-sm" style={{ color: "var(--color-text-muted)" }}>
+                    Your issue has been logged. We'll respond within 24 hours.
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {!submitted && (
+              <>
+                {/* Title */}
+                <div className="space-y-1.5">
+                  <label className="text-[8px] font-black uppercase tracking-[0.38em]"
+                    style={{ color: "var(--color-text-muted)" }}>
+                    Issue Title
+                  </label>
+                  <input type="text" placeholder="Brief description of the issue…"
+                    value={form.title} onChange={e => setForm(p => ({ ...p, title: e.target.value }))}
+                    className="w-full px-4 py-3 rounded-xl border text-sm font-medium outline-none focus:border-[#3DBE7A] transition-all"
+                    style={{ background: "var(--color-background-alt)", borderColor: "var(--color-border-light)", color: "var(--color-text-primary)" }} />
+                </div>
+
+                {/* Category grid */}
+                <div className="space-y-1.5">
+                  <label className="text-[8px] font-black uppercase tracking-[0.38em]"
+                    style={{ color: "var(--color-text-muted)" }}>
+                    Category
+                  </label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {CATEGORIES.map(cat => (
+                      <button key={cat.label} type="button"
+                        onClick={() => setForm(p => ({ ...p, category: cat.label }))}
+                        className="flex items-center gap-2 px-3 py-2.5 rounded-xl border text-xs font-black transition-all"
+                        style={{
+                          background: form.category === cat.label ? "var(--color-surface-tint)" : "var(--color-background-alt)",
+                          borderColor: form.category === cat.label ? "var(--color-border-mid)" : "var(--color-border-light)",
+                          color: form.category === cat.label ? "var(--color-green-deep)" : "var(--color-text-muted)",
+                        }}>
+                        {cat.icon}
+                        <span className="text-[9px] uppercase tracking-widest">{cat.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Priority */}
+                <div className="space-y-1.5">
+                  <label className="text-[8px] font-black uppercase tracking-[0.38em]"
+                    style={{ color: "var(--color-text-muted)" }}>
+                    Priority Level
+                  </label>
+                  <div className="flex gap-2">
+                    {(["low", "medium", "high"] as Priority[]).map(p => {
+                      const conf = priorityConf(p);
+                      return (
+                        <button key={p} type="button"
+                          onClick={() => setForm(prev => ({ ...prev, priority: p }))}
+                          className="flex-1 py-2.5 rounded-xl border text-[9px] font-black uppercase tracking-widest transition-all"
+                          style={{
+                            background: form.priority === p ? conf.bg : "var(--color-background-alt)",
+                            borderColor: form.priority === p ? conf.border : "var(--color-border-light)",
+                            color: form.priority === p ? conf.text : "var(--color-text-muted)",
+                          }}>
+                          {conf.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Description */}
+                <div className="space-y-1.5">
+                  <label className="text-[8px] font-black uppercase tracking-[0.38em]"
+                    style={{ color: "var(--color-text-muted)" }}>
+                    Detailed Description
+                  </label>
+                  <textarea placeholder="Please describe the issue in detail…" rows={4}
+                    value={form.description}
+                    onChange={e => setForm(p => ({ ...p, description: e.target.value }))}
+                    className="w-full px-4 py-3 rounded-xl border text-sm font-medium outline-none focus:border-[#3DBE7A] transition-all resize-none"
+                    style={{ background: "var(--color-background-alt)", borderColor: "var(--color-border-light)", color: "var(--color-text-primary)" }} />
+                </div>
+
+                {/* Actions */}
+                <div className="flex gap-3 pt-1">
+                  <button onClick={handleSubmit}
+                    disabled={!form.title || !form.category || !form.description}
+                    className="flex-1 py-3 rounded-xl text-white text-sm font-black uppercase tracking-widest transition-all hover:-translate-y-0.5 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+                    style={{ background: "linear-gradient(135deg,#1B5E45,#3DBE7A)", boxShadow: "0 4px 16px rgba(27,94,69,0.25)" }}>
+                    Submit Complaint
+                  </button>
+                  <button onClick={() => setShowForm(false)}
+                    className="flex-1 py-3 rounded-xl text-sm font-black uppercase tracking-widest border transition-all hover:bg-[#F7F8F5]"
+                    style={{ borderColor: "var(--color-border-light)", color: "var(--color-text-muted)" }}>
+                    Cancel
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      </Modal>
+    </TenantLayout>
   );
 }

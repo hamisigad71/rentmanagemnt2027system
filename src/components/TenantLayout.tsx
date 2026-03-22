@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import Logo from "./Logo";
-import DeveloperPanel from "./DeveloperPanel";
+ 
 import BottomNav from "./BottomNav";
 
 interface SidebarLink {
@@ -300,8 +300,7 @@ export default function TenantLayout({ children }: { children: React.ReactNode }
 
           {/* Right: actions + avatar */}
           <div className="flex items-center gap-3">
-            {/* Developer Panel Button */}
-            <DeveloperPanel />
+            
 
             {/* Divider */}
             <div className="w-px h-6 bg-[#E8E8E4]" />

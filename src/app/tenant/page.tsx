@@ -153,8 +153,8 @@ export default function TenantDashboard() {
               {/* Right — profile CTA + verified badge */}
               <div className="flex flex-col items-start md:items-end gap-3 shrink-0">
                 <Link href="/tenant/profile">
-                  <button className="flex items-center gap-3 px-5 py-3 rounded-xl text-sm font-black text-[#0D0D0D] transition-all hover:shadow-[0_12px_40px_rgba(61,190,122,0.4)] hover:-translate-y-0.5"
-                    style={{ background: "linear-gradient(135deg,#3DBE7A,#2AE299)" }}>
+                  <button className="flex items-center gap-3 px-5 py-3 rounded-xl text-sm font-black text-white transition-all hover:shadow-[0_12px_40px_rgba(27,94,69,0.4)] hover:-translate-y-0.5"
+                    style={{ background: "linear-gradient(135deg,#1B5E45,#246B4F)" }}>
                     <div className="w-7 h-7 rounded-full overflow-hidden border-2 border-white/30 flex items-center justify-center bg-[#1B5E45]">
                       {displayImage
                         ? <img src={displayImage} alt="" className="w-full h-full object-cover" />
@@ -269,8 +269,8 @@ export default function TenantDashboard() {
               style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", boxShadow: "var(--shadow-card)" }}>
               <div className="flex items-center gap-3 px-6 pt-6 pb-4 border-b"
                 style={{ borderColor: "var(--color-border-light)" }}>
-                <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-[#3DBE7A] text-white">
-                  <Zap className="w-4 h-4" />
+                <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-[#1B5E45]">
+                  <Zap className="w-4 h-4 text-white" />
                 </div>
                 <h3 className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Quick Actions</h3>
               </div>
@@ -368,7 +368,7 @@ export default function TenantDashboard() {
               {/* Header image strip */}
               <div className="relative h-24 overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1581092921461-7031e4bfb83e?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&q=80"
+                  src="https://i.pinimg.com/736x/b3/d0/bd/b3d0bdbeb468dc389af199ed31069187.jpg"
                   alt="Maintenance"
                   className="w-full h-full object-cover"
                 />
@@ -378,7 +378,7 @@ export default function TenantDashboard() {
                     <Wrench className="w-4 h-4 text-red-400" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-black text-white">Maintenance</h3>
+                    <p className="text-[13px] font-bold   text-white/80">Maintenance</p>
                     <p className="text-[9px] font-bold uppercase tracking-widest text-white/40">Service Requests</p>
                   </div>
                 </div>
@@ -429,8 +429,8 @@ export default function TenantDashboard() {
               <div className="flex items-center justify-between px-6 pt-6 pb-5 border-b"
                 style={{ borderColor: "var(--color-border-light)" }}>
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-[#3DBE7A]">
-                    <History className="w-4 h-4 text-white" />
+                  <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-[#1B5E45]">
+                    <History className="w-4 h-4 text-white/60" />
                   </div>
                   <div>
                     <h3 className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Ledger History</h3>
@@ -553,8 +553,8 @@ export default function TenantDashboard() {
               style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", boxShadow: "var(--shadow-card)" }}>
               <div className="flex items-center gap-3 px-6 pt-6 pb-5 border-b"
                 style={{ borderColor: "var(--color-border-light)" }}>
-                <div className="w-9 h-9 rounded-xl bg-[#3DBE7A] flex items-center justify-center">
-                  <FileCheck className="w-4 h-4 text-white" />
+                <div className="w-9 h-9 rounded-xl bg-[#1B5E45] flex items-center justify-center">
+                  <FileCheck className="w-4 h-4 text-white/60" />
                 </div>
                 <h3 className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Documents</h3>
               </div>
@@ -589,49 +589,7 @@ export default function TenantDashboard() {
           </Reveal>
 
           {/* Announcements */}
-          <Reveal delay={0.06}>
-            <div className="rounded-[1.8rem] border overflow-hidden"
-              style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", boxShadow: "var(--shadow-card)" }}>
-              <div className="flex items-center gap-3 px-6 pt-6 pb-5 border-b"
-                style={{ borderColor: "var(--color-border-light)" }}>
-                <div className="w-9 h-9 rounded-xl bg-red-500 flex items-center justify-center">
-                  <Bell className="w-4 h-4 text-white" />
-                </div>
-                <h3 className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Announcements</h3>
-              </div>
-
-              <div className="p-5 space-y-3">
-                {[
-                  {
-                    title: "Scheduled Maintenance",
-                    desc: "Elevator maintenance on March 15th, 2–4 PM.",
-                    color: "var(--color-green-deep)",
-                  },
-                  {
-                    title: "Community Event",
-                    desc: "Neighborhood cleanup this Saturday at 9 AM.",
-                    color: "#ef4444",
-                  },
-                  {
-                    title: "Utility Notice",
-                    desc: "Water interruption on March 18th, 8–10 AM.",
-                    color: "#f59e0b",
-                  },
-                ].map((item, i) => (
-                  <div key={i} className="p-4 rounded-2xl border-l-[3px]"
-                    style={{ background: "var(--color-background-alt)", borderLeftColor: item.color }}>
-                    <div className="flex items-start gap-2.5">
-                      <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{ background: item.color }} />
-                      <div>
-                        <p className="text-xs font-black mb-0.5" style={{ color: "var(--color-text-primary)" }}>{item.title}</p>
-                        <p className="text-[10px] font-medium leading-relaxed" style={{ color: "var(--color-text-muted)" }}>{item.desc}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </Reveal>
+           
 
           {/* Emergency Contacts */}
           <Reveal delay={0.12}>
@@ -640,7 +598,7 @@ export default function TenantDashboard() {
               {/* Image header */}
               <div className="relative h-24 overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1423666639041-f56000c27a9a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                  src="https://i.pinimg.com/736x/b3/d0/bd/b3d0bdbeb468dc389af199ed31069187.jpg"
                   alt="Contacts"
                   className="w-full h-full object-cover"
                 />
@@ -650,7 +608,7 @@ export default function TenantDashboard() {
                     <Phone className="w-4 h-4 text-white/70" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-black text-white">Emergency Contacts</h3>
+                      <p className="text-[13px] font-bold   tracking-widest text-white/40">Emergency Contacts</p> 
                     <p className="text-[9px] font-bold uppercase tracking-widest text-white/40">Available 24/7</p>
                   </div>
                 </div>

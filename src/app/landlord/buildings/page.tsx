@@ -352,7 +352,7 @@ export default function BuildingsPage() {
                       </div>
 
                       {/* Amenities chips */}
-                      {building.amenities?.length > 0 && (
+                      {building.amenities && building.amenities.length > 0 && (
                         <div className="flex flex-wrap gap-1.5">
                           {building.amenities.slice(0, 4).map((a, i) => (
                             <span key={i}
