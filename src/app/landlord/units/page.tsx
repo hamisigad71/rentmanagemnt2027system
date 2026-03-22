@@ -32,7 +32,7 @@ export default function UnitsPage() {
         {/* Header - Editorial Style */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-slate-100">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/5 text-[10px] font-black uppercase  text-slate-500">
               <Layers className="w-3 h-3" />
               Dynamic Inventory Control
             </div>
@@ -57,28 +57,28 @@ export default function UnitsPage() {
            <div className="inline-flex bg-slate-100 p-1.5 rounded-2xl border border-slate-200/50">
               <button 
                 onClick={() => setFilterStatus("all")}
-                className={`px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${filterStatus === 'all' ? 'bg-white text-slate-900 shadow-md' : 'text-slate-500 hover:text-slate-900'}`}
+                className={`px-6 py-2 rounded-xl text-[10px] font-black uppercase  transition-all ${filterStatus === 'all' ? 'bg-white text-slate-900 shadow-md' : 'text-slate-500 hover:text-slate-900'}`}
                 suppressHydrationWarning={true}
               >
                 All Assets ({mockUnits.length})
               </button>
               <button 
                 onClick={() => setFilterStatus("occupied")}
-                className={`px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${filterStatus === 'occupied' ? 'bg-white text-green-600 shadow-md' : 'text-slate-500 hover:text-green-600'}`}
+                className={`px-6 py-2 rounded-xl text-[10px] font-black uppercase  transition-all ${filterStatus === 'occupied' ? 'bg-white text-green-600 shadow-md' : 'text-slate-500 hover:text-green-600'}`}
                 suppressHydrationWarning={true}
               >
                 Occupied ({mockUnits.filter((u) => u.status === "occupied").length})
               </button>
               <button 
                 onClick={() => setFilterStatus("vacant")}
-                className={`px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${filterStatus === 'vacant' ? 'bg-white text-orange-600 shadow-md' : 'text-slate-500 hover:text-orange-600'}`}
+                className={`px-6 py-2 rounded-xl text-[10px] font-black uppercase  transition-all ${filterStatus === 'vacant' ? 'bg-white text-orange-600 shadow-md' : 'text-slate-500 hover:text-orange-600'}`}
                 suppressHydrationWarning={true}
               >
                 Vacant ({mockUnits.filter((u) => u.status === "vacant").length})
               </button>
            </div>
            
-           <div className="flex items-center gap-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+           <div className="flex items-center gap-6 text-[10px] font-black text-slate-400 uppercase ">
               <div className="flex items-center gap-2">
                  <div className="w-2 h-2 rounded-full bg-green-500" />
                  <span>High Yield</span>
@@ -96,13 +96,13 @@ export default function UnitsPage() {
             <table className="w-full text-left">
               <thead>
                 <tr className="border-b border-slate-100">
-                  <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Unit Code</th>
-                  <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Asset Location</th>
-                  <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Category</th>
-                  <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Floor Level</th>
-                  <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Asset Value</th>
-                  <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Status</th>
-                  <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Protocol</th>
+                  <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase ">Unit Code</th>
+                  <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase ">Asset Location</th>
+                  <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase ">Category</th>
+                  <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase ">Floor Level</th>
+                  <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase ">Asset Value</th>
+                  <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase ">Status</th>
+                  <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase ">Protocol</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
@@ -111,7 +111,7 @@ export default function UnitsPage() {
                     <td colSpan={7} className="px-8 py-20 text-center">
                       <div className="flex flex-col items-center gap-2">
                          <AlertCircle className="w-10 h-10 text-slate-200" />
-                         <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">No matching assets found</p>
+                         <p className="text-sm font-bold text-slate-400 uppercase ">No matching assets found</p>
                       </div>
                     </td>
                   </tr>
@@ -132,7 +132,7 @@ export default function UnitsPage() {
                               <span className="text-[14px] font-semibold text-slate-900 tracking-tighter leading-none">
                                  Unit {unit.number}
                               </span>
-                              <span className="text-[9px] font-medium text-slate-400 uppercase tracking-[0.2em]">
+                              <span className="text-[9px] font-medium text-slate-400 uppercase ">
                                  REF: 0x{unit.id.split('-').pop()}
                               </span>
                            </div>
@@ -140,7 +140,7 @@ export default function UnitsPage() {
                       </td>
                       <td className="px-8 py-6">
                         <div className="flex flex-col gap-1">
-                           <div className="flex items-center gap-1.5 font-semibold text-[11px] text-slate-900 uppercase tracking-widest leading-none">
+                           <div className="flex items-center gap-1.5 font-semibold text-[11px] text-slate-900 uppercase  leading-none">
                               {getBuilding(unit.buildingId)?.name}
                            </div>
                            <div className="flex items-center gap-1.5 text-[10px] font-bold text-slate-400 mt-1">
@@ -160,11 +160,11 @@ export default function UnitsPage() {
                       <td className="px-8 py-6">
                         <div className="flex flex-col">
                            <span className="text-sm font-semibold text-slate-900">KSh {unit.rent.toLocaleString()}</span>
-                           <span className="text-[10px] font-medium text-slate-400 uppercase tracking-widest mt-0.5">Performance Monthly</span>
+                           <span className="text-[10px] font-medium text-slate-400 uppercase  mt-0.5">Performance Monthly</span>
                         </div>
                       </td>
                       <td className="px-8 py-6">
-                         <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full font-semibold text-[9px] uppercase tracking-widest ${unit.status === 'occupied' ? 'bg-green-100 text-green-700 shadow-[0_4px_12px_rgba(34,197,94,0.15)]' : 'bg-orange-100 text-orange-700'}`}>
+                         <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full font-semibold text-[9px] uppercase  ${unit.status === 'occupied' ? 'bg-green-100 text-green-700 shadow-[0_4px_12px_rgba(34,197,94,0.15)]' : 'bg-orange-100 text-orange-700'}`}>
                             {unit.status}
                          </div>
                       </td>
@@ -197,7 +197,7 @@ export default function UnitsPage() {
              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(37,99,235,0.2),transparent_70%)]" />
              <div className="absolute inset-x-0 bottom-0 p-10 flex items-end justify-between z-10 bg-gradient-to-t from-slate-900 to-transparent">
                 <div className="space-y-3">
-                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#1B5E45]/20 text-[10px] font-black uppercase tracking-[0.2em] text-[#3DBE7A] border border-[#1B5E45]/30">
+                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#1B5E45]/20 text-[10px] font-black uppercase  text-[#3DBE7A] border border-[#1B5E45]/30">
                       {getBuilding(selectedUnit?.buildingId)?.name}
                    </div>
                    <h3 className="text-4xl font-black text-white tracking-tighter shrink-0 capitalize">
@@ -214,15 +214,15 @@ export default function UnitsPage() {
           <div className="p-10 space-y-10">
              <div className="grid grid-cols-3 gap-6">
                 <div className="p-6 bg-slate-50 rounded-3xl space-y-1 text-center border border-slate-100">
-                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Floor Level</p>
+                   <p className="text-[10px] font-black text-slate-400 uppercase ">Floor Level</p>
                    <p className="text-2xl font-black text-slate-900 tracking-tighter">{selectedUnit?.floor}</p>
                 </div>
                 <div className="p-6 bg-slate-50 rounded-3xl space-y-1 text-center border border-slate-100">
-                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Configuration</p>
+                   <p className="text-[10px] font-black text-slate-400 uppercase ">Configuration</p>
                    <p className="text-lg font-black text-slate-900 tracking-tighter truncate">{selectedUnit?.type}</p>
                 </div>
                 <div className="p-6 bg-slate-50 rounded-3xl space-y-1 text-center border border-slate-100">
-                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Protocol</p>
+                   <p className="text-[10px] font-black text-slate-400 uppercase ">Protocol</p>
                    <p className={`text-xl font-black tracking-tighter ${selectedUnit?.status === 'occupied' ? 'text-green-600' : 'text-orange-600'}`}>
                       {selectedUnit?.status.toUpperCase()}
                    </p>
@@ -232,7 +232,7 @@ export default function UnitsPage() {
              {selectedUnit?.status === "occupied" && (
                 <div className="space-y-6">
                    <div className="flex items-center justify-between">
-                      <h4 className="text-xs font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
+                      <h4 className="text-xs font-black text-slate-900 uppercase  flex items-center gap-2">
                         <Users className="w-4 h-4 text-[#3DBE7A]" />
                         Resident Information
                       </h4>
@@ -249,7 +249,7 @@ export default function UnitsPage() {
                          </div>
                          <div className="flex-1 space-y-4 text-center md:text-left">
                             <div>
-                               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Legal Occupant</p>
+                               <p className="text-[10px] font-black text-slate-400 uppercase  mb-1">Legal Occupant</p>
                                <h5 className="text-2xl font-black text-slate-900 tracking-tighter">
                                  {mockTenants.find(t => t.unitId === selectedUnit?.id)?.name || "Unknown Resident"}
                                </h5>
@@ -271,7 +271,7 @@ export default function UnitsPage() {
                          </div>
                          <Button 
                             variant="outline" 
-                            className="rounded-xl h-12 text-[10px] uppercase tracking-widest px-6 shrink-0"
+                            className="rounded-xl h-12 text-[10px] uppercase  px-6 shrink-0"
                             onClick={() => router.push("/landlord/tenants")}
                          >
                             View Profile
@@ -283,14 +283,14 @@ export default function UnitsPage() {
 
              <div className="space-y-6">
                 <div className="flex items-center justify-between">
-                   <h4 className="text-xs font-black text-slate-900 uppercase tracking-widest">Yield Performance</h4>
+                   <h4 className="text-xs font-black text-slate-900 uppercase ">Yield Performance</h4>
                    <span className="text-xs font-bold text-slate-400">MONTHLY AUDIT</span>
                 </div>
                 <div className="p-8 bg-slate-900 rounded-[2.5rem] text-white shadow-2xl shadow-slate-900/40 relative overflow-hidden group">
                    <div className="absolute top-0 right-0 w-32 h-32 bg-[#1B5E45]/20 blur-[60px] rounded-full group-hover:bg-[#1B5E45]/40 transition-all duration-1000" />
                    <div className="relative z-10 flex items-end justify-between">
                       <div className="space-y-1">
-                         <p className="text-[10px] font-black text-[#3DBE7A] uppercase tracking-widest">Scheduled Rent</p>
+                         <p className="text-[10px] font-black text-[#3DBE7A] uppercase ">Scheduled Rent</p>
                          <p className="text-4xl font-black tracking-tighter">KSh {selectedUnit?.rent.toLocaleString()}</p>
                       </div>
                       <div className="w-12 h-12 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center">
@@ -303,14 +303,14 @@ export default function UnitsPage() {
              <div className="flex gap-4 pt-4">
                 <Button 
                    variant="premium" 
-                   className="flex-1 h-16 rounded-2xl text-[11px] uppercase tracking-widest"
+                   className="flex-1 h-16 rounded-2xl text-[11px] uppercase "
                    onClick={() => router.push(`/landlord/buildings/${selectedUnit?.buildingId}`)}
                 >
                    Modify Digital Twin
                 </Button>
                 <Button 
                    variant="outline" 
-                   className="flex-1 h-16 rounded-2xl text-[11px] uppercase tracking-widest"
+                   className="flex-1 h-16 rounded-2xl text-[11px] uppercase "
                    onClick={() => router.push("/landlord/payments")}
                 >
                    Status Protocol

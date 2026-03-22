@@ -120,7 +120,7 @@ export default function TenantsPage() {
                 <div className="w-7 h-7 rounded-lg bg-[#1A1A1A] flex items-center justify-center">
                   <Users className="w-3.5 h-3.5 text-[#3DBE7A]" />
                 </div>
-                <p className="text-[8px] font-black uppercase tracking-[0.45em]"
+                <p className="text-[8px] font-black uppercase "
                   style={{ color: 'var(--color-text-muted)' }}>
                   Tenant Registry
                 </p>
@@ -134,7 +134,7 @@ export default function TenantsPage() {
               </h1>
             </div>
             <button
-              className="self-start sm:self-auto flex items-center gap-2 px-4 py-2.5 rounded-xl text-white text-xs font-black uppercase tracking-widest transition-all hover:-translate-y-0.5 whitespace-nowrap"
+              className="self-start sm:self-auto flex items-center gap-2 px-4 py-2.5 rounded-xl text-white text-xs font-black uppercase  transition-all hover:-translate-y-0.5 whitespace-nowrap"
               style={{ background: 'linear-gradient(135deg,#1B5E45,#3DBE7A)', boxShadow: '0 4px 14px rgba(27,94,69,0.28)' }}>
               <Plus className="w-3.5 h-3.5" /> Onboard Tenant
             </button>
@@ -170,7 +170,7 @@ export default function TenantsPage() {
                     style={{ color: accent ? 'white' : danger ? '#dc2626' : 'var(--color-text-primary)' }}>
                     <Counter to={numVal} prefix={prefix} />
                   </p>
-                  <p className="text-[8px] font-black uppercase tracking-[0.3em] leading-tight"
+                  <p className="text-[8px] font-black uppercase  leading-tight"
                     style={{ color: accent ? 'rgba(255,255,255,0.48)' : 'var(--color-text-muted)' }}>
                     {label}
                   </p>
@@ -221,7 +221,7 @@ export default function TenantsPage() {
                   const count = f === 'all' ? total : f === 'active' ? active : inArrears;
                   return (
                     <button key={f} onClick={() => setFilter(f)}
-                      className="px-3.5 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all whitespace-nowrap"
+                      className="px-3.5 py-2 rounded-xl text-[9px] font-black uppercase  transition-all whitespace-nowrap"
                       style={{
                         background: filter === f ? 'var(--color-surface-tint)' : 'var(--color-card)',
                         border: `1px solid ${filter === f ? 'var(--color-border-mid)' : 'var(--color-border-light)'}`,
@@ -249,7 +249,7 @@ export default function TenantsPage() {
               { label: 'Status',     col: 'col-span-1' },
               { label: '',           col: 'col-span-1' },
             ].map((h, i) => (
-              <p key={i} className={`${h.col} text-[8px] font-black uppercase tracking-[0.38em]`}
+              <p key={i} className={`${h.col} text-[8px] font-black uppercase `}
                 style={{ color: 'var(--color-text-muted)' }}>{h.label}</p>
             ))}
           </div>
@@ -293,7 +293,7 @@ export default function TenantsPage() {
                       </div>
                       <div className="min-w-0">
                         <p className="text-sm font-black truncate" style={{ color: 'var(--color-text-primary)' }}>{tenant.name}</p>
-                        <p className="text-[8px] font-bold uppercase tracking-widest mt-0.5"
+                        <p className="text-[8px] font-bold uppercase  mt-0.5"
                           style={{ color: 'var(--color-text-muted)' }}>#{tenant.id.split('-').pop()}</p>
                       </div>
                     </div>
@@ -381,7 +381,7 @@ export default function TenantsPage() {
                           {/* Assignment tile */}
                           <div className="rounded-xl border p-3.5 space-y-2.5"
                             style={{ background: 'var(--color-background-alt)', borderColor: 'var(--color-border-light)' }}>
-                            <p className="text-[8px] font-black uppercase tracking-[0.35em]" style={{ color: 'var(--color-text-muted)' }}>Assignment</p>
+                            <p className="text-[8px] font-black uppercase " style={{ color: 'var(--color-text-muted)' }}>Assignment</p>
                             {[
                               { icon: <Building2 className="w-3 h-3 text-[#3DBE7A]" />, label: 'Building', val: details.buildingName },
                               { icon: <Home className="w-3 h-3 text-[#3DBE7A]" />,      label: 'Unit',     val: `U-${details.unitNumber}` },
@@ -398,7 +398,7 @@ export default function TenantsPage() {
                           {/* Contact tile */}
                           <div className="rounded-xl border p-3.5 space-y-2.5"
                             style={{ background: 'var(--color-background-alt)', borderColor: 'var(--color-border-light)' }}>
-                            <p className="text-[8px] font-black uppercase tracking-[0.35em]" style={{ color: 'var(--color-text-muted)' }}>Contact</p>
+                            <p className="text-[8px] font-black uppercase " style={{ color: 'var(--color-text-muted)' }}>Contact</p>
                             {[
                               { icon: <Mail className="w-3 h-3" />,  val: tenant.email },
                               { icon: <Phone className="w-3 h-3" />, val: tenant.phone },
@@ -417,7 +417,7 @@ export default function TenantsPage() {
                               background: hasArrears ? '#FFF5F5' : 'var(--color-background-alt)',
                               borderColor: hasArrears ? '#FECACA' : 'var(--color-border-light)',
                             }}>
-                            <p className="text-[8px] font-black uppercase tracking-[0.35em] mb-2.5" style={{ color: 'var(--color-text-muted)' }}>Financials</p>
+                            <p className="text-[8px] font-black uppercase  mb-2.5" style={{ color: 'var(--color-text-muted)' }}>Financials</p>
                             <div className="space-y-1.5">
                               {[
                                 { label: 'Rent',    val: `KSh ${tenant.rent.toLocaleString()}`,              color: 'var(--color-text-primary)' },
@@ -439,14 +439,14 @@ export default function TenantsPage() {
                           {/* Actions tile */}
                           <div className="rounded-xl border p-3.5 flex flex-col gap-2"
                             style={{ background: 'var(--color-background-alt)', borderColor: 'var(--color-border-light)' }}>
-                            <p className="text-[8px] font-black uppercase tracking-[0.35em]" style={{ color: 'var(--color-text-muted)' }}>Actions</p>
+                            <p className="text-[8px] font-black uppercase " style={{ color: 'var(--color-text-muted)' }}>Actions</p>
                             <div className="flex flex-col gap-2 flex-1 justify-center">
                               <button onClick={() => setSel(tenant)}
-                                className="w-full py-2 rounded-lg text-white text-[9px] font-black uppercase tracking-widest transition-all hover:-translate-y-0.5"
+                                className="w-full py-2 rounded-lg text-white text-[9px] font-black uppercase  transition-all hover:-translate-y-0.5"
                                 style={{ background: 'linear-gradient(135deg,#1B5E45,#3DBE7A)' }}>
                                 Full Profile
                               </button>
-                              <button className="w-full py-2 rounded-lg text-[9px] font-black uppercase tracking-widest border transition-all hover:bg-white"
+                              <button className="w-full py-2 rounded-lg text-[9px] font-black uppercase  border transition-all hover:bg-white"
                                 style={{ borderColor: 'var(--color-border-light)', color: 'var(--color-text-muted)' }}>
                                 Send Message
                               </button>
@@ -520,7 +520,7 @@ export default function TenantsPage() {
                     <div>
                       <h3 className="text-lg font-black text-white tracking-tight">{selectedTenant.name}</h3>
                       <div className="flex items-center gap-2.5 mt-1">
-                        <p className="text-[8px] font-black uppercase tracking-[0.38em] text-white/35">
+                        <p className="text-[8px] font-black uppercase  text-white/35">
                           #{selectedTenant.id.split('-').pop()}
                         </p>
                         <Badge text={selectedTenant.status === 'active' ? 'Active' : 'Inactive'}
@@ -541,7 +541,7 @@ export default function TenantsPage() {
                 {/* Contact card */}
                 <div className="rounded-2xl border p-4"
                   style={{ background: 'var(--color-card)', borderColor: 'var(--color-border-light)' }}>
-                  <p className="text-[8px] font-black uppercase tracking-[0.38em] mb-3" style={{ color: 'var(--color-text-muted)' }}>
+                  <p className="text-[8px] font-black uppercase  mb-3" style={{ color: 'var(--color-text-muted)' }}>
                     Contact
                   </p>
                   <div className="space-y-2.5">
@@ -556,7 +556,7 @@ export default function TenantsPage() {
                           {r.icon}
                         </div>
                         <div className="min-w-0">
-                          <p className="text-[8px] font-bold uppercase tracking-widest" style={{ color: 'var(--color-text-muted)' }}>{r.label}</p>
+                          <p className="text-[8px] font-bold uppercase " style={{ color: 'var(--color-text-muted)' }}>{r.label}</p>
                           <p className="text-xs font-black truncate" style={{ color: 'var(--color-text-primary)' }}>{r.val}</p>
                         </div>
                       </div>
@@ -567,7 +567,7 @@ export default function TenantsPage() {
                 {/* Property card */}
                 <div className="rounded-2xl border p-4"
                   style={{ background: 'var(--color-card)', borderColor: 'var(--color-border-light)' }}>
-                  <p className="text-[8px] font-black uppercase tracking-[0.38em] mb-3" style={{ color: 'var(--color-text-muted)' }}>
+                  <p className="text-[8px] font-black uppercase  mb-3" style={{ color: 'var(--color-text-muted)' }}>
                     Property Assignment
                   </p>
                   <div className="space-y-2.5">
@@ -582,7 +582,7 @@ export default function TenantsPage() {
                           {r.icon}
                         </div>
                         <div className="min-w-0">
-                          <p className="text-[8px] font-bold uppercase tracking-widest" style={{ color: 'var(--color-text-muted)' }}>{r.label}</p>
+                          <p className="text-[8px] font-bold uppercase " style={{ color: 'var(--color-text-muted)' }}>{r.label}</p>
                           <p className="text-xs font-black truncate" style={{ color: 'var(--color-text-primary)' }}>{r.val}</p>
                         </div>
                       </div>
@@ -596,7 +596,7 @@ export default function TenantsPage() {
                     background: hasArrears ? '#FFF5F5' : 'var(--color-card)',
                     borderColor: hasArrears ? '#FECACA' : 'var(--color-border-light)',
                   }}>
-                  <p className="text-[8px] font-black uppercase tracking-[0.38em] mb-3" style={{ color: 'var(--color-text-muted)' }}>
+                  <p className="text-[8px] font-black uppercase  mb-3" style={{ color: 'var(--color-text-muted)' }}>
                     Financial Summary
                   </p>
                   <div className="space-y-2">
@@ -613,7 +613,7 @@ export default function TenantsPage() {
                     ))}
                     <div className="pt-1 space-y-1">
                       <div className="flex justify-between">
-                        <span className="text-[8px] font-black uppercase tracking-widest" style={{ color: 'var(--color-text-muted)' }}>Settlement</span>
+                        <span className="text-[8px] font-black uppercase " style={{ color: 'var(--color-text-muted)' }}>Settlement</span>
                         <span className="text-[9px] font-black" style={{ color: hasArrears ? '#dc2626' : '#3DBE7A' }}>{settlePct}%</span>
                       </div>
                       <MiniBar pct={settlePct} color={hasArrears ? '#ef4444' : '#3DBE7A'} />
@@ -626,7 +626,7 @@ export default function TenantsPage() {
                   <div className="absolute top-0 right-0 w-24 h-24 rounded-full blur-2xl -mr-6 -mt-6"
                     style={{ background: 'rgba(61,190,122,0.22)' }} />
                   <div className="p-4 space-y-3.5 relative z-10">
-                    <p className="text-[8px] font-black uppercase tracking-[0.38em] text-white/30">Lease Details</p>
+                    <p className="text-[8px] font-black uppercase  text-white/30">Lease Details</p>
                     {[
                       { label: 'Move-in Date', val: selectedTenant.moveInDate || '—' },
                       { label: 'Lease Status', val: selectedTenant.status === 'active' ? 'Active' : 'Inactive' },
@@ -638,7 +638,7 @@ export default function TenantsPage() {
                     ))}
                     <div className="flex items-center gap-2 pt-0.5">
                       <ShieldCheck className="w-3.5 h-3.5 text-[#3DBE7A]" />
-                      <span className="text-[8px] font-black text-white/38 uppercase tracking-widest">Verified Account</span>
+                      <span className="text-[8px] font-black text-white/38 uppercase ">Verified Account</span>
                     </div>
                   </div>
                 </div>
@@ -646,12 +646,12 @@ export default function TenantsPage() {
 
               {/* Actions */}
               <div className="px-6 pb-6 flex gap-3">
-                <button className="flex-1 py-3 rounded-xl text-white text-sm font-black uppercase tracking-widest transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                <button className="flex-1 py-3 rounded-xl text-white text-sm font-black uppercase  transition-all hover:-translate-y-0.5 hover:shadow-lg"
                   style={{ background: 'linear-gradient(135deg,#1B5E45,#3DBE7A)', boxShadow: '0 4px 16px rgba(27,94,69,0.25)' }}>
                   Send Message
                 </button>
                 <button onClick={() => setSel(null)}
-                  className="flex-1 py-3 rounded-xl text-sm font-black uppercase tracking-widest border transition-all hover:bg-[#F7F8F5]"
+                  className="flex-1 py-3 rounded-xl text-sm font-black uppercase  border transition-all hover:bg-[#F7F8F5]"
                   style={{ borderColor: 'var(--color-border-light)', color: 'var(--color-text-muted)' }}>
                   Close
                 </button>

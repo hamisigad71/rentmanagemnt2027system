@@ -69,7 +69,7 @@ function OccBar({ pct }: { pct: number }) {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="space-y-1.5">
-      <label className="text-[8px] font-black uppercase tracking-[0.38em]"
+      <label className="text-[8px] font-black uppercase "
         style={{ color: "var(--color-text-muted)" }}>
         {label}
       </label>
@@ -173,7 +173,7 @@ export default function BuildingsPage() {
                 <div className="w-8 h-8 rounded-xl bg-[#1A1A1A] flex items-center justify-center">
                   <Building2 className="w-4 h-4 text-[#3DBE7A]" />
                 </div>
-                <p className="text-[9px] font-black uppercase tracking-[0.42em]"
+                <p className="text-[9px] font-black uppercase "
                   style={{ color: "var(--color-text-muted)" }}>
                   Property Portfolio
                 </p>
@@ -198,8 +198,8 @@ export default function BuildingsPage() {
               </div>
               <button
                 onClick={() => setShowModal(true)}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-white text-xs font-black uppercase tracking-widest transition-all hover:-translate-y-0.5 whitespace-nowrap"
-                style={{ background: "linear-gradient(135deg,#1B5E45,#3DBE7A)", boxShadow: "0 4px 14px rgba(27,94,69,0.28)" }}>
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-white text-xs font-black uppercase  transition-all hover:-translate-y-0.5 whitespace-nowrap"
+                style={{ background: "#1B5E45", boxShadow: "0 4px 14px rgba(27,94,69,0.28)" }}>
                 <Plus className="w-3.5 h-3.5" /> Add Building
               </button>
             </div>
@@ -229,7 +229,7 @@ export default function BuildingsPage() {
                     style={{ color: accent ? "white" : "var(--color-text-primary)" }}>
                     {val}
                   </p>
-                  <p className="text-[9px] font-black uppercase tracking-[0.32em]"
+                  <p className="text-[9px] font-black uppercase"
                     style={{ color: accent ? "rgba(255,255,255,0.48)" : "var(--color-text-muted)" }}>
                     {label}
                   </p>
@@ -278,13 +278,13 @@ export default function BuildingsPage() {
                       <div className="absolute bottom-4 left-4 right-4">
                         <div className="flex items-end justify-between mb-1.5">
                           <div>
-                            <p className="text-[8px] font-black uppercase tracking-widest text-white/50 mb-0.5">Occupancy</p>
+                            <p className="text-[8px] font-black uppercase text-white/50 mb-0.5">Occupancy</p>
                             <p className="text-xl font-black text-white leading-none">{occ}%</p>
                           </div>
                           <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-white/15"
                             style={{ background: "rgba(61,190,122,0.15)" }}>
                             <span className="w-1.5 h-1.5 rounded-full bg-[#3DBE7A] animate-pulse" />
-                            <span className="text-[8px] font-black uppercase tracking-widest text-white/60">Live</span>
+                            <span className="text-[8px] font-black uppercase  text-white/60">Live</span>
                           </div>
                         </div>
                         <OccBar pct={occ} />
@@ -318,7 +318,7 @@ export default function BuildingsPage() {
                         ].map((s, i) => (
                           <div key={i} className="rounded-xl p-2.5 text-center border"
                             style={{ background: "var(--color-background-alt)", borderColor: "var(--color-border-light)" }}>
-                            <p className="text-[9px] font-black uppercase tracking-widest mb-0.5"
+                            <p className="text-[9px] font-black uppercase mb-0.5"
                               style={{ color: "var(--color-text-muted)" }}>{s.label}</p>
                             <p className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>{s.val}</p>
                           </div>
@@ -329,21 +329,21 @@ export default function BuildingsPage() {
                       <div className="flex items-center justify-between py-3 border-t border-b"
                         style={{ borderColor: "var(--color-border-light)" }}>
                         <div>
-                          <p className="text-[8px] font-black uppercase tracking-widest mb-0.5"
+                          <p className="text-[8px] font-black uppercase mb-0.5"
                             style={{ color: "var(--color-text-muted)" }}>Monthly Revenue</p>
                           <p className="text-sm font-black" style={{ color: "var(--color-green-deep)" }}>
                             {revenue > 0 ? `KSh ${revenue.toLocaleString()}` : "—"}
                           </p>
                         </div>
                         <div className="text-right">
-                          <p className="text-[8px] font-black uppercase tracking-widest mb-0.5"
+                          <p className="text-[8px] font-black uppercase mb-0.5"
                             style={{ color: "var(--color-text-muted)" }}>Arrears</p>
                           <p className="text-sm font-black" style={{ color: arrears > 0 ? "#dc2626" : "#3DBE7A" }}>
                             {arrears > 0 ? `${arrears} tenant${arrears > 1 ? "s" : ""}` : "All clear"}
                           </p>
                         </div>
                         <div className="text-right">
-                          <p className="text-[8px] font-black uppercase tracking-widest mb-0.5"
+                          <p className="text-[8px] font-black uppercase mb-0.5"
                             style={{ color: "var(--color-text-muted)" }}>Tenants</p>
                           <p className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>
                             {tenants.length}
@@ -356,13 +356,13 @@ export default function BuildingsPage() {
                         <div className="flex flex-wrap gap-1.5">
                           {building.amenities.slice(0, 4).map((a, i) => (
                             <span key={i}
-                              className="text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full border"
+                              className="text-[8px] font-black uppercase  px-2 py-1 rounded-full border"
                               style={{ background: "var(--color-surface-tint)", color: "var(--color-green-deep)", borderColor: "var(--color-border-mid)" }}>
                               {a}
                             </span>
                           ))}
                           {building.amenities.length > 4 && (
-                            <span className="text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full border"
+                            <span className="text-[8px] font-black uppercase px-2 py-1 rounded-full border"
                               style={{ background: "var(--color-background-alt)", color: "var(--color-text-muted)", borderColor: "var(--color-border-light)" }}>
                               +{building.amenities.length - 4}
                             </span>
@@ -374,7 +374,7 @@ export default function BuildingsPage() {
                       <div className="flex items-center gap-2 mt-auto">
                         <button
                           onClick={() => router.push(`/landlord/buildings/${building.id}`)}
-                          className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-white text-xs font-black uppercase tracking-widest transition-all hover:-translate-y-0.5"
+                          className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-white text-xs font-black uppercase transition-all hover:-translate-y-0.5"
                           style={{ background: "linear-gradient(135deg,#1B5E45,#3DBE7A)", boxShadow: "0 4px 12px rgba(27,94,69,0.22)" }}>
                           View Details <ChevronRight className="w-3.5 h-3.5" />
                         </button>
@@ -409,7 +409,7 @@ export default function BuildingsPage() {
               </div>
               <div>
                 <p className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Add New Building</p>
-                <p className="text-[9px] font-bold uppercase tracking-widest mt-1.5"
+                <p className="text-[9px] font-bold uppercase mt-1.5"
                   style={{ color: "var(--color-text-muted)" }}>
                   Expand your portfolio
                 </p>
@@ -442,7 +442,7 @@ export default function BuildingsPage() {
                   <div className="w-8 h-8 rounded-xl bg-[#1B5E45]/30 border border-[#3DBE7A]/25 flex items-center justify-center">
                     <Building2 className="w-4 h-4 text-[#3DBE7A]" />
                   </div>
-                  <p className="text-[8px] font-black uppercase tracking-[0.42em] text-white/30">Portfolio</p>
+                  <p className="text-[8px] font-black uppercase text-white/30">Portfolio</p>
                 </div>
                 <h3 className="text-xl font-black text-white tracking-tight">Register New Building</h3>
                 <p className="text-[10px] text-white/30">Add a property to your managed portfolio</p>
@@ -518,7 +518,7 @@ export default function BuildingsPage() {
                             color: active ? "var(--color-green-deep)" : "var(--color-text-muted)",
                           }}>
                           {icon}
-                          <span className="text-[9px] uppercase tracking-widest truncate">{amenity}</span>
+                          <span className="text-[9px] uppercase truncate">{amenity}</span>
                         </button>
                       );
                     })}
@@ -539,7 +539,7 @@ export default function BuildingsPage() {
                         style={{ color: "#1B5E45" }}>
                         <Camera className="w-4 h-4" />
                       </div>
-                      <p className="text-[9px] font-black uppercase tracking-widest"
+                      <p className="text-[9px] font-black uppercase"
                         style={{ color: "var(--color-text-muted)" }}>
                         {formData.image.startsWith("data:") ? "Photo uploaded" : "Upload photo"}
                       </p>
@@ -553,12 +553,12 @@ export default function BuildingsPage() {
             {/* Actions */}
             <div className="flex gap-3 pt-2 border-t" style={{ borderColor: "var(--color-border-light)" }}>
               <button onClick={handleAdd} disabled={isAdding}
-                className="flex-1 py-3 rounded-xl text-white text-sm font-black uppercase tracking-widest transition-all hover:-translate-y-0.5 disabled:opacity-60"
-                style={{ background: "linear-gradient(135deg,#1B5E45,#3DBE7A)", boxShadow: "0 4px 16px rgba(27,94,69,0.25)" }}>
+                className="flex-1 py-3 rounded-xl text-white text-sm font-black uppercase transition-all hover:-translate-y-0.5 disabled:opacity-60"
+                style={{ background: "#1B5E45", boxShadow: "0 4px 16px rgba(27,94,69,0.25)" }}>
                 {isAdding ? "Adding…" : "Add Building"}
               </button>
               <button onClick={() => setShowModal(false)} disabled={isAdding}
-                className="flex-1 py-3 rounded-xl text-sm font-black uppercase tracking-widest border transition-all hover:bg-[#F7F8F5]"
+                className="flex-1 py-3 rounded-xl text-sm font-black uppercase border transition-all hover:bg-[#F7F8F5]"
                 style={{ borderColor: "var(--color-border-light)", color: "var(--color-text-muted)" }}>
                 Cancel
               </button>

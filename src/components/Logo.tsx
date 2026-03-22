@@ -70,7 +70,7 @@ const Logo: React.FC<LogoProps> = ({
             </span>
           </div>
           <span 
-            className="font-black uppercase tracking-[0.4em] mt-1.5 opacity-40 transition-opacity group-hover:opacity-70"
+            className="font-black uppercase mt-1.5 opacity-40 transition-opacity group-hover:opacity-70"
             style={{ 
               color: textColor,
               fontSize: size === 'xs' ? '6px' : '8px'

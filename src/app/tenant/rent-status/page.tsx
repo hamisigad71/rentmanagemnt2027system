@@ -141,7 +141,7 @@ function LoadingScreen() {
                 animate={{ width: `${progress}%` }}
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }} />
             </div>
-            <div className="flex justify-between text-[9px] font-black uppercase tracking-widest"
+            <div className="flex justify-between text-[9px] font-black uppercase "
               style={{ color: "var(--color-text-muted)" }}>
               <span>Initialising</span>
               <span>{progress}%</span>
@@ -206,7 +206,7 @@ export default function RentStatusPage() {
               <div className="w-7 h-7 rounded-lg bg-[#1B5E45] flex items-center justify-center">
                 <Receipt className="w-3.5 h-3.5 text-white" />
               </div>
-              <p className="text-[8px] font-black uppercase tracking-[0.45em]"
+              <p className="text-[8px] font-black uppercase "
                 style={{ color: "var(--color-text-muted)" }}>
                 Tenant Portal
               </p>
@@ -236,7 +236,7 @@ export default function RentStatusPage() {
             {allClear
               ? <CheckCircle2 className="w-4 h-4" style={{ color: "#1B5E45" }} />
               : <AlertCircle className="w-4 h-4 text-red-500" />}
-            <span className="text-xs font-black uppercase tracking-widest"
+            <span className="text-xs font-black uppercase "
               style={{ color: allClear ? "#1B5E45" : "#dc2626" }}>
               {allClear ? "Account Clear" : "Balance Due"}
             </span>
@@ -265,10 +265,10 @@ export default function RentStatusPage() {
                     <RadialRing pct={settlePct} size={120} stroke={9} color="#3DBE7A" />
                     <div className="absolute inset-0 flex flex-col items-center justify-center">
                       <p className="text-2xl font-black leading-none" style={{ color: "var(--color-text-primary)" }}>{settlePct}%</p>
-                      <p className="text-[8px] font-black uppercase tracking-widest mt-0.5" style={{ color: "var(--color-text-muted)" }}>Settled</p>
+                      <p className="text-[8px] font-black uppercase  mt-0.5" style={{ color: "var(--color-text-muted)" }}>Settled</p>
                     </div>
                   </div>
-                  <p className="text-[9px] font-black uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>Settlement Progress</p>
+                  <p className="text-[9px] font-black uppercase " style={{ color: "var(--color-text-muted)" }}>Settlement Progress</p>
                 </div>
 
                 {/* Key metrics */}
@@ -284,7 +284,7 @@ export default function RentStatusPage() {
                     <div key={i}
                       className="rounded-2xl p-3.5 border"
                       style={{ background: "var(--color-background-alt)", borderColor: "var(--color-border-light)" }}>
-                      <p className="text-[8px] font-black uppercase tracking-widest mb-1" style={{ color: "var(--color-text-muted)" }}>{item.label}</p>
+                      <p className="text-[8px] font-black uppercase  mb-1" style={{ color: "var(--color-text-muted)" }}>{item.label}</p>
                       <p className="text-base font-black leading-none" style={{ color: item.color }}>
                         {item.display ?? (
                           <Counter to={item.val} prefix={item.prefix} />
@@ -309,7 +309,7 @@ export default function RentStatusPage() {
               </div>
               <div>
                 <h3 className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Unit Information</h3>
-                <p className="text-[8px] font-black uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>
+                <p className="text-[8px] font-black uppercase " style={{ color: "var(--color-text-muted)" }}>
                   Property details & occupancy
                 </p>
               </div>
@@ -331,7 +331,7 @@ export default function RentStatusPage() {
                     background: item.highlight ? "var(--color-surface-tint)" : item.green ? "#F0FDF4" : "var(--color-background-alt)",
                     borderColor: item.highlight ? "var(--color-border-mid)" : item.green ? "#BBF7D0" : "var(--color-border-light)",
                   }}>
-                  <p className="text-[8px] font-black uppercase tracking-[0.35em] mb-1.5"
+                  <p className="text-[8px] font-black uppercase  mb-1.5"
                     style={{ color: "var(--color-text-muted)" }}>{item.label}</p>
                   <p className="text-base font-black"
                     style={{ color: item.highlight ? "var(--color-green-deep)" : item.green ? "#1B5E45" : "var(--color-text-primary)" }}>
@@ -354,7 +354,7 @@ export default function RentStatusPage() {
               </div>
               <div>
                 <h3 className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Rent Breakdown</h3>
-                <p className="text-[8px] font-black uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>
+                <p className="text-[8px] font-black uppercase " style={{ color: "var(--color-text-muted)" }}>
                   Monthly charges & inclusions
                 </p>
               </div>
@@ -370,7 +370,7 @@ export default function RentStatusPage() {
                   </div>
                   <div>
                     <p className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Base Monthly Rent</p>
-                    <p className="text-[9px] font-bold uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>
+                    <p className="text-[9px] font-bold uppercase " style={{ color: "var(--color-text-muted)" }}>
                       Due 1st of each month
                     </p>
                   </div>
@@ -393,13 +393,13 @@ export default function RentStatusPage() {
                       {[<Wifi className="w-3 h-3" />, <Droplets className="w-3 h-3" />, <Zap className="w-3 h-3" />].map((ic, i) => (
                         <span key={i} style={{ color: "var(--color-text-muted)" }}>{ic}</span>
                       ))}
-                      <p className="text-[9px] font-bold uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>
+                      <p className="text-[9px] font-bold uppercase " style={{ color: "var(--color-text-muted)" }}>
                         WiFi, Water, Electricity
                       </p>
                     </div>
                   </div>
                 </div>
-                <span className="px-3 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest text-white"
+                <span className="px-3 py-1.5 rounded-xl text-[9px] font-black uppercase  text-white"
                   style={{ background: "linear-gradient(135deg,#1B5E45,#246B4F)" }}>
                   Inclusive
                 </span>
@@ -419,7 +419,7 @@ export default function RentStatusPage() {
               </div>
               <div>
                 <h3 className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Current Balance</h3>
-                <p className="text-[8px] font-black uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>
+                <p className="text-[8px] font-black uppercase " style={{ color: "var(--color-text-muted)" }}>
                   Payment status overview
                 </p>
               </div>
@@ -447,7 +447,7 @@ export default function RentStatusPage() {
                   borderColor: allClear ? "var(--color-border-mid)" : "#FECACA",
                 }}>
                 <div>
-                  <p className="text-[8px] font-black uppercase tracking-[0.38em]" style={{ color: "var(--color-text-muted)" }}>Net Balance</p>
+                  <p className="text-[8px] font-black uppercase" style={{ color: "var(--color-text-muted)" }}>Net Balance</p>
                   <div className="flex items-center gap-2 mt-1">
                     {allClear
                       ? <CheckCircle2 className="w-4 h-4" style={{ color: "#1B5E45" }} />
@@ -466,7 +466,7 @@ export default function RentStatusPage() {
               {/* Settlement progress bar */}
               <div className="space-y-2 pt-1">
                 <div className="flex justify-between">
-                  <span className="text-[9px] font-black uppercase tracking-widest"
+                  <span className="text-[9px] font-black uppercase "
                     style={{ color: "var(--color-text-muted)" }}>Settlement Progress</span>
                   <span className="text-[9px] font-black" style={{ color: "var(--color-green-deep)" }}>{settlePct}%</span>
                 </div>
@@ -553,7 +553,7 @@ export default function RentStatusPage() {
                     animate={{ scale: [1, 1.3, 1] }}
                     transition={{ duration: 1.5, repeat: Infinity }}
                     className="w-1.5 h-1.5 rounded-full bg-[#3DBE7A]" />
-                  <span className="text-[9px] font-black uppercase tracking-widest"
+                  <span className="text-[9px] font-black uppercase "
                     style={{ color: "var(--color-green-deep)" }}>
                     Live Payment Gateway
                   </span>
@@ -574,7 +574,7 @@ export default function RentStatusPage() {
                       { icon: <CheckCircle2 className="w-3.5 h-3.5" />, label: "Instant" },
                       { icon: <Clock className="w-3.5 h-3.5" />, label: "24/7 Access" },
                     ].map((badge, i) => (
-                      <div key={i} className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest"
+                      <div key={i} className="flex items-center gap-1.5 text-[9px] font-black uppercase "
                         style={{ color: "var(--color-text-muted)" }}>
                         {badge.icon} {badge.label}
                       </div>

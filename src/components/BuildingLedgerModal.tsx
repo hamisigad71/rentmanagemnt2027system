@@ -100,7 +100,7 @@ export default function BuildingLedgerModal({
           <div className="space-y-4">
             {/* Label chip */}
             <div
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-[0.2em]"
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-black uppercase "
               style={{
                 background: "rgba(61,190,122,0.15)",
                 border: "1px solid rgba(61,190,122,0.3)",
@@ -140,7 +140,7 @@ export default function BuildingLedgerModal({
                 border: "1px solid rgba(61,190,122,0.25)",
               }}
             >
-              <p className="text-[9px] font-black uppercase tracking-widest mb-1" style={{ color: "#3DBE7A" }}>
+              <p className="text-[9px] font-black uppercase  mb-1" style={{ color: "#3DBE7A" }}>
                 Building Yield
               </p>
               <p className="text-xl font-black text-white tracking-tighter">
@@ -154,7 +154,7 @@ export default function BuildingLedgerModal({
                 border: "1px solid rgba(250,10,18,0.2)",
               }}
             >
-              <p className="text-[9px] font-black uppercase tracking-widest mb-1 text-red-400">
+              <p className="text-[9px] font-black uppercase  mb-1 text-red-400">
                 Exposure
               </p>
               <p className="text-xl font-black text-white tracking-tighter">
@@ -182,7 +182,7 @@ export default function BuildingLedgerModal({
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className="px-8 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all"
+              className="px-8 py-2.5 rounded-xl text-[10px] font-black uppercase  transition-all"
               style={
                 activeTab === tab
                   ? {
@@ -248,7 +248,7 @@ export default function BuildingLedgerModal({
                         (col, i) => (
                           <th
                             key={col}
-                            className={`px-8 py-5 text-[9px] font-black uppercase tracking-widest ${i === 3 ? "text-right" : ""}`}
+                            className={`px-8 py-5 text-[9px] font-black uppercase  ${i === 3 ? "text-right" : ""}`}
                             style={{ color: "var(--color-text-on-dark)" }}
                           >
                             {col}
@@ -293,7 +293,7 @@ export default function BuildingLedgerModal({
                               <span className="font-bold text-sm tracking-tight" style={{ color: "var(--color-text-primary)" }}>
                                 {tenant.name}
                               </span>
-                              <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>
+                              <span className="text-[10px] font-bold uppercase " style={{ color: "var(--color-text-muted)" }}>
                                 ID: {tenant.id.split("-").pop()}
                               </span>
                             </div>
@@ -302,7 +302,7 @@ export default function BuildingLedgerModal({
                         {/* Unit badge */}
                         <td className="px-8 py-6">
                           <div
-                            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest"
+                            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] font-black uppercase "
                             style={{
                               background: "var(--color-surface-tint)",
                               border: "1px solid var(--color-border-mid)",
@@ -320,7 +320,7 @@ export default function BuildingLedgerModal({
                             </span>
                             <div className="flex items-center gap-1.5">
                               <span
-                                className="text-[10px] font-bold uppercase tracking-widest"
+                                className="text-[10px] font-bold uppercase "
                                 style={{ color: tenant.arrears > 0 ? "#FA0A12" : "var(--color-green-bright)" }}
                               >
                                 Balance: KSh {tenant.arrears.toLocaleString()}
@@ -336,7 +336,7 @@ export default function BuildingLedgerModal({
                         </td>
                         {/* Move-in */}
                         <td className="px-8 py-6 text-right">
-                          <span className="text-[10px] font-black uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>
+                          <span className="text-[10px] font-black uppercase " style={{ color: "var(--color-text-muted)" }}>
                             In: {tenant.moveInDate}
                           </span>
                         </td>
@@ -356,7 +356,7 @@ export default function BuildingLedgerModal({
                 <p className="text-lg font-black tracking-tighter" style={{ color: "var(--color-text-primary)" }}>
                   No occupants found
                 </p>
-                <p className="text-xs font-bold uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>
+                <p className="text-xs font-bold uppercase " style={{ color: "var(--color-text-muted)" }}>
                   Try a different search parameter
                 </p>
               </div>
@@ -380,7 +380,7 @@ export default function BuildingLedgerModal({
                         (col, i) => (
                           <th
                             key={col}
-                            className={`px-8 py-5 text-[9px] font-black uppercase tracking-widest ${i === 4 ? "text-right" : ""}`}
+                            className={`px-8 py-5 text-[9px] font-black uppercase  ${i === 4 ? "text-right" : ""}`}
                             style={{ color: "var(--color-text-on-dark)" }}
                           >
                             {col}
@@ -417,14 +417,14 @@ export default function BuildingLedgerModal({
                             <span className="font-bold text-sm tracking-tight" style={{ color: "var(--color-text-primary)" }}>
                               {payment.tenantName}
                             </span>
-                            <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>
+                            <span className="text-[10px] font-bold uppercase " style={{ color: "var(--color-text-muted)" }}>
                               Unit {payment.unitId.split("-").pop()}
                             </span>
                           </div>
                         </td>
                         <td className="px-8 py-6">
                           <span
-                            className="text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full"
+                            className="text-[10px] font-black uppercase  px-3 py-1.5 rounded-full"
                             style={{
                               border: "1px solid var(--color-border-light)",
                               color: "var(--color-text-secondary)",
@@ -438,7 +438,7 @@ export default function BuildingLedgerModal({
                         </td>
                         <td className="px-8 py-6">
                           <div
-                            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full font-black text-[9px] uppercase tracking-widest"
+                            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full font-black text-[9px] uppercase "
                             style={
                               payment.status === "completed"
                                 ? { background: "var(--color-surface-tint)", color: "var(--color-green-deep)", border: "1px solid var(--color-border-mid)" }
@@ -474,7 +474,7 @@ export default function BuildingLedgerModal({
                 <p className="text-lg font-black tracking-tighter" style={{ color: "var(--color-text-primary)" }}>
                   No transactions recorded
                 </p>
-                <p className="text-xs font-bold uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>
+                <p className="text-xs font-bold uppercase " style={{ color: "var(--color-text-muted)" }}>
                   Financial activity will appear here
                 </p>
               </div>
@@ -503,16 +503,16 @@ export default function BuildingLedgerModal({
               </div>
             ))}
           </div>
-          <p className="text-xs font-bold uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>
+          <p className="text-xs font-bold uppercase " style={{ color: "var(--color-text-muted)" }}>
             System synchronized{" "}
             <span style={{ color: "var(--color-green-deep)" }}>Real-time</span>
           </p>
         </div>
         <div className="flex gap-4">
-          <Button variant="secondary" className="h-12 px-8 text-[10px] font-black uppercase tracking-widest" onClick={onClose}>
+          <Button variant="secondary" className="h-12 px-8 text-[10px] font-black uppercase " onClick={onClose}>
             Close View
           </Button>
-          <Button variant="premium" className="h-12 px-8 text-[10px] font-black uppercase tracking-widest">
+          <Button variant="premium" className="h-12 px-8 text-[10px] font-black uppercase ">
             Sync Ledger
           </Button>
         </div>

@@ -107,7 +107,7 @@ export default function LandingPage() {
           </Link>
 
           <div
-            className="hidden lg:flex items-center gap-10 text-[10px] font-black uppercase tracking-[0.22em]"
+            className="hidden lg:flex items-center gap-10 text-[10px] font-black uppercase "
             style={{ color: "var(--color-text-muted)" }}
           >
             {["Features", "Solutions", "How it Works"].map((item) => (
@@ -139,12 +139,12 @@ export default function LandingPage() {
                 </div>
                 <div className="hidden sm:block">
                   <p className="text-xs font-black leading-none" style={{ color: "var(--color-text-primary)" }}>{userName || "Account"}</p>
-                  <p className="text-[8px] text-[#1B5E45] font-black uppercase tracking-widest mt-0.5 italic">Active Portal</p>
+                  <p className="text-[8px] text-[#1B5E45] font-black uppercase  mt-0.5 italic">Active Portal</p>
                 </div>
               </Link>
             ) : (
               <Link href="/auth/register">
-                <Button variant="premium" className="h-10 px-6 rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg">
+                <Button variant="premium" className="h-10 px-6 rounded-full text-[10px] font-black uppercase  shadow-lg">
                   Get Started
                 </Button>
               </Link>
@@ -196,7 +196,7 @@ export default function LandingPage() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
-                className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/15 text-[9px] font-black uppercase tracking-[0.38em] text-white"
+                className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/15 text-[9px] font-black uppercase text-white"
                 style={{ background: "rgba(61,190,122,0.12)", backdropFilter: "blur(12px)" }}
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-[#3DBE7A] animate-pulse" />
@@ -277,7 +277,7 @@ export default function LandingPage() {
                       <Star key={i} className="w-3 h-3 fill-[#3DBE7A] text-[#3DBE7A]" />
                     ))}
                   </div>
-                  <p className="text-[9px] font-black text-white/40 uppercase tracking-widest mt-0.5">500+ Active Users</p>
+                  <p className="text-[9px] font-black text-white/40 uppercase  mt-0.5">500+ Active Users</p>
                 </div>
               </motion.div>
             </div>
@@ -309,13 +309,13 @@ export default function LandingPage() {
                         <ShieldCheck className="w-5 h-5 text-[#3DBE7A]" strokeWidth={1.5} />
                       </div>
                       <div>
-                        <p className="text-[8px] font-black text-white/30 uppercase tracking-widest">Platform Status</p>
+                        <p className="text-[8px] font-black text-white/30 uppercase ">Platform Status</p>
                         <p className="text-xs font-black text-white italic">Verified Secure</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#3DBE7A]/10 border border-[#3DBE7A]/20">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#3DBE7A] animate-pulse" />
-                      <span className="text-[8px] font-black text-[#3DBE7A] uppercase tracking-widest">Live</span>
+                      <span className="text-[8px] font-black text-[#3DBE7A] uppercase ">Live</span>
                     </div>
                   </div>
 
@@ -323,7 +323,7 @@ export default function LandingPage() {
                   <div className="space-y-6 mb-10">
                     <div>
                       <div className="flex justify-between items-center mb-2.5">
-                        <span className="text-[9px] font-black text-white/30 uppercase tracking-widest">Collection Rate</span>
+                        <span className="text-[9px] font-black text-white/30 uppercase ">Collection Rate</span>
                         <span className="text-[9px] font-black text-[#3DBE7A]">99.2%</span>
                       </div>
                       <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
@@ -338,7 +338,7 @@ export default function LandingPage() {
                     </div>
                     <div>
                       <div className="flex justify-between items-center mb-2.5">
-                        <span className="text-[9px] font-black text-white/30 uppercase tracking-widest">Occupancy</span>
+                        <span className="text-[9px] font-black text-white/30 uppercase ">Occupancy</span>
                         <span className="text-[9px] font-black text-[#3DBE7A]">94%</span>
                       </div>
                       <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
@@ -356,11 +356,11 @@ export default function LandingPage() {
                   {/* Big stat */}
                   <div className="flex items-end justify-between border-t border-white/5 pt-8">
                     <div>
-                      <p className="text-[9px] font-black text-white/30 uppercase tracking-widest mb-1">Trust Score</p>
+                      <p className="text-[9px] font-black text-white/30 uppercase  mb-1">Trust Score</p>
                       <p className="text-6xl font-black text-white tracking-tighter italic leading-none">98<span className="text-[#3DBE7A]">%</span></p>
                     </div>
                     <div className="text-right">
-                      <p className="text-[8px] font-black text-white/20 uppercase tracking-widest mb-1">Active Units</p>
+                      <p className="text-[8px] font-black text-white/20 uppercase  mb-1">Active Units</p>
                       <p className="text-2xl font-black text-white/60 italic">1,200+</p>
                     </div>
                   </div>
@@ -377,7 +377,7 @@ export default function LandingPage() {
                     <Zap className="w-5 h-5 fill-[#3DBE7A] text-[#3DBE7A]" />
                   </div>
                   <div>
-                    <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Response Time</p>
+                    <p className="text-[8px] font-black text-slate-400 uppercase ">Response Time</p>
                     <p className="text-sm font-black text-[#1A1A1A] italic">{"< 15 mins"}</p>
                   </div>
                 </motion.div>
@@ -393,7 +393,7 @@ export default function LandingPage() {
           transition={{ delay: 1.4, duration: 0.6 }}
           className="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
         >
-          <span className="text-[8px] font-black text-white/30 uppercase tracking-[0.3em]">Scroll</span>
+          <span className="text-[8px] font-black text-white/30 uppercase">Scroll</span>
           <motion.div
             animate={{ y: [0, 6, 0] }}
             transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
@@ -422,7 +422,7 @@ export default function LandingPage() {
                   <Counter to={stat.val} suffix={stat.suffix} />
                 </p>
                 <div className="w-8 h-px bg-[#3DBE7A]/40 my-3" />
-                <p className="text-[9px] font-black text-[#3DBE7A] uppercase tracking-[0.35em]">{stat.label}</p>
+                <p className="text-[9px] font-black text-[#3DBE7A] uppercase ">{stat.label}</p>
               </Reveal>
             ))}
           </div>
@@ -435,7 +435,7 @@ export default function LandingPage() {
       <section id="solutions" className="py-28 bg-[#F7F8F5]">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <Reveal className="text-center mb-20">
-            <p className="text-[9px] font-black uppercase tracking-[0.42em] text-[#3DBE7A] mb-4">Dual Platform</p>
+            <p className="text-[9px] font-black uppercase text-[#3DBE7A] mb-4">Dual Platform</p>
             <h2 className="text-4xl md:text-5xl font-black text-[#1A1A1A] tracking-tighter mb-5">
               Solutions for Everyone
             </h2>
@@ -457,7 +457,7 @@ export default function LandingPage() {
                     <Briefcase className="w-6 h-6 text-white" strokeWidth={1.5} />
                   </div>
 
-                  <p className="text-[8px] font-black text-[#3DBE7A] uppercase tracking-[0.38em] mb-2">For Managers</p>
+                  <p className="text-[8px] font-black text-[#3DBE7A] uppercase  mb-2">For Managers</p>
                   <h3 className="text-2xl md:text-3xl font-black text-[#1A1A1A] tracking-tight mb-4">Property Managers</h3>
                   <p className="text-sm text-[#6B7280] leading-relaxed mb-8">
                     Comprehensive tools for managing properties, tracking payments, and maintaining tenant relationships at scale.
@@ -475,7 +475,7 @@ export default function LandingPage() {
                   </ul>
 
                   <Link href="/auth/login?role=landlord">
-                    <button className="group/btn flex items-center gap-2 bg-[#1B5E45] text-white px-6 h-12 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-[#246B4F] transition-all duration-300 hover:shadow-lg hover:shadow-[#1B5E45]/25 hover:-translate-y-0.5">
+                    <button className="group/btn flex items-center gap-2 bg-[#1B5E45] text-white px-6 h-12 rounded-xl text-xs font-black uppercase  hover:bg-[#246B4F] transition-all duration-300 hover:shadow-lg hover:shadow-[#1B5E45]/25 hover:-translate-y-0.5">
                       Enter Portal
                       <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
                     </button>
@@ -494,7 +494,7 @@ export default function LandingPage() {
                     <Users className="w-6 h-6 text-[#3DBE7A]" strokeWidth={1.5} />
                   </div>
 
-                  <p className="text-[8px] font-black text-[#3DBE7A] uppercase tracking-[0.38em] mb-2">For Residents</p>
+                  <p className="text-[8px] font-black text-[#3DBE7A] uppercase  mb-2">For Residents</p>
                   <h3 className="text-2xl md:text-3xl font-black text-white tracking-tight mb-4">Tenants</h3>
                   <p className="text-sm text-white/50 leading-relaxed mb-8">
                     Easy-to-use platform for rent payments, maintenance requests, and seamless communication with your landlord.
@@ -512,7 +512,7 @@ export default function LandingPage() {
                   </ul>
 
                   <Link href="/auth/login?role=tenant">
-                    <button className="group/btn flex items-center gap-2 bg-white/8 border border-white/10 text-white px-6 h-12 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-white/15 transition-all duration-300 hover:-translate-y-0.5">
+                    <button className="group/btn flex items-center gap-2 bg-white/8 border border-white/10 text-white px-6 h-12 rounded-xl text-xs font-black uppercase  hover:bg-white/15 transition-all duration-300 hover:-translate-y-0.5">
                       Find Residence
                       <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
                     </button>
@@ -544,7 +544,7 @@ export default function LandingPage() {
                       <TrendingUp className="w-5 h-5 text-white" strokeWidth={2} />
                     </div>
                     <div>
-                      <p className="text-[8px] font-black text-[#6B7280] uppercase tracking-widest">Revenue Growth</p>
+                      <p className="text-[8px] font-black text-[#6B7280] uppercase ">Revenue Growth</p>
                       <p className="text-base font-black text-[#1A1A1A] italic">+24% this quarter</p>
                     </div>
                     <div className="ml-auto text-[#3DBE7A]">
@@ -558,7 +558,7 @@ export default function LandingPage() {
             {/* Features list */}
             <div className="space-y-12 mt-12 lg:mt-0">
               <Reveal>
-                <p className="text-[9px] font-black uppercase tracking-[0.42em] text-[#3DBE7A] mb-3">Platform Power</p>
+                <p className="text-[9px] font-black uppercase text-[#3DBE7A] mb-3">Platform Power</p>
                 <h2 className="text-4xl md:text-5xl font-black text-[#1A1A1A] tracking-tighter leading-[0.9] mb-5">
                   Comprehensive Management
                 </h2>
@@ -616,7 +616,7 @@ export default function LandingPage() {
 
         <div className="max-w-4xl mx-auto px-6 lg:px-10 text-center relative z-10">
           <Reveal>
-            <p className="text-[9px] font-black uppercase tracking-[0.42em] text-[#3DBE7A] mb-5">Get Started Today</p>
+            <p className="text-[9px] font-black uppercase text-[#3DBE7A] mb-5">Get Started Today</p>
             <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter leading-[0.9] mb-6">
               Ready to Transform<br />
               <span className="bg-gradient-to-r from-[#3DBE7A] to-[#2AE299] bg-clip-text text-transparent">
@@ -650,7 +650,7 @@ export default function LandingPage() {
                   <div className="flex gap-0.5 mb-0.5">
                     {[...Array(5)].map((_, i) => <Star key={i} className="w-2.5 h-2.5 fill-[#3DBE7A] text-[#3DBE7A]" />)}
                   </div>
-                  <p className="text-[9px] font-black text-white/30 uppercase tracking-widest">500+ Active Users</p>
+                  <p className="text-[9px] font-black text-white/30 uppercase ">500+ Active Users</p>
                 </div>
               </div>
             </div>
@@ -691,7 +691,7 @@ export default function LandingPage() {
                 { title: "Protocol", links: ["About Us", "Our Blog", "Careers", "Contact"] },
               ].map((group, i) => (
                 <div key={i} className="space-y-6">
-                  <h5 className="text-[9px] font-black uppercase tracking-[0.4em]" style={{ color: "var(--color-text-primary)" }}>
+                  <h5 className="text-[9px] font-black uppercase " style={{ color: "var(--color-text-primary)" }}>
                     {group.title}
                   </h5>
                   <ul className="space-y-4">
@@ -715,7 +715,7 @@ export default function LandingPage() {
           {/* Bottom bar */}
           <div className="pt-10 border-t space-y-5" style={{ borderColor: "var(--color-border-light)" }}>
             <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-              <p className="text-[9px] font-black uppercase tracking-[0.35em]" style={{ color: "var(--color-text-muted)" }}>
+              <p className="text-[9px] font-black uppercase " style={{ color: "var(--color-text-muted)" }}>
                 &copy; 2024 RentManager Protocol. All Rights Reserved.
               </p>
               <div className="flex items-center gap-8">
@@ -723,7 +723,7 @@ export default function LandingPage() {
                   <a
                     key={link}
                     href="#"
-                    className="text-[9px] font-black uppercase tracking-[0.35em] hover:text-[#1B5E45] transition-colors"
+                    className="text-[9px] font-black uppercase  hover:text-[#1B5E45] transition-colors"
                     style={{ color: "var(--color-text-muted)" }}
                   >
                     {link}

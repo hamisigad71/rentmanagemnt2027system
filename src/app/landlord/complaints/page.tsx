@@ -98,7 +98,7 @@ export default function ComplaintsPage() {
                 <div className="w-8 h-8 rounded-xl bg-[#1A1A1A] flex items-center justify-center">
                   <Wrench className="w-4 h-4 text-[#3DBE7A]" />
                 </div>
-                <p className="text-[9px] font-black uppercase tracking-[0.42em]"
+                <p className="text-[9px] font-black uppercase "
                   style={{ color: "var(--color-text-muted)" }}>
                   Maintenance & Issues
                 </p>
@@ -124,7 +124,7 @@ export default function ComplaintsPage() {
                     color: "var(--color-text-primary)",
                   }} />
               </div>
-              <button className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-white text-xs font-black uppercase tracking-widest transition-all hover:-translate-y-0.5 whitespace-nowrap"
+              <button className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-white text-xs font-black uppercase  transition-all hover:-translate-y-0.5 whitespace-nowrap"
                 style={{ background: "linear-gradient(135deg,#1B5E45,#3DBE7A)", boxShadow: "0 4px 14px rgba(27,94,69,0.28)" }}>
                 <Plus className="w-3.5 h-3.5" /> New Issue
               </button>
@@ -157,7 +157,7 @@ export default function ComplaintsPage() {
                         style={{ color: accent ? "rgba(255,255,255,0.9)" : danger ? "#dc2626" : warn ? "#d97706" : "#1B5E45" }} />
                     </div>
                     {accent && highPrio > 0 && (
-                      <span className="text-[8px] font-black px-2 py-0.5 rounded-full bg-red-500/20 text-red-300 uppercase tracking-widest">
+                      <span className="text-[8px] font-black px-2 py-0.5 rounded-full bg-red-500/20 text-red-300 uppercase ">
                         {highPrio} high
                       </span>
                     )}
@@ -166,7 +166,7 @@ export default function ComplaintsPage() {
                     style={{ color: accent ? "white" : danger ? "#dc2626" : warn ? "#d97706" : "var(--color-text-primary)" }}>
                     {val}
                   </p>
-                  <p className="text-[9px] font-black uppercase tracking-[0.32em] mt-1"
+                  <p className="text-[9px] font-black uppercase  mt-1"
                     style={{ color: accent ? "rgba(255,255,255,0.48)" : "var(--color-text-muted)" }}>
                     {label}
                   </p>
@@ -184,7 +184,7 @@ export default function ComplaintsPage() {
                 return (
                   <button key={s}
                     onClick={() => setFilter(s)}
-                    className="relative px-4 py-3 text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap"
+                    className="relative px-4 py-3 text-[10px] font-black uppercase  transition-all whitespace-nowrap"
                     style={{ color: active ? "var(--color-green-deep)" : "var(--color-text-muted)" }}>
                     {s.replace("-", " ")}
                     {isMounted && (
@@ -250,7 +250,7 @@ export default function ComplaintsPage() {
                         {/* Header */}
                         <div className="flex items-start justify-between gap-3">
                           <div className="flex-1 min-w-0">
-                            <p className="text-[8px] font-black uppercase tracking-[0.38em] mb-1.5"
+                            <p className="text-[8px] font-black uppercase  mb-1.5"
                               style={{ color: "var(--color-text-muted)" }}>
                               {c.category}
                             </p>
@@ -259,7 +259,7 @@ export default function ComplaintsPage() {
                               {c.title}
                             </h3>
                           </div>
-                          <div className="flex-shrink-0 px-2.5 py-1 rounded-full border text-[8px] font-black uppercase tracking-widest"
+                          <div className="flex-shrink-0 px-2.5 py-1 rounded-full border text-[8px] font-black uppercase "
                             style={{ background: pConf.bg, color: pConf.text, borderColor: pConf.border }}>
                             {pConf.label}
                           </div>
@@ -283,7 +283,7 @@ export default function ComplaintsPage() {
                             <p className="text-xs font-black truncate" style={{ color: "var(--color-text-primary)" }}>
                               {c.tenantName}
                             </p>
-                            <p className="text-[8px] font-bold uppercase tracking-widest"
+                            <p className="text-[8px] font-bold uppercase "
                               style={{ color: "var(--color-text-muted)" }}>
                               Unit {c.unitId?.split("-").pop()}
                             </p>
@@ -346,11 +346,11 @@ export default function ComplaintsPage() {
                 <div className="relative z-10 px-8 py-7 flex items-start justify-between gap-4">
                   <div className="space-y-3">
                     <div className="flex items-center gap-3">
-                      <span className="text-[8px] font-black uppercase tracking-[0.42em] text-white/30">
+                      <span className="text-[8px] font-black uppercase  text-white/30">
                         {selected.category}
                       </span>
                       <div className="w-px h-3 bg-white/15" />
-                      <span className="text-[8px] font-black uppercase tracking-widest"
+                      <span className="text-[8px] font-black uppercase "
                         style={{ color: pConf.dot }}>
                         {pConf.label} Priority
                       </span>
@@ -383,7 +383,7 @@ export default function ComplaintsPage() {
                 {/* Description */}
                 <div className="rounded-2xl border p-5"
                   style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)" }}>
-                  <p className="text-[8px] font-black uppercase tracking-[0.38em] mb-4"
+                  <p className="text-[8px] font-black uppercase  mb-4"
                     style={{ color: "var(--color-text-muted)" }}>Incident Description</p>
                   <p className="text-sm leading-relaxed italic"
                     style={{ color: "var(--color-text-primary)" }}>
@@ -400,7 +400,7 @@ export default function ComplaintsPage() {
                       <p className="text-xs font-black" style={{ color: "var(--color-text-primary)" }}>
                         {selected.tenantName}
                       </p>
-                      <p className="text-[8px] font-bold uppercase tracking-widest mt-0.5"
+                      <p className="text-[8px] font-bold uppercase  mt-0.5"
                         style={{ color: "var(--color-text-muted)" }}>
                         Unit {selected.unitId?.split("-").pop()}
                       </p>
@@ -414,7 +414,7 @@ export default function ComplaintsPage() {
                   <div className="absolute top-0 right-0 w-32 h-32 rounded-full blur-2xl -mr-10 -mt-10"
                     style={{ background: "rgba(61,190,122,0.22)" }} />
                   <div className="p-5 space-y-5 relative z-10">
-                    <p className="text-[8px] font-black uppercase tracking-[0.38em] text-white/30">
+                    <p className="text-[8px] font-black uppercase  text-white/30">
                       Resolution Progress
                     </p>
                     <div className="flex items-center gap-4">
@@ -446,7 +446,7 @@ export default function ComplaintsPage() {
                       ].map((item, i) => (
                         <div key={i} className="p-3 rounded-xl border border-white/8"
                           style={{ background: "rgba(255,255,255,0.06)" }}>
-                          <p className="text-[7px] font-black uppercase tracking-widest text-white/28 mb-0.5">{item.label}</p>
+                          <p className="text-[7px] font-black uppercase  text-white/28 mb-0.5">{item.label}</p>
                           <p className="text-[10px] font-black text-white truncate">{item.val}</p>
                         </div>
                       ))}
@@ -457,16 +457,16 @@ export default function ComplaintsPage() {
 
               {/* Actions */}
               <div className="px-7 pb-7 flex gap-3">
-                <button className="flex-1 py-3 rounded-xl text-white text-xs font-black uppercase tracking-widest transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                <button className="flex-1 py-3 rounded-xl text-white text-xs font-black uppercase  transition-all hover:-translate-y-0.5 hover:shadow-lg"
                   style={{ background: "linear-gradient(135deg,#1B5E45,#3DBE7A)", boxShadow: "0 4px 16px rgba(27,94,69,0.25)" }}>
                   {selected.status === "resolved" ? "Re-open Issue" : "Mark Resolved"}
                 </button>
-                <button className="flex-1 py-3 rounded-xl text-xs font-black uppercase tracking-widest border transition-all hover:bg-[#F7F8F5]"
+                <button className="flex-1 py-3 rounded-xl text-xs font-black uppercase  border transition-all hover:bg-[#F7F8F5]"
                   style={{ borderColor: "var(--color-border-light)", color: "var(--color-text-muted)" }}>
                   Assign Contractor
                 </button>
                 <button onClick={() => setSelected(null)}
-                  className="px-5 py-3 rounded-xl text-xs font-black uppercase tracking-widest border transition-all hover:bg-[#F7F8F5]"
+                  className="px-5 py-3 rounded-xl text-xs font-black uppercase  border transition-all hover:bg-[#F7F8F5]"
                   style={{ borderColor: "var(--color-border-light)", color: "var(--color-text-muted)" }}>
                   Close
                 </button>

@@ -60,7 +60,7 @@ export default function RoleSelectionPage() {
         </main>
 
         <footer className="mt-12 text-center">
-          <a className="text-[10px] font-black uppercase tracking-[0.2em] hover:text-[#1B5E45] transition-colors inline-flex items-center gap-2 italic" 
+          <a className="text-[10px] font-black uppercase  hover:text-[#1B5E45] transition-colors inline-flex items-center gap-2 italic" 
              style={{ color: "var(--color-text-muted)" }} href="#">
             <HelpCircle className="w-3 h-3" />
             Need help with your account?

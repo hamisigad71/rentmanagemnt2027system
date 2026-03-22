@@ -135,7 +135,7 @@ export default function TenantComplaintsPage() {
               <div className="w-7 h-7 rounded-lg bg-[#1A1A1A] flex items-center justify-center">
                 <AlertCircle className="w-3.5 h-3.5 text-[#3DBE7A]" />
               </div>
-              <p className="text-[8px] font-black uppercase tracking-[0.45em]"
+              <p className="text-[8px] font-black uppercase "
                 style={{ color: "var(--color-text-muted)" }}>
                 Tenant Portal
               </p>
@@ -150,7 +150,7 @@ export default function TenantComplaintsPage() {
           </div>
           <button
             onClick={() => setShowForm(true)}
-            className="self-start sm:self-auto flex items-center gap-2 px-4 py-2.5 rounded-xl text-white text-xs font-black uppercase tracking-widest transition-all hover:-translate-y-0.5 whitespace-nowrap"
+            className="self-start sm:self-auto flex items-center gap-2 px-4 py-2.5 rounded-xl text-white text-xs font-black uppercase  transition-all hover:-translate-y-0.5 whitespace-nowrap"
             style={{ background: "linear-gradient(135deg,#1B5E45,#3DBE7A)", boxShadow: "0 4px 14px rgba(27,94,69,0.28)" }}>
             <Plus className="w-3.5 h-3.5" /> New Complaint
           </button>
@@ -184,7 +184,7 @@ export default function TenantComplaintsPage() {
                   style={{ color: accent ? "white" : danger ? "#dc2626" : warn ? "#d97706" : "var(--color-text-primary)" }}>
                   {val}
                 </p>
-                <p className="text-[8px] font-black uppercase tracking-[0.32em]"
+                <p className="text-[8px] font-black uppercase "
                   style={{ color: accent ? "rgba(255,255,255,0.48)" : "var(--color-text-muted)" }}>
                   {label}
                 </p>
@@ -228,7 +228,7 @@ export default function TenantComplaintsPage() {
                   { label: "SLA Rating",   val: "98%",   color: "var(--color-green-deep)" },
                 ].map((s, i) => (
                   <div key={i} className="text-center sm:text-right">
-                    <p className="text-[8px] font-black uppercase tracking-widest mb-0.5"
+                    <p className="text-[8px] font-black uppercase  mb-0.5"
                       style={{ color: "var(--color-text-muted)" }}>{s.label}</p>
                     <p className="text-base font-black" style={{ color: s.color }}>{s.val}</p>
                   </div>
@@ -255,7 +255,7 @@ export default function TenantComplaintsPage() {
                 const count = f === "all" ? total : myComplaints.filter(c => c.status === f).length;
                 return (
                   <button key={f} onClick={() => setFilter(f)}
-                    className="px-3.5 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all whitespace-nowrap"
+                    className="px-3.5 py-2 rounded-xl text-[9px] font-black uppercase  transition-all whitespace-nowrap"
                     style={{
                       background: filter === f ? "var(--color-surface-tint)" : "var(--color-card)",
                       border: `1px solid ${filter === f ? "var(--color-border-mid)" : "var(--color-border-light)"}`,
@@ -290,7 +290,7 @@ export default function TenantComplaintsPage() {
               </div>
               {filter === "all" && (
                 <button onClick={() => setShowForm(true)}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-white text-xs font-black uppercase tracking-widest mt-1"
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-white text-xs font-black uppercase  mt-1"
                   style={{ background: "linear-gradient(135deg,#1B5E45,#3DBE7A)" }}>
                   <Plus className="w-3.5 h-3.5" /> Report Issue
                 </button>
@@ -322,12 +322,12 @@ export default function TenantComplaintsPage() {
                       {/* Left content */}
                       <div className="flex-1 min-w-0 space-y-2">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="text-[8px] font-black uppercase tracking-[0.38em]"
+                          <span className="text-[8px] font-black uppercase "
                             style={{ color: "var(--color-text-muted)" }}>
                             {complaint.category}
                           </span>
                           <span className="text-[8px]" style={{ color: "var(--color-border-light)" }}>·</span>
-                          <span className="text-[8px] font-black uppercase tracking-widest"
+                          <span className="text-[8px] font-black uppercase "
                             style={{ color: "var(--color-text-muted)" }}>
                             {complaint.createdDate}
                           </span>
@@ -346,7 +346,7 @@ export default function TenantComplaintsPage() {
                       <div className="flex sm:flex-col items-center sm:items-end gap-3 flex-shrink-0">
                         <div className="flex items-center gap-2">
                           {/* Priority badge */}
-                          <span className="px-2.5 py-1 rounded-full border text-[8px] font-black uppercase tracking-widest"
+                          <span className="px-2.5 py-1 rounded-full border text-[8px] font-black uppercase "
                             style={{ background: pConf.bg, color: pConf.text, borderColor: pConf.border }}>
                             {pConf.label}
                           </span>
@@ -394,11 +394,11 @@ export default function TenantComplaintsPage() {
                 <div className="relative z-10 px-7 py-6 flex items-start justify-between gap-4">
                   <div className="space-y-2.5">
                     <div className="flex items-center gap-2.5">
-                      <span className="text-[8px] font-black uppercase tracking-[0.42em] text-white/30">
+                      <span className="text-[8px] font-black uppercase  text-white/30">
                         {selected.category}
                       </span>
                       <div className="w-px h-3 bg-white/15" />
-                      <span className="text-[8px] font-black uppercase tracking-widest"
+                      <span className="text-[8px] font-black uppercase "
                         style={{ color: pConf.dot }}>
                         {pConf.label} Priority
                       </span>
@@ -430,7 +430,7 @@ export default function TenantComplaintsPage() {
                 {/* Description */}
                 <div className="rounded-2xl border p-5"
                   style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)" }}>
-                  <p className="text-[8px] font-black uppercase tracking-[0.38em] mb-4"
+                  <p className="text-[8px] font-black uppercase  mb-4"
                     style={{ color: "var(--color-text-muted)" }}>Issue Description</p>
                   <p className="text-sm leading-relaxed italic"
                     style={{ color: "var(--color-text-primary)" }}>
@@ -445,7 +445,7 @@ export default function TenantComplaintsPage() {
                     ].map((item, i) => (
                       <div key={i} className="rounded-xl px-3 py-2 border"
                         style={{ background: "var(--color-background-alt)", borderColor: "var(--color-border-light)" }}>
-                        <p className="text-[7px] font-black uppercase tracking-widest mb-0.5"
+                        <p className="text-[7px] font-black uppercase  mb-0.5"
                           style={{ color: "var(--color-text-muted)" }}>{item.label}</p>
                         <p className="text-xs font-black" style={{ color: "var(--color-text-primary)" }}>{item.val}</p>
                       </div>
@@ -459,7 +459,7 @@ export default function TenantComplaintsPage() {
                   <div className="absolute top-0 right-0 w-28 h-28 rounded-full blur-2xl -mr-8 -mt-8"
                     style={{ background: "rgba(61,190,122,0.22)" }} />
                   <div className="p-5 space-y-4 relative z-10">
-                    <p className="text-[8px] font-black uppercase tracking-[0.38em] text-white/30">
+                    <p className="text-[8px] font-black uppercase  text-white/30">
                       Resolution Status
                     </p>
                     <div className="flex items-center gap-4">
@@ -492,7 +492,7 @@ export default function TenantComplaintsPage() {
                       ].map((item, i) => (
                         <div key={i} className="p-2.5 rounded-xl border border-white/8"
                           style={{ background: "rgba(255,255,255,0.06)" }}>
-                          <p className="text-[7px] font-black uppercase tracking-widest text-white/28 mb-0.5">{item.label}</p>
+                          <p className="text-[7px] font-black uppercase  text-white/28 mb-0.5">{item.label}</p>
                           <p className="text-[10px] font-black text-white">{item.val}</p>
                         </div>
                       ))}
@@ -504,13 +504,13 @@ export default function TenantComplaintsPage() {
               {/* Actions */}
               <div className="px-6 pb-6 flex gap-3">
                 {selected.status !== "resolved" && (
-                  <button className="flex-1 py-3 rounded-xl text-white text-xs font-black uppercase tracking-widest transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                  <button className="flex-1 py-3 rounded-xl text-white text-xs font-black uppercase  transition-all hover:-translate-y-0.5 hover:shadow-lg"
                     style={{ background: "linear-gradient(135deg,#1B5E45,#3DBE7A)", boxShadow: "0 4px 16px rgba(27,94,69,0.25)" }}>
                     Follow Up
                   </button>
                 )}
                 <button onClick={() => setSelected(null)}
-                  className="flex-1 py-3 rounded-xl text-xs font-black uppercase tracking-widest border transition-all hover:bg-[#F7F8F5]"
+                  className="flex-1 py-3 rounded-xl text-xs font-black uppercase  border transition-all hover:bg-[#F7F8F5]"
                   style={{ borderColor: "var(--color-border-light)", color: "var(--color-text-muted)" }}>
                   Close
                 </button>
@@ -540,7 +540,7 @@ export default function TenantComplaintsPage() {
                 </div>
                 <div>
                   <p className="text-sm font-black text-white">Report an Issue</p>
-                  <p className="text-[8px] font-black uppercase tracking-widest text-white/30">
+                  <p className="text-[8px] font-black uppercase  text-white/30">
                     Submit a new complaint
                   </p>
                 </div>
@@ -582,7 +582,7 @@ export default function TenantComplaintsPage() {
               <>
                 {/* Title */}
                 <div className="space-y-1.5">
-                  <label className="text-[8px] font-black uppercase tracking-[0.38em]"
+                  <label className="text-[8px] font-black uppercase "
                     style={{ color: "var(--color-text-muted)" }}>
                     Issue Title
                   </label>
@@ -594,7 +594,7 @@ export default function TenantComplaintsPage() {
 
                 {/* Category grid */}
                 <div className="space-y-1.5">
-                  <label className="text-[8px] font-black uppercase tracking-[0.38em]"
+                  <label className="text-[8px] font-black uppercase "
                     style={{ color: "var(--color-text-muted)" }}>
                     Category
                   </label>
@@ -609,7 +609,7 @@ export default function TenantComplaintsPage() {
                           color: form.category === cat.label ? "var(--color-green-deep)" : "var(--color-text-muted)",
                         }}>
                         {cat.icon}
-                        <span className="text-[9px] uppercase tracking-widest">{cat.label}</span>
+                        <span className="text-[9px] uppercase ">{cat.label}</span>
                       </button>
                     ))}
                   </div>
@@ -617,7 +617,7 @@ export default function TenantComplaintsPage() {
 
                 {/* Priority */}
                 <div className="space-y-1.5">
-                  <label className="text-[8px] font-black uppercase tracking-[0.38em]"
+                  <label className="text-[8px] font-black uppercase "
                     style={{ color: "var(--color-text-muted)" }}>
                     Priority Level
                   </label>
@@ -627,7 +627,7 @@ export default function TenantComplaintsPage() {
                       return (
                         <button key={p} type="button"
                           onClick={() => setForm(prev => ({ ...prev, priority: p }))}
-                          className="flex-1 py-2.5 rounded-xl border text-[9px] font-black uppercase tracking-widest transition-all"
+                          className="flex-1 py-2.5 rounded-xl border text-[9px] font-black uppercase  transition-all"
                           style={{
                             background: form.priority === p ? conf.bg : "var(--color-background-alt)",
                             borderColor: form.priority === p ? conf.border : "var(--color-border-light)",
@@ -642,7 +642,7 @@ export default function TenantComplaintsPage() {
 
                 {/* Description */}
                 <div className="space-y-1.5">
-                  <label className="text-[8px] font-black uppercase tracking-[0.38em]"
+                  <label className="text-[8px] font-black uppercase "
                     style={{ color: "var(--color-text-muted)" }}>
                     Detailed Description
                   </label>
@@ -657,12 +657,12 @@ export default function TenantComplaintsPage() {
                 <div className="flex gap-3 pt-1">
                   <button onClick={handleSubmit}
                     disabled={!form.title || !form.category || !form.description}
-                    className="flex-1 py-3 rounded-xl text-white text-sm font-black uppercase tracking-widest transition-all hover:-translate-y-0.5 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+                    className="flex-1 py-3 rounded-xl text-white text-sm font-black uppercase  transition-all hover:-translate-y-0.5 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                     style={{ background: "linear-gradient(135deg,#1B5E45,#3DBE7A)", boxShadow: "0 4px 16px rgba(27,94,69,0.25)" }}>
                     Submit Complaint
                   </button>
                   <button onClick={() => setShowForm(false)}
-                    className="flex-1 py-3 rounded-xl text-sm font-black uppercase tracking-widest border transition-all hover:bg-[#F7F8F5]"
+                    className="flex-1 py-3 rounded-xl text-sm font-black uppercase  border transition-all hover:bg-[#F7F8F5]"
                     style={{ borderColor: "var(--color-border-light)", color: "var(--color-text-muted)" }}>
                     Cancel
                   </button>

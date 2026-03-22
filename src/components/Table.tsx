@@ -25,7 +25,7 @@ export default function Table({ columns, data, onRowClick }: TableProps) {
             {columns.map((column) => (
               <th
                 key={column}
-                className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em]"
+                className="px-8 py-5 text-[10px] font-black uppercase "
                 style={{ color: "var(--color-text-on-dark)" }}
               >
                 {column}
@@ -72,7 +72,7 @@ export default function Table({ columns, data, onRowClick }: TableProps) {
       {data.length === 0 && (
         <div className="p-12 text-center">
           <p
-            className="font-bold uppercase tracking-widest text-xs"
+            className="font-bold uppercase  text-xs"
             style={{ color: "var(--color-text-muted)" }}
           >
             No entries found

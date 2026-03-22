@@ -52,7 +52,7 @@ export default function PaymentsPage() {
         {/* Header - Editorial Style */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-slate-100">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/5 text-[10px] font-black uppercase  text-slate-500">
               <CreditCard className="w-3 h-3" />
               Capital Flow Intelligence
             </div>
@@ -85,12 +85,12 @@ export default function PaymentsPage() {
                       <div className={`w-10 h-10 md:w-12 md:h-12 rounded-lg bg-${node.color}-50 flex items-center justify-center text-${node.color}-600 group-hover:scale-110 transition-transform`}>
                          <node.icon className="w-5 h-5 md:w-6 md:h-6" />
                       </div>
-                      <div className={`px-2 py-1 rounded-lg bg-${node.color}-50 text-${node.color}-600 font-semibold text-[8px] md:text-[9px] uppercase tracking-widest`}> 
+                      <div className={`px-2 py-1 rounded-lg bg-${node.color}-50 text-${node.color}-600 font-semibold text-[8px] md:text-[9px] uppercase `}> 
                          {node.trend}
                       </div>
                    </div>
                    <div className="space-y-1">
-                      <p className="text-xs md:text-[10px] font-semibold text-slate-400 uppercase tracking-widest">{node.label}</p>
+                      <p className="text-xs md:text-[10px] font-semibold text-slate-400 uppercase ">{node.label}</p>
                       <p className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tighter">KSh {node.value.toLocaleString()}</p>
                    </div>
                 </div>
@@ -102,7 +102,7 @@ export default function PaymentsPage() {
         <div className="bg-white rounded-[2.5rem] border border-slate-200/60 shadow-xl shadow-slate-200/40 overflow-hidden">
           <div className="p-8 border-b border-slate-50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
              <div className="flex flex-col sm:flex-row items-center gap-4">
-                <div className="inline-flex items-center gap-2 text-xs font-black text-slate-900 uppercase tracking-widest">
+                <div className="inline-flex items-center gap-2 text-xs font-black text-slate-900 uppercase ">
                    <Filter className="w-4 h-4 text-[#1B5E45]" />
                    Temporal Filter:
                 </div>
@@ -111,27 +111,27 @@ export default function PaymentsPage() {
                      <button 
                        key={m}
                        onClick={() => setFilterMonth(m)}
-                       className={`px-3 py-1 rounded-lg text-[9px] sm:text-[10px] font-semibold uppercase tracking-widest transition-all ${filterMonth === m ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'}`}
+                       className={`px-3 py-1 rounded-lg text-[9px] sm:text-[10px] font-semibold uppercase  transition-all ${filterMonth === m ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'}`}
                      >
                         {m}
                      </button>
                    ))}
                 </div>
              </div>
-             <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Real-time sync active</span>
+             <span className="text-[10px] font-black text-slate-400 uppercase ">Real-time sync active</span>
           </div>
 
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
                 <tr className="bg-slate-50/50">
-                  <th className="px-4 md:px-6 py-3 md:py-4 text-[9px] md:text-[10px] font-semibold text-slate-400 uppercase tracking-[0.2em]">Stakeholder</th>
-                  <th className="px-4 md:px-6 py-3 md:py-4 text-[9px] md:text-[10px] font-semibold text-slate-400 uppercase tracking-[0.2em]">Assignment</th>
-                  <th className="px-4 md:px-6 py-3 md:py-4 text-[9px] md:text-[10px] font-semibold text-slate-400 uppercase tracking-[0.2em]">Interval</th>
-                  <th className="px-4 md:px-6 py-3 md:py-4 text-[9px] md:text-[10px] font-semibold text-slate-400 uppercase tracking-[0.2em]">Capital</th>
-                  <th className="px-4 md:px-6 py-3 md:py-4 text-[9px] md:text-[10px] font-semibold text-slate-400 uppercase tracking-[0.2em]">Protocol</th>
-                  <th className="px-4 md:px-6 py-3 md:py-4 text-[9px] md:text-[10px] font-semibold text-slate-400 uppercase tracking-[0.2em]">Timestamp</th>
-                  <th className="px-4 md:px-6 py-3 md:py-4 text-[9px] md:text-[10px] font-semibold text-slate-400 uppercase tracking-[0.2em]">Access</th>
+                  <th className="px-4 md:px-6 py-3 md:py-4 text-[9px] md:text-[10px] font-semibold text-slate-400 uppercase ">Stakeholder</th>
+                  <th className="px-4 md:px-6 py-3 md:py-4 text-[9px] md:text-[10px] font-semibold text-slate-400 uppercase ">Assignment</th>
+                  <th className="px-4 md:px-6 py-3 md:py-4 text-[9px] md:text-[10px] font-semibold text-slate-400 uppercase ">Interval</th>
+                  <th className="px-4 md:px-6 py-3 md:py-4 text-[9px] md:text-[10px] font-semibold text-slate-400 uppercase ">Capital</th>
+                  <th className="px-4 md:px-6 py-3 md:py-4 text-[9px] md:text-[10px] font-semibold text-slate-400 uppercase ">Protocol</th>
+                  <th className="px-4 md:px-6 py-3 md:py-4 text-[9px] md:text-[10px] font-semibold text-slate-400 uppercase ">Timestamp</th>
+                  <th className="px-4 md:px-6 py-3 md:py-4 text-[9px] md:text-[10px] font-semibold text-slate-400 uppercase ">Access</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
@@ -153,14 +153,14 @@ export default function PaymentsPage() {
                        </div>
                     </td>
                     <td className="px-4 md:px-6 py-4 md:py-5">
-                       <span className="text-[9px] md:text-[10px] font-semibold text-slate-500 uppercase tracking-widest border border-slate-100 px-2 py-1 rounded-lg">
+                       <span className="text-[9px] md:text-[10px] font-semibold text-slate-500 uppercase  border border-slate-100 px-2 py-1 rounded-lg">
                           Unit {payment.unitId.split('-').pop()}
                        </span>
                     </td>
                     <td className="px-4 md:px-6 py-4 md:py-5 text-xs md:text-sm font-medium text-slate-600">{payment.month}</td>
                     <td className="px-4 md:px-6 py-4 md:py-5 font-semibold text-slate-900 text-sm md:text-base">KSh {payment.amount.toLocaleString()}</td>
                     <td className="px-4 md:px-6 py-4 md:py-5">
-                       <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full font-semibold text-[8px] md:text-[9px] uppercase tracking-widest ${
+                       <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full font-semibold text-[8px] md:text-[9px] uppercase  ${
                          payment.status === 'completed' ? 'bg-emerald-100 text-emerald-700 shadow-[0_4px_12px_rgba(16,185,129,0.15)]' : 
                          payment.status === 'pending' ? 'bg-[#E8F5EE] text-[#1B5E45]' : 'bg-brand-red/10 text-brand-red'
                        }`}>
@@ -200,7 +200,7 @@ export default function PaymentsPage() {
                    <div className="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/10">
                       <CreditCard className="w-6 h-6 text-white" />
                    </div>
-                   <div className={`px-4 py-1.5 rounded-full font-black text-[9px] uppercase tracking-widest border ${
+                   <div className={`px-4 py-1.5 rounded-full font-black text-[9px] uppercase  border ${
                      selectedPayment?.status === 'completed' ? 'border-emerald-500/50 text-emerald-400 bg-emerald-500/10' : 
                      selectedPayment?.status === 'pending' ? 'border-[#1B5E45]/50 text-[#3DBE7A] bg-[#E8F5EE]0/10' : 'border-brand-red/50 text-brand-red bg-rose-500/10'
                    }`}>
@@ -208,7 +208,7 @@ export default function PaymentsPage() {
                    </div>
                 </div>
                 <div className="space-y-1">
-                   <p className="text-white/50 text-[10px] font-black uppercase tracking-[0.2em]">Transaction Value</p>
+                   <p className="text-white/50 text-[10px] font-black uppercase ">Transaction Value</p>
                    <h3 className="text-5xl font-black text-white tracking-tighter">KSh {selectedPayment?.amount.toLocaleString()}</h3>
                 </div>
              </div>
@@ -218,21 +218,21 @@ export default function PaymentsPage() {
              <div className="grid grid-cols-2 gap-8 py-8 border-b border-slate-50">
                 <div className="space-y-4">
                    <div className="space-y-1">
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Digital Payer</p>
+                      <p className="text-[10px] font-black text-slate-400 uppercase ">Digital Payer</p>
                       <p className="text-lg font-black text-slate-900 tracking-tight">{selectedPayment?.tenantName}</p>
                    </div>
                    <div className="space-y-1">
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Asset Allocated</p>
+                      <p className="text-[10px] font-black text-slate-400 uppercase ">Asset Allocated</p>
                       <p className="text-sm font-bold text-slate-600">UNIT {selectedPayment?.unitId.split('-').pop()}</p>
                    </div>
                 </div>
                 <div className="space-y-4">
                    <div className="space-y-1">
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Temporal Cycle</p>
+                      <p className="text-[10px] font-black text-slate-400 uppercase ">Temporal Cycle</p>
                       <p className="text-lg font-black text-slate-900 tracking-tight">{selectedPayment?.month}</p>
                    </div>
                    <div className="space-y-1">
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Settlement Node</p>
+                      <p className="text-[10px] font-black text-slate-400 uppercase ">Settlement Node</p>
                       <p className="text-sm font-bold text-slate-600">{selectedPayment?.date}</p>
                    </div>
                 </div>
@@ -240,7 +240,7 @@ export default function PaymentsPage() {
 
              <div className="p-6 bg-slate-50 rounded-[2rem] border border-slate-100 flex items-center justify-between">
                 <div className="space-y-1">
-                   <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Payment Provider</p>
+                   <p className="text-[9px] font-black text-slate-400 uppercase ">Payment Provider</p>
                    <p className="text-xs font-black text-slate-900">Verified System Protocol</p>
                 </div>
                 <div className="flex items-center gap-4 grayscale opacity-40">
@@ -250,11 +250,11 @@ export default function PaymentsPage() {
              </div>
 
              <div className="flex gap-4 pt-4">
-                <Button variant="premium" className="flex-1 h-14 rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-2xl shadow-[#1B5E45]/20">
+                <Button variant="premium" className="flex-1 h-14 rounded-2xl text-[10px] font-black uppercase  shadow-2xl shadow-[#1B5E45]/20">
                    <Download className="w-4 h-4" />
                    Download Audit
                 </Button>
-                <Button variant="outline" className="flex-1 h-14 rounded-2xl text-[10px] font-black uppercase tracking-widest border-slate-200">
+                <Button variant="outline" className="flex-1 h-14 rounded-2xl text-[10px] font-black uppercase  border-slate-200">
                    <ExternalLink className="w-4 h-4" />
                    Verify Transaction
                 </Button>

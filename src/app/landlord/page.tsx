@@ -111,7 +111,7 @@ function StatCard({ label, value, numVal, icon: Icon, trend, accent, danger, spa
         )}
       </div>
 
-      <p className="text-[8px] font-black uppercase tracking-[0.35em] mb-1.5"
+      <p className="text-[8px] font-black uppercase mb-1.5"
         style={{ color: accent ? "rgba(255,255,255,0.42)" : "var(--color-text-muted)" }}>
         {label}
       </p>
@@ -152,32 +152,32 @@ export default function LandlordDashboard() {
 
         {/* ═══ HERO ═════════════════════════════════════════════════════════ */}
         <Reveal>
-          <div className="relative rounded-[1.8rem] overflow-hidden"
-            style={{ minHeight: 210, boxShadow: "0 24px 64px rgba(0,0,0,0.18)" }}>
+          <div className="relative rounded-[1.8rem] overflow-hidden border border-[var(--color-border-light)]"
+            style={{ minHeight: 210, boxShadow: "var(--shadow-card)" }}>
 
-            {/* Layered bg */}
+            {/* Layered bg — Light Mode Emerald */}
             <div className="absolute inset-0"
-              style={{ background: "linear-gradient(135deg,#071510 0%,#0C2218 38%,#1B5E45 100%)" }} />
-            <div className="absolute inset-0 opacity-[0.04]"
-              style={{ backgroundImage: "radial-gradient(circle at 1px 1px,rgba(255,255,255,0.5) 1px,transparent 0)", backgroundSize: "26px 26px" }} />
+              style={{ background: "linear-gradient(135deg, var(--color-surface-tint) 0%, var(--color-background) 100%)" }} />
+            <div className="absolute inset-0 opacity-[0.4]"
+              style={{ backgroundImage: "radial-gradient(circle at 1px 1px, var(--color-border-mid) 1px, transparent 0)", backgroundSize: "26px 26px" }} />
 
-            {/* Animated orbs */}
+            {/* Animated orbs — Lighter & softer */}
             <motion.div
-              animate={{ scale: [1, 1.15, 1], opacity: [0.1, 0.2, 0.1] }}
+              animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.5, 0.3] }}
               transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
               className="absolute top-0 right-0 w-[480px] h-[480px] rounded-full -mr-40 -mt-40"
-              style={{ background: "radial-gradient(circle,rgba(61,190,122,1),transparent 70%)", filter: "blur(80px)" }}
+              style={{ background: "radial-gradient(circle, var(--color-surface-tint), transparent 70%)", filter: "blur(80px)" }}
             />
             <motion.div
-              animate={{ scale: [1, 1.2, 1], opacity: [0.18, 0.3, 0.18] }}
+              animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
               transition={{ duration: 9, repeat: Infinity, ease: "easeInOut", delay: 3 }}
               className="absolute bottom-0 left-0 w-64 h-64 rounded-full -ml-16 -mb-16"
-              style={{ background: "radial-gradient(circle,rgba(27,94,69,1),transparent 70%)", filter: "blur(60px)" }}
+              style={{ background: "radial-gradient(circle, var(--color-green-soft), transparent 70%)", filter: "blur(60px)" }}
             />
 
-            {/* Lines */}
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#3DBE7A]/50 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
+            {/* Lines — Darker accent lines for visibility */}
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--color-border-mid)] to-transparent opacity-50" />
+            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--color-border-light)] to-transparent" />
 
             <div className="relative z-10 p-7 md:p-10">
               <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-7">
@@ -190,13 +190,13 @@ export default function LandlordDashboard() {
                       transition={{ duration: 2, repeat: Infinity }}
                       className="w-1.5 h-1.5 rounded-full bg-[#3DBE7A]"
                     />
-                    <span className="text-[8px] font-black uppercase tracking-[0.42em] text-white/35">
+                    <span className="text-[8px] font-black uppercase text-[var(--color-text-muted)]">
                       Property Command Centre
                     </span>
                   </div>
 
                   <div>
-                    <h1 className="text-3xl md:text-5xl font-black tracking-tighter text-white leading-[0.9]">
+                    <h1 className="text-3xl md:text-5xl font-black tracking-tighter text-[var(--color-text-primary)] leading-[0.9]">
                       Good {greeting},
                     </h1>
                     <h1 className="text-3xl md:text-5xl font-black tracking-tighter leading-[0.9] mt-1.5">
@@ -204,7 +204,7 @@ export default function LandlordDashboard() {
                         {userName?.split(" ")[0] || "Manager"}
                       </span>
                     </h1>
-                    <p className="text-xs font-medium text-white/30 mt-3 flex items-center gap-1.5">
+                    <p className="text-xs font-medium text-[var(--color-text-muted)] mt-3 flex items-center gap-1.5">
                       <Calendar style={{ width: 12, height: 12 }} />
                       {today}
                     </p>
@@ -219,10 +219,10 @@ export default function LandlordDashboard() {
                       { label: "Income",     val: `KSh ${(stats.monthlyIncome / 1000).toFixed(0)}k` },
                     ].map((item, i) => (
                       <React.Fragment key={i}>
-                        {i > 0 && <div className="w-px h-7 bg-white/10" />}
+                        {i > 0 && <div className="w-px h-7 bg-[var(--color-border-light)]" />}
                         <div>
-                          <p className="text-base font-black text-white tracking-tight">{item.val}</p>
-                          <p className="text-[8px] font-black uppercase tracking-widest text-white/28 mt-0.5">{item.label}</p>
+                          <p className="text-base font-black text-[var(--color-text-primary)] tracking-tight">{item.val}</p>
+                          <p className="text-[8px] font-black uppercase text-[var(--color-text-muted)] mt-0.5">{item.label}</p>
                         </div>
                       </React.Fragment>
                     ))}
@@ -232,8 +232,8 @@ export default function LandlordDashboard() {
                 {/* Right — CTA + alert chips */}
                 <div className="flex flex-col items-start md:items-end gap-3">
                   <button onClick={() => setModal(true)}
-                    className="flex items-center gap-2.5 px-5 py-3 rounded-xl text-[#071510] text-sm font-black transition-all hover:shadow-[0_12px_40px_rgba(61,190,122,0.5)] hover:-translate-y-0.5"
-                    style={{ background: "linear-gradient(135deg,#3DBE7A,#2AE299)" }}>
+                    className="flex items-center gap-2.5 px-5 py-3 rounded-xl text-white text-sm font-black transition-all hover:shadow-[0_12px_40px_rgba(27,94,69,0.5)] hover:-translate-y-0.5"
+                    style={{ background: "#1B5E45" }}>
                     <Plus style={{ width: 16, height: 16 }} /> Add Building
                   </button>
 
@@ -244,8 +244,8 @@ export default function LandlordDashboard() {
                         transition={{ delay: 0.8, duration: 0.4 }}
                         className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-red-400/22"
                         style={{ background: "rgba(239,68,68,0.1)" }}>
-                        <div className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
-                        <span className="text-[8px] font-black text-red-300 uppercase tracking-widest">
+                        <div className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse" />
+                        <span className="text-[8px] font-black text-red-600 uppercase ">
                           {stats.tenantsInArrears} tenants in arrears
                         </span>
                       </motion.div>
@@ -256,8 +256,8 @@ export default function LandlordDashboard() {
                         transition={{ delay: 1, duration: 0.4 }}
                         className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-amber-400/22"
                         style={{ background: "rgba(245,158,11,0.1)" }}>
-                        <div className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
-                        <span className="text-[8px] font-black text-amber-300 uppercase tracking-widest">
+                        <div className="w-1.5 h-1.5 rounded-full bg-amber-600 animate-pulse" />
+                        <span className="text-[8px] font-black text-amber-600 uppercase ">
                           {stats.activeComplaints} open complaints
                         </span>
                       </motion.div>
@@ -302,7 +302,7 @@ export default function LandlordDashboard() {
           {/* Portfolio Health */}
           <Reveal delay={0.12} className="lg:col-span-2">
             <div className="rounded-[1.8rem] border overflow-hidden h-full flex flex-col"
-              style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", boxShadow: "var(--shadow-card)" }}>
+        style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", boxShadow: "var(--shadow-card)" }} >
 
               {/* Dark header */}
               <div className="relative overflow-hidden flex-shrink-0" style={{ minHeight: 78 }}>
@@ -310,7 +310,7 @@ export default function LandlordDashboard() {
                 <div className="absolute inset-0 opacity-[0.05]"
                   style={{ backgroundImage: "radial-gradient(circle at 1px 1px,rgba(255,255,255,0.6) 1px,transparent 0)", backgroundSize: "18px 18px" }} />
                 <div className="absolute top-0 right-0 w-36 h-36 rounded-full blur-3xl -mr-8 -mt-8"
-                  style={{ background: "rgba(61,190,122,0.22)" }} />
+                  style={{ background: "rgba(63, 135, 97, 0.22)" }} />
                 <div className="absolute inset-0 flex items-center justify-between px-6">
                   <div className="flex items-center gap-3">
                     <div className="w-9 h-9 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center">
@@ -318,13 +318,13 @@ export default function LandlordDashboard() {
                     </div>
                     <div>
                       <p className="text-sm font-black text-white">Portfolio Health</p>
-                      <p className="text-[8px] font-black uppercase tracking-widest text-white/32">
+                      <p className="text-[8px] font-black uppercase  text-white/32">
                         Live occupancy & revenue
                       </p>
                     </div>
                   </div>
                   <Link href="/landlord/reports"
-                    className="flex items-center gap-1 text-[9px] font-black uppercase tracking-widest text-white/35 hover:text-[#3DBE7A] transition-colors">
+                    className="flex items-center gap-1 text-[9px] font-black uppercase  text-white/35 hover:text-[#3DBE7A] transition-colors">
                     Full Report <ChevronRight style={{ width: 12, height: 12 }} />
                   </Link>
                 </div>
@@ -357,7 +357,7 @@ export default function LandlordDashboard() {
                         transition={{ duration: 2.5, repeat: Infinity, ease: "linear", delay: 1.8 }} />
                     </motion.div>
                   </div>
-                  <div className="flex justify-between mt-1.5 text-[8px] font-black uppercase tracking-widest"
+                  <div className="flex justify-between mt-1.5 text-[8px] font-black uppercase "
                     style={{ color: "var(--color-text-muted)" }}>
                     <span>{stats.occupiedUnits} occupied</span>
                     <span>{stats.vacantUnits} vacant</span>
@@ -367,7 +367,7 @@ export default function LandlordDashboard() {
                 {/* Income sparkline */}
                 <div>
                   <div className="flex items-center justify-between mb-2.5">
-                    <p className="text-[9px] font-black uppercase tracking-[0.35em]"
+                    <p className="text-[9px] font-black uppercase "
                       style={{ color: "var(--color-text-muted)" }}>
                       Revenue — Last 6 Months
                     </p>
@@ -402,7 +402,7 @@ export default function LandlordDashboard() {
                   ].map((item, i) => (
                     <div key={i} className="rounded-xl p-3 border text-center"
                       style={{ background: "var(--color-background-alt)", borderColor: "var(--color-border-light)" }}>
-                      <p className="text-[7px] font-black uppercase tracking-[0.3em] mb-1"
+                      <p className="text-[7px] font-black uppercase mb-1"
                         style={{ color: "var(--color-text-muted)" }}>{item.label}</p>
                       <p className="text-sm font-black" style={{ color: "var(--color-green-deep)" }}>{item.val}</p>
                     </div>
@@ -429,7 +429,7 @@ export default function LandlordDashboard() {
                   whileTap={{ scale: 0.97 }}
                   className="flex items-center gap-3 px-4 py-3.5 rounded-2xl border cursor-pointer transition-colors"
                   style={{
-                    background: action.accent ? "linear-gradient(135deg,#1B5E45,#3DBE7A)" : "var(--color-card)",
+                    background: action.accent ? "#1B5E45" : "var(--color-card)",
                     borderColor: action.accent ? "transparent" : "var(--color-border-light)",
                     boxShadow: action.accent ? "0 8px 24px rgba(27,94,69,0.22)" : "var(--shadow-card)",
                   }}>
@@ -465,13 +465,13 @@ export default function LandlordDashboard() {
                   </div>
                   <div>
                     <h3 className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Recent Payments</h3>
-                    <p className="text-[8px] font-black uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>
+                    <p className="text-[8px] font-black uppercase " style={{ color: "var(--color-text-muted)" }}>
                       {recentPayments.filter(p => p.status === "completed").length} verified this cycle
                     </p>
                   </div>
                 </div>
                 <Link href="/landlord/payments"
-                  className="flex items-center gap-1 text-[9px] font-black uppercase tracking-widest hover:gap-2 transition-all"
+                  className="flex items-center gap-1 text-[9px] font-black uppercase  hover:gap-2 transition-all"
                   style={{ color: "var(--color-green-deep)" }}>
                   View All <ArrowRight style={{ width: 12, height: 12 }} />
                 </Link>
@@ -513,7 +513,7 @@ export default function LandlordDashboard() {
                         <p className="text-xs font-black" style={{ color: "var(--color-text-primary)" }}>
                           {payment.tenantName}
                         </p>
-                        <p className="text-[8px] font-bold uppercase tracking-widest mt-0.5"
+                        <p className="text-[8px] font-bold uppercase  mt-0.5"
                           style={{ color: "var(--color-text-muted)" }}>
                           {payment.month}
                         </p>
@@ -535,7 +535,7 @@ export default function LandlordDashboard() {
               <div className="px-5 pb-5">
                 <div className="flex items-center justify-between px-4 py-3 rounded-xl"
                   style={{ background: "var(--color-surface-tint)", border: "1px solid var(--color-border-mid)" }}>
-                  <p className="text-[8px] font-black uppercase tracking-widest"
+                  <p className="text-[8px] font-black uppercase"
                     style={{ color: "var(--color-text-muted)" }}>Total Collected</p>
                   <p className="text-sm font-black" style={{ color: "var(--color-green-deep)" }}>
                     KSh {recentPayments.filter(p => p.status === "completed")
@@ -558,14 +558,14 @@ export default function LandlordDashboard() {
                   </div>
                   <div>
                     <h3 className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Open Complaints</h3>
-                    <p className="text-[8px] font-black uppercase tracking-widest"
+                    <p className="text-[8px] font-black uppercase "
                       style={{ color: "var(--color-text-muted)" }}>
                       {recentComplaints.filter(c => c.status !== "resolved").length} requiring attention
                     </p>
                   </div>
                 </div>
                 <Link href="/landlord/complaints"
-                  className="flex items-center gap-1 text-[9px] font-black uppercase tracking-widest hover:gap-2 transition-all"
+                  className="flex items-center gap-1 text-[9px] font-black uppercase  hover:gap-2 transition-all"
                   style={{ color: "var(--color-green-deep)" }}>
                   All Tickets <ArrowRight style={{ width: 12, height: 12 }} />
                 </Link>
@@ -599,7 +599,7 @@ export default function LandlordDashboard() {
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-2 mb-1">
                             <sc.Icon style={{ width: 12, height: 12, flexShrink: 0, color: sc.color }} />
-                            <p className="text-[8px] font-black uppercase tracking-[0.28em]"
+                            <p className="text-[8px] font-black uppercase"
                               style={{ color: "var(--color-text-muted)" }}>
                               {complaint.category}
                             </p>
@@ -630,7 +630,7 @@ export default function LandlordDashboard() {
                   <div className="flex items-center gap-2.5 px-4 py-3 rounded-xl"
                     style={{ background: "#FFF5F5", border: "1px solid #FECACA" }}>
                     <AlertCircle style={{ width: 14, height: 14, color: "#ef4444", flexShrink: 0 }} />
-                    <p className="text-[8px] font-black uppercase tracking-widest text-red-600">
+                    <p className="text-[8px] font-black uppercase  text-red-600">
                       Pending issues require immediate attention
                     </p>
                   </div>
@@ -659,7 +659,7 @@ export default function LandlordDashboard() {
               </div>
               <div>
                 <p className="text-sm font-black text-white">Register New Building</p>
-                <p className="text-[8px] font-black uppercase tracking-widest text-white/30">Add to portfolio</p>
+                <p className="text-[8px] font-black uppercase text-white/30">Add to portfolio</p>
               </div>
             </div>
           </div>
@@ -670,7 +670,7 @@ export default function LandlordDashboard() {
               { label: "Address",       type: "text",   ph: "Street address, City" },
             ].map(({ label, type, ph }) => (
               <div key={label} className="space-y-1.5">
-                <label className="text-[8px] font-black uppercase tracking-[0.38em]"
+                <label className="text-[8px] font-black uppercase "
                   style={{ color: "var(--color-text-muted)" }}>{label}</label>
                 <input type={type} placeholder={ph}
                   className="w-full px-4 py-3 rounded-xl border text-sm font-medium outline-none focus:border-[#3DBE7A] transition-all"
@@ -680,7 +680,7 @@ export default function LandlordDashboard() {
             <div className="grid grid-cols-2 gap-4">
               {[{ label: "Number of Units", ph: "24" }, { label: "Year Built", ph: "2020" }].map(({ label, ph }) => (
                 <div key={label} className="space-y-1.5">
-                  <label className="text-[8px] font-black uppercase tracking-[0.38em]"
+                  <label className="text-[8px] font-black uppercase"
                     style={{ color: "var(--color-text-muted)" }}>{label}</label>
                   <input type="number" placeholder={ph}
                     className="w-full px-4 py-3 rounded-xl border text-sm font-medium outline-none focus:border-[#3DBE7A] transition-all"
@@ -690,12 +690,12 @@ export default function LandlordDashboard() {
             </div>
             <div className="flex gap-3 pt-1">
               <button onClick={() => setModal(false)}
-                className="flex-1 py-3 rounded-xl text-white text-sm font-black uppercase tracking-widest transition-all hover:-translate-y-0.5 hover:shadow-lg"
-                style={{ background: "linear-gradient(135deg,#1B5E45,#3DBE7A)", boxShadow: "0 4px 16px rgba(27,94,69,0.25)" }}>
+                className="flex-1 py-3 rounded-xl text-white text-sm font-black uppercase  transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                style={{ background: "#1B5E45", borderColor: "#1B5E45", boxShadow: "0 4px 16px rgba(27,94,69,0.25)" }}>
                 Add Building
               </button>
               <button onClick={() => setModal(false)}
-                className="flex-1 py-3 rounded-xl text-sm font-black uppercase tracking-widest border transition-all hover:bg-[#F7F8F5]"
+                className="flex-1 py-3 rounded-xl text-sm font-black uppercase  border transition-all hover:bg-[#F7F8F5]"
                 style={{ borderColor: "var(--color-border-light)", color: "var(--color-text-muted)" }}>
                 Cancel
               </button>

@@ -143,7 +143,7 @@ export default function TenantLayout({ children }: { children: React.ReactNode }
               transition={{ duration: 0.2 }}
               className="px-5 pt-6 pb-2"
             >
-              <p className="text-[8px] font-black uppercase tracking-[0.38em]" style={{ color: "#D1D5DB" }}>
+              <p className="text-[8px] font-black uppercase " style={{ color: "#D1D5DB" }}>
                 Navigation
               </p>
             </motion.div>
@@ -235,7 +235,7 @@ export default function TenantLayout({ children }: { children: React.ReactNode }
                   className="flex-1 min-w-0"
                 >
                   <p className="text-xs font-black text-white truncate leading-none mb-0.5">{userName || "Tenant"}</p>
-                  <p className="text-[9px] font-black uppercase tracking-widest" style={{ color: "#3DBE7A" }}>Active</p>
+                  <p className="text-[9px] font-black uppercase " style={{ color: "#3DBE7A" }}>Active</p>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -289,7 +289,7 @@ export default function TenantLayout({ children }: { children: React.ReactNode }
             </button>
 
             <div>
-              <p className="text-[8px] font-black uppercase tracking-[0.38em]" style={{ color: "rgba(0,0,0,0.28)" }}>
+              <p className="text-[8px] font-black uppercase " style={{ color: "rgba(0,0,0,0.28)" }}>
                 Tenant Portal
               </p>
               <p className="text-sm font-black leading-none mt-0.5" style={{ color: "var(--color-text-primary)" }}>
@@ -320,7 +320,7 @@ export default function TenantLayout({ children }: { children: React.ReactNode }
                 <p className="text-xs font-black leading-none" style={{ color: "var(--color-text-primary)" }}>
                   {userName || "Valued Tenant"}
                 </p>
-                <p className="text-[9px] font-black uppercase tracking-widest mt-0.5 italic" style={{ color: "#1B5E45" }}>
+                <p className="text-[9px] font-black uppercase  mt-0.5 italic" style={{ color: "#1B5E45" }}>
                   Tenant Account
                 </p>
               </div>

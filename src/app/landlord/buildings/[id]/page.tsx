@@ -68,7 +68,7 @@ export default function BuildingDetailsPage() {
             {/* Back */}
             <button
               onClick={() => router.push("/landlord/buildings")}
-              className="group flex items-center gap-2 font-bold text-xs uppercase tracking-widest transition-colors"
+              className="group flex items-center gap-2 font-bold text-xs uppercase  transition-colors"
               style={{ color: "var(--color-text-muted)" }}
               onMouseEnter={(e) =>
                 ((e.currentTarget as HTMLButtonElement).style.color =
@@ -86,7 +86,7 @@ export default function BuildingDetailsPage() {
             <div className="space-y-1">
               <div className="flex items-center gap-2">
                 <span
-                  className="text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-md"
+                  className="text-[10px] font-black uppercase  px-2 py-0.5 rounded-md"
                   style={{
                     background: "var(--color-surface-tint)",
                     border: "1px solid var(--color-border-mid)",
@@ -96,7 +96,7 @@ export default function BuildingDetailsPage() {
                   Asset ID: {building.id.split("-").pop()}
                 </span>
                 <div className="w-1 h-1 rounded-full" style={{ background: "var(--color-border-mid)" }} />
-                <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>
+                <span className="text-[10px] font-bold uppercase " style={{ color: "var(--color-text-muted)" }}>
                   Established {building.yearBuilt}
                 </span>
               </div>
@@ -146,7 +146,7 @@ export default function BuildingDetailsPage() {
                 <stat.icon className="w-6 h-6" />
               </div>
               <div>
-                <p className="text-[10px] font-black uppercase tracking-widest leading-none mb-2" style={{ color: "var(--color-text-muted)" }}>
+                <p className="text-[10px] font-black uppercase  leading-none mb-2" style={{ color: "var(--color-text-muted)" }}>
                   {stat.label}
                 </p>
                 <p className="text-2xl font-black tracking-tighter" style={{ color: "var(--color-text-primary)" }}>
@@ -174,7 +174,7 @@ export default function BuildingDetailsPage() {
               <div className="absolute top-0 right-0 w-64 h-64 rounded-full blur-[100px]" style={{ background: "rgba(61,190,122,0.12)" }} />
               <div className="relative z-10 flex items-center justify-between">
                 <div className="space-y-1">
-                  <h5 className="text-[10px] font-black uppercase tracking-widest" style={{ color: "#3DBE7A" }}>
+                  <h5 className="text-[10px] font-black uppercase " style={{ color: "#3DBE7A" }}>
                     Asset Integrity
                   </h5>
                   <p className="text-xl font-bold tracking-tight">System Performance</p>
@@ -182,7 +182,7 @@ export default function BuildingDetailsPage() {
                 <ShieldCheck className="w-8 h-8" style={{ color: "#3DBE7A" }} />
               </div>
               <div className="relative z-10 space-y-4">
-                <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest">
+                <div className="flex items-center justify-between text-[10px] font-black uppercase ">
                   <span style={{ color: "rgba(250,250,248,0.5)" }}>Health Monitor</span>
                   <span style={{ color: "#3DBE7A" }}>Stable</span>
                 </div>
@@ -207,7 +207,7 @@ export default function BuildingDetailsPage() {
                 style={{ background: "var(--color-background-alt)", border: "1px solid var(--color-border-light)" }}
               >
                 <Briefcase className="w-4 h-4" style={{ color: "var(--color-text-muted)" }} />
-                <h4 className="text-[10px] font-black uppercase tracking-widest" style={{ color: "var(--color-text-primary)" }}>
+                <h4 className="text-[10px] font-black uppercase " style={{ color: "var(--color-text-primary)" }}>
                   Architecture Synopsis
                 </h4>
               </div>
@@ -222,7 +222,7 @@ export default function BuildingDetailsPage() {
 
             <div className="space-y-6">
               <h4
-                className="text-[10px] font-black uppercase tracking-widest flex items-center gap-2"
+                className="text-[10px] font-black uppercase  flex items-center gap-2"
                 style={{ color: "var(--color-text-primary)" }}
               >
                 <CheckCircle2 className="w-4 h-4" style={{ color: "var(--color-green-deep)" }} />
@@ -279,7 +279,7 @@ export default function BuildingDetailsPage() {
               <h3 className="text-3xl font-black tracking-tighter" style={{ color: "var(--color-text-primary)" }}>
                 Unit <span style={{ color: "var(--color-text-muted)" }}>Inventory</span>
               </h3>
-              <p className="text-xs font-bold uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>
+              <p className="text-xs font-bold uppercase " style={{ color: "var(--color-text-muted)" }}>
                 Managing {buildingUnits.length} residential subspaces
               </p>
             </div>
@@ -341,7 +341,7 @@ export default function BuildingDetailsPage() {
                 >
                   <div className="flex justify-between items-start mb-4">
                     <div className="space-y-1">
-                      <p className="text-[10px] font-black uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>
+                      <p className="text-[10px] font-black uppercase " style={{ color: "var(--color-text-muted)" }}>
                         Room {unit.number}
                       </p>
                       <h4 className="text-lg font-bold" style={{ color: "var(--color-text-primary)" }}>
@@ -362,7 +362,7 @@ export default function BuildingDetailsPage() {
                       KSh {unit.rent.toLocaleString()}
                     </p>
                     <span
-                      className="text-[10px] font-black uppercase tracking-widest group-hover:translate-x-1 transition-transform"
+                      className="text-[10px] font-black uppercase  group-hover:translate-x-1 transition-transform"
                       style={{ color: "var(--color-green-deep)" }}
                     >
                       View →

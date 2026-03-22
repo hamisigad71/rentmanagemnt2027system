@@ -49,7 +49,7 @@ function DarkTooltip({ active, payload, label }: any) {
   return (
     <div className="rounded-xl px-4 py-3 text-white text-xs shadow-2xl"
       style={{ background: "#0F0F0F", border: "1px solid rgba(255,255,255,0.08)" }}>
-      <p className="font-black text-white/40 uppercase tracking-widest text-[8px] mb-1.5">{label}</p>
+      <p className="font-black text-white/40 uppercase  text-[8px] mb-1.5">{label}</p>
       {payload.map((p: any, i: number) => (
         <div key={i} className="flex items-center gap-2">
           <div className="w-1.5 h-1.5 rounded-full" style={{ background: p.color }} />
@@ -97,7 +97,7 @@ export default function ReportsPage() {
               <div className="w-7 h-7 rounded-lg bg-[#1A1A1A] flex items-center justify-center">
                 <BarChart3 className="w-3.5 h-3.5 text-[#3DBE7A]" />
               </div>
-              <p className="text-[8px] font-black uppercase tracking-[0.45em]"
+              <p className="text-[8px] font-black uppercase "
                 style={{ color: "var(--color-text-muted)" }}>
                 Strategic Intelligence
               </p>
@@ -115,7 +115,7 @@ export default function ReportsPage() {
               style={{ borderColor: "var(--color-border-light)", color: "var(--color-text-muted)" }}>
               <Download className="w-4 h-4" /> Export
             </button>
-            <button className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-white text-xs font-black uppercase tracking-widest transition-all hover:-translate-y-0.5"
+            <button className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-white text-xs font-black uppercase  transition-all hover:-translate-y-0.5"
               style={{ background: "linear-gradient(135deg,#1B5E45,#3DBE7A)", boxShadow: "0 4px 14px rgba(27,94,69,0.28)" }}>
               <Calendar className="w-3.5 h-3.5" /> Custom Range
             </button>
@@ -171,7 +171,7 @@ export default function ReportsPage() {
                   style={{ background: card.iconBg }}>
                   <card.icon className="w-4.5 h-4.5" style={{ color: card.iconColor, width: 18, height: 18 }} />
                 </div>
-                <p className="text-[9px] font-black uppercase tracking-widest mb-1.5"
+                <p className="text-[9px] font-black uppercase  mb-1.5"
                   style={{ color: "#94A3B8" }}>
                   {card.label}
                 </p>
@@ -204,7 +204,7 @@ export default function ReportsPage() {
               <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b"
                 style={{ borderColor: "var(--color-border-light)" }}>
                 <div>
-                  <p className="text-[9px] font-black uppercase tracking-[0.38em] mb-1"
+                  <p className="text-[9px] font-black uppercase  mb-1"
                     style={{ color: "#3DBE7A" }}>
                     Revenue Streams
                   </p>
@@ -218,7 +218,7 @@ export default function ReportsPage() {
                   {(["income", "expenses"] as const).map(tab => (
                     <button key={tab}
                       onClick={() => setIncomeTab(tab)}
-                      className="px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all"
+                      className="px-3 py-1.5 rounded-lg text-[9px] font-black uppercase  transition-all"
                       style={{
                         background: incomeTab === tab ? "white" : "transparent",
                         color: incomeTab === tab ? "var(--color-text-primary)" : "var(--color-text-muted)",
@@ -234,14 +234,14 @@ export default function ReportsPage() {
               <div className="flex items-center gap-6 px-6 py-3 border-b"
                 style={{ borderColor: "var(--color-border-light)", background: "var(--color-background-alt)" }}>
                 <div>
-                  <p className="text-[8px] font-black uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>H1 Total Income</p>
+                  <p className="text-[8px] font-black uppercase " style={{ color: "var(--color-text-muted)" }}>H1 Total Income</p>
                   <p className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>
                     KSh {totalIncome.toLocaleString()}
                   </p>
                 </div>
                 <div className="w-px h-8" style={{ background: "var(--color-border-light)" }} />
                 <div>
-                  <p className="text-[8px] font-black uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>Net Income</p>
+                  <p className="text-[8px] font-black uppercase " style={{ color: "var(--color-text-muted)" }}>Net Income</p>
                   <p className="text-sm font-black" style={{ color: "var(--color-green-deep)" }}>
                     KSh {netIncome.toLocaleString()}
                   </p>
@@ -294,7 +294,7 @@ export default function ReportsPage() {
               <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b"
                 style={{ borderColor: "var(--color-border-light)" }}>
                 <div>
-                  <p className="text-[9px] font-black uppercase tracking-[0.38em] mb-1"
+                  <p className="text-[9px] font-black uppercase  mb-1"
                     style={{ color: "#3DBE7A" }}>
                     Inventory Health
                   </p>
@@ -312,12 +312,12 @@ export default function ReportsPage() {
               <div className="flex items-center gap-6 px-6 py-3 border-b"
                 style={{ borderColor: "var(--color-border-light)", background: "var(--color-background-alt)" }}>
                 <div>
-                  <p className="text-[8px] font-black uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>Peak Occupancy</p>
+                  <p className="text-[8px] font-black uppercase " style={{ color: "var(--color-text-muted)" }}>Peak Occupancy</p>
                   <p className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>98%</p>
                 </div>
                 <div className="w-px h-8" style={{ background: "var(--color-border-light)" }} />
                 <div>
-                  <p className="text-[8px] font-black uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>Avg Occupancy</p>
+                  <p className="text-[8px] font-black uppercase " style={{ color: "var(--color-text-muted)" }}>Avg Occupancy</p>
                   <p className="text-sm font-black" style={{ color: "var(--color-green-deep)" }}>93.3%</p>
                 </div>
                 <div className="ml-auto">
@@ -363,7 +363,7 @@ export default function ReportsPage() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 px-6 pt-6 pb-4 border-b"
               style={{ borderColor: "var(--color-border-light)" }}>
               <div>
-                <p className="text-[9px] font-black uppercase tracking-[0.38em] mb-1"
+                <p className="text-[9px] font-black uppercase  mb-1"
                   style={{ color: "#3DBE7A" }}>
                   Financial Compliance
                 </p>
@@ -377,7 +377,7 @@ export default function ReportsPage() {
                   { label: "Current", val: "99.1%", color: "#1B5E45" },
                 ].map((s, i) => (
                   <div key={i} className="text-right">
-                    <p className="text-[8px] font-black uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>{s.label}</p>
+                    <p className="text-[8px] font-black uppercase " style={{ color: "var(--color-text-muted)" }}>{s.label}</p>
                     <p className="text-sm font-black" style={{ color: s.color }}>{s.val}</p>
                   </div>
                 ))}
@@ -423,7 +423,7 @@ export default function ReportsPage() {
               <div className="space-y-3 max-w-md">
                 <div className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#3DBE7A] animate-pulse" />
-                  <p className="text-[8px] font-black uppercase tracking-[0.42em] text-white/35">
+                  <p className="text-[8px] font-black uppercase  text-white/35">
                     AI-Driven Insights
                   </p>
                 </div>
@@ -436,7 +436,7 @@ export default function ReportsPage() {
                 <p className="text-sm text-white/40 leading-relaxed">
                   Based on current diagnostics, high-yield commercial expansion in the Downtown sector is recommended to maximise portfolio returns.
                 </p>
-                <button className="flex items-center gap-2 text-xs font-black text-[#3DBE7A] uppercase tracking-widest hover:gap-3 transition-all">
+                <button className="flex items-center gap-2 text-xs font-black text-[#3DBE7A] uppercase  hover:gap-3 transition-all">
                   View Full Report <ChevronRight className="w-3.5 h-3.5" />
                 </button>
               </div>
@@ -454,12 +454,12 @@ export default function ReportsPage() {
                       background: tile.highlight ? "rgba(61,190,122,0.1)" : "rgba(255,255,255,0.05)",
                       borderColor: tile.highlight ? "rgba(61,190,122,0.25)" : "rgba(255,255,255,0.08)",
                     }}>
-                    <p className="text-[8px] font-black uppercase tracking-widest"
+                    <p className="text-[8px] font-black uppercase "
                       style={{ color: tile.highlight ? "#3DBE7A" : "rgba(255,255,255,0.3)" }}>
                       {tile.label}
                     </p>
                     <p className="text-2xl font-black text-white">{tile.val}</p>
-                    <p className="text-[8px] font-bold uppercase tracking-widest text-white/25">{tile.sub}</p>
+                    <p className="text-[8px] font-bold uppercase  text-white/25">{tile.sub}</p>
                   </div>
                 ))}
               </div>

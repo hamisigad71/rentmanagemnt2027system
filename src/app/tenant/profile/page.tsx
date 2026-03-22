@@ -282,7 +282,7 @@ export default function TenantProfilePage() {
                 </div>
                 
                 <div className="text-center md:text-right relative z-10">
-                  <p className="text-[8px] md:text-[9px] lg:text-[10px] font-black text-white/40 uppercase tracking-[0.3em] mb-1 md:mb-2">Protocol Status</p>
+                  <p className="text-[8px] md:text-[9px] lg:text-[10px] font-black text-white/40 uppercase  mb-1 md:mb-2">Protocol Status</p>
                   <div className="flex items-center gap-2 md:gap-3 bg-white/10 px-3 md:px-4 lg:px-6 py-1 md:py-2 rounded-full border border-white/20 backdrop-blur-sm">
                     <span className="w-1.5 h-1.5 md:w-2 md:h-2 lg:w-2.5 lg:h-2.5 rounded-full bg-[#3DBE7A] animate-pulse shadow-[0_0_15px_rgba(61,190,122,0.5)]"></span>
                     <span className="text-sm md:text-base lg:text-md font-black text-[#3DBE7A]">Active & Compliant</span>
@@ -293,12 +293,12 @@ export default function TenantProfilePage() {
           </div>
 
           <div className="mt-6 md:mt-8 lg:mt-10 xl:mt-12 flex flex-col md:flex-row justify-center gap-3 md:gap-4 lg:gap-6">
-            <button className="flex items-center gap-1 md:gap-2 text-[8px] md:text-[9px] lg:text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-[#1B5E45] transition-all duration-300 hover:scale-105">
+            <button className="flex items-center gap-1 md:gap-2 text-[8px] md:text-[9px] lg:text-[10px] font-black uppercase  text-gray-400 hover:text-[#1B5E45] transition-all duration-300 hover:scale-105">
               Download Lease Agreement (PDF)
               <ChevronRight className="w-2 h-2 md:w-3 md:h-3" />
             </button>
             <span className="hidden md:block text-gray-300">|</span>
-            <button className="flex items-center gap-1 md:gap-2 text-[8px] md:text-[9px] lg:text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-red-500 transition-all duration-300 hover:scale-105">
+            <button className="flex items-center gap-1 md:gap-2 text-[8px] md:text-[9px] lg:text-[10px] font-black uppercase  text-gray-400 hover:text-red-500 transition-all duration-300 hover:scale-105">
               Inactivate Account Portal
               <ChevronRight className="w-2 h-2 md:w-3 md:h-3" />
             </button>
@@ -313,7 +313,7 @@ export default function TenantProfilePage() {
             <div className="p-6 md:p-8 lg:p-10 border-b flex items-center justify-between" style={{ borderColor: "var(--color-border-light)" }}>
               <div className="space-y-1">
                 <h3 className="text-xl md:text-2xl lg:text-3xl font-black tracking-tighter text-[#1A1A1A]">Update Identity</h3>
-                <p className="text-[8px] md:text-[9px] lg:text-[10px] font-black uppercase tracking-widest text-gray-400">Capture new visual identifier</p>
+                <p className="text-[8px] md:text-[9px] lg:text-[10px] font-black uppercase  text-gray-400">Capture new visual identifier</p>
               </div>
               <button 
                 onClick={() => setShowAvatarModal(false)}
@@ -332,7 +332,7 @@ export default function TenantProfilePage() {
                         <Camera className="w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-10" />
                       </div>
                       <p className="mb-1 md:mb-2 text-sm md:text-base lg:text-xl font-black text-[#1A1A1A]">Inject Custom Capture</p>
-                      <p className="text-[8px] md:text-[9px] lg:text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">SVG, PNG, JPG (MAX 5MB)</p>
+                      <p className="text-[8px] md:text-[9px] lg:text-[10px] font-black text-gray-400 uppercase ">SVG, PNG, JPG (MAX 5MB)</p>
                     </div>
                     <input 
                       type="file" 
@@ -356,13 +356,13 @@ export default function TenantProfilePage() {
               </div>
 
               <div className="text-center">
-                <p className="text-[8px] md:text-[9px] lg:text-[10px] font-black text-gray-400 uppercase tracking-widest leading-loose max-w-xs mx-auto">
+                <p className="text-[8px] md:text-[9px] lg:text-[10px] font-black text-gray-400 uppercase  leading-loose max-w-xs mx-auto">
                   Visual updates are verified across the rental ecosystem protocol. Identification must be current.
                 </p>
               </div>
             </div>
             <div className="p-4 md:p-6 lg:p-8 bg-[#1A1A1A] text-center">
-               <button onClick={() => setShowAvatarModal(false)} className="text-[#3DBE7A] text-[8px] md:text-[9px] lg:text-[10px] font-black uppercase tracking-[0.3em] hover:scale-105 transition-transform">
+               <button onClick={() => setShowAvatarModal(false)} className="text-[#3DBE7A] text-[8px] md:text-[9px] lg:text-[10px] font-black uppercase  hover:scale-105 transition-transform">
                  Return to Portal
                </button>
             </div>

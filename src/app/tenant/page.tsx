@@ -43,7 +43,7 @@ function StatCard({ label, value, sub, accent = false, danger = false }: {
         boxShadow: accent ? "0 8px 32px rgba(27,94,69,0.22)" : "var(--shadow-card)",
       }}>
       {accent && <div className="absolute top-0 right-0 w-24 h-24 bg-white/8 rounded-full -mr-8 -mt-8" />}
-      <p className="text-[9px] font-black uppercase tracking-[0.35em] mb-2"
+      <p className="text-[9px] font-black uppercase mb-2"
         style={{ color: accent ? "rgba(255,255,255,0.55)" : "var(--color-text-muted)" }}>
         {label}
       </p>
@@ -102,9 +102,9 @@ export default function TenantDashboard() {
               <div className="space-y-4">
                 <div className="flex items-center gap-2.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#3DBE7A] animate-pulse" />
-                  <span className="text-[9px] font-black uppercase tracking-[0.38em] text-white/45">
+                  <span className="text-[9px] font-black uppercase text-white/45">
                     Active Residential Portal
-                  </span>
+                  </span>@
                 </div>
 
                 <div>
@@ -130,7 +130,7 @@ export default function TenantDashboard() {
                     <p className="text-lg font-black text-white tracking-tight">
                       KSh {currentTenant.rent.toLocaleString()}
                     </p>
-                    <p className="text-[9px] font-black uppercase tracking-widest text-white/35 mt-0.5">Monthly Rent</p>
+                    <p className="text-[9px] font-black uppercase text-white/35 mt-0.5">Monthly Rent</p>
                   </div>
                   <div className="w-px h-8 bg-white/10" />
                   <div>
@@ -138,14 +138,14 @@ export default function TenantDashboard() {
                       style={{ color: currentTenant.arrears > 0 ? "#f87171" : "#3DBE7A" }}>
                       KSh {currentTenant.arrears.toLocaleString()}
                     </p>
-                    <p className="text-[9px] font-black uppercase tracking-widest text-white/35 mt-0.5">Outstanding</p>
+                    <p className="text-[9px] font-black uppercase text-white/35 mt-0.5">Outstanding</p>
                   </div>
                   <div className="w-px h-8 bg-white/10" />
                   <div>
                     <p className="text-lg font-black text-white tracking-tight">
                       {nextPaymentDate.toLocaleDateString("en-KE", { month: "short", day: "numeric" })}
                     </p>
-                    <p className="text-[9px] font-black uppercase tracking-widest text-white/35 mt-0.5">Next Due</p>
+                    <p className="text-[9px] font-black uppercase text-white/35 mt-0.5">Next Due</p>
                   </div>
                 </div>
               </div>
@@ -167,7 +167,7 @@ export default function TenantDashboard() {
                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10"
                   style={{ background: "rgba(61,190,122,0.08)" }}>
                   <ShieldCheck className="w-3.5 h-3.5 text-[#3DBE7A]" strokeWidth={2} />
-                  <span className="text-[9px] font-black uppercase tracking-widest text-white/40">Verified Account</span>
+                  <span className="text-[9px] font-black uppercase text-white/40">Verified Account</span>
                 </div>
               </div>
             </div>
@@ -205,7 +205,7 @@ export default function TenantDashboard() {
                   </div>
                   <div>
                     <h3 className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Financial Health</h3>
-                    <p className="text-[9px] font-bold uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>
+                    <p className="text-[9px] font-bold uppercase " style={{ color: "var(--color-text-muted)" }}>
                       Monthly reconciliation
                     </p>
                   </div>
@@ -228,7 +228,7 @@ export default function TenantDashboard() {
                   ].map((item, i) => (
                     <div key={i} className="rounded-2xl p-4 border"
                       style={{ background: item.bg, borderColor: i === 2 ? "#FECACA" : "var(--color-border-light)" }}>
-                      <p className="text-[8px] font-black uppercase tracking-[0.3em] mb-2"
+                      <p className="text-[8px] font-black uppercase mb-2"
                         style={{ color: "var(--color-text-muted)" }}>{item.label}</p>
                       <p className="text-lg font-black tracking-tight leading-none" style={{ color: item.color }}>
                         {item.val}
@@ -314,9 +314,9 @@ export default function TenantDashboard() {
                 <div className="absolute bottom-4 left-5 right-5 flex items-end justify-between">
                   <div>
                     <p className="text-white font-black text-base leading-none">Unit {currentTenant.unitId}</p>
-                    <p className="text-white/55 text-[10px] font-bold uppercase tracking-widest mt-1">2BR Apartment · 5th Floor</p>
+                    <p className="text-white/55 text-[10px] font-bold uppercase  mt-1">2BR Apartment · 5th Floor</p>
                   </div>
-                  <div className="px-2.5 py-1 rounded-full border border-[#3DBE7A]/30 text-[9px] font-black text-[#3DBE7A] uppercase tracking-widest"
+                  <div className="px-2.5 py-1 rounded-full border border-[#3DBE7A]/30 text-[9px] font-black text-[#3DBE7A] uppercase "
                     style={{ background: "rgba(61,190,122,0.12)" }}>
                     Active Lease
                   </div>
@@ -334,7 +334,7 @@ export default function TenantDashboard() {
                   ].map((spec, i) => (
                     <div key={i} className="rounded-xl p-3 border"
                       style={{ background: "var(--color-background-alt)", borderColor: "var(--color-border-light)" }}>
-                      <p className="text-[8px] font-black uppercase tracking-[0.3em] mb-1" style={{ color: "var(--color-text-muted)" }}>{spec.label}</p>
+                      <p className="text-[8px] font-black uppercase mb-1" style={{ color: "var(--color-text-muted)" }}>{spec.label}</p>
                       <p className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>{spec.val}</p>
                     </div>
                   ))}
@@ -342,7 +342,7 @@ export default function TenantDashboard() {
 
                 {/* Amenities */}
                 <div className="pt-1">
-                  <p className="text-[9px] font-black uppercase tracking-[0.3em] mb-3" style={{ color: "var(--color-text-muted)" }}>Amenities</p>
+                  <p className="text-[9px] font-black uppercase mb-3" style={{ color: "var(--color-text-muted)" }}>Amenities</p>
                   <div className="flex flex-wrap gap-2">
                     {[
                       { icon: <Wifi className="w-3 h-3" />, label: "WiFi" },
@@ -379,7 +379,7 @@ export default function TenantDashboard() {
                   </div>
                   <div>
                     <p className="text-[13px] font-bold   text-white/80">Maintenance</p>
-                    <p className="text-[9px] font-bold uppercase tracking-widest text-white/40">Service Requests</p>
+                    <p className="text-[9px] font-bold uppercase text-white/40">Service Requests</p>
                   </div>
                 </div>
               </div>
@@ -409,7 +409,7 @@ export default function TenantDashboard() {
                 ))}
 
                 <Link href="/tenant/complaint/new" className="block pt-2">
-                  <button className="w-full py-3 rounded-2xl text-white text-xs font-black uppercase tracking-widest transition-all hover:-translate-y-0.5 hover:shadow-lg flex items-center justify-center gap-2"
+                  <button className="w-full py-3 rounded-2xl text-white text-xs font-black uppercase  transition-all hover:-translate-y-0.5 hover:shadow-lg flex items-center justify-center gap-2"
                     style={{ background: "linear-gradient(135deg,#1B5E45,#3DBE7A)", boxShadow: "0 4px 16px rgba(27,94,69,0.25)" }}>
                     <Plus className="w-3.5 h-3.5" /> Request Maintenance
                   </button>
@@ -434,11 +434,11 @@ export default function TenantDashboard() {
                   </div>
                   <div>
                     <h3 className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Ledger History</h3>
-                    <p className="text-[9px] font-bold uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>Payment records</p>
+                    <p className="text-[9px] font-bold uppercase" style={{ color: "var(--color-text-muted)" }}>Payment records</p>
                   </div>
                 </div>
                 <Link href="/tenant/payments"
-                  className="text-[9px] font-black uppercase tracking-widest flex items-center gap-1 hover:gap-2 transition-all"
+                  className="text-[9px] font-black uppercase flex items-center gap-1 hover:gap-2 transition-all"
                   style={{ color: "var(--color-green-deep)" }}>
                   View All <ArrowRight className="w-3 h-3" />
                 </Link>
@@ -495,11 +495,11 @@ export default function TenantDashboard() {
                   </div>
                   <div>
                     <h3 className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Support Requests</h3>
-                    <p className="text-[9px] font-bold uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>Active tickets</p>
+                    <p className="text-[9px] font-bold uppercase" style={{ color: "var(--color-text-muted)" }}>Active tickets</p>
                   </div>
                 </div>
                 <Link href="/tenant/complaints"
-                  className="text-[9px] font-black uppercase tracking-widest flex items-center gap-1 hover:gap-2 transition-all"
+                  className="text-[9px] font-black uppercase flex items-center gap-1 hover:gap-2 transition-all"
                   style={{ color: "var(--color-green-deep)" }}>
                   All Tickets <ArrowRight className="w-3 h-3" />
                 </Link>
@@ -515,7 +515,7 @@ export default function TenantDashboard() {
                     }}>
                     <div className="flex items-start justify-between gap-3">
                       <div>
-                        <p className="text-[8px] font-black uppercase tracking-[0.3em] mb-1" style={{ color: "var(--color-text-muted)" }}>
+                        <p className="text-[8px] font-black uppercase mb-1" style={{ color: "var(--color-text-muted)" }}>
                           {complaint.category}
                         </p>
                         <p className="text-xs font-black leading-snug" style={{ color: "var(--color-text-primary)" }}>
@@ -534,7 +534,7 @@ export default function TenantDashboard() {
                       style={{ background: "var(--color-surface-tint)", color: "#3DBE7A" }}>
                       <ShieldCheck className="w-7 h-7" strokeWidth={1.5} />
                     </div>
-                    <p className="text-[9px] font-black uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>
+                    <p className="text-[9px] font-black uppercase" style={{ color: "var(--color-text-muted)" }}>
                       No Active Incidents
                     </p>
                   </div>
@@ -608,8 +608,8 @@ export default function TenantDashboard() {
                     <Phone className="w-4 h-4 text-white/70" />
                   </div>
                   <div>
-                      <p className="text-[13px] font-bold   tracking-widest text-white/40">Emergency Contacts</p> 
-                    <p className="text-[9px] font-bold uppercase tracking-widest text-white/40">Available 24/7</p>
+                      <p className="text-[13px] font-bold    text-white/40">Emergency Contacts</p> 
+                    <p className="text-[9px] font-bold uppercase text-white/40">Available 24/7</p>
                   </div>
                 </div>
               </div>

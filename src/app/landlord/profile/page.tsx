@@ -165,7 +165,7 @@ export default function ProfilePage() {
                   </div>
                   <div className="space-y-1">
                     <h3 className="text-2xl font-medium text-slate-900 tracking-tighter uppercase">Corporate <span className="text-slate-400">Identity</span></h3>
-                    <p className="text-[10px] font-medium text-slate-400 uppercase tracking-widest">Property Management Entity Protocol</p>
+                    <p className="text-[10px] font-medium text-slate-400 uppercase ">Property Management Entity Protocol</p>
                   </div>
                 </div>
 
@@ -173,7 +173,7 @@ export default function ProfilePage() {
                   <div className="space-y-2.5">
                     <div className="flex items-center gap-2 mb-1">
                        <div className="w-1 h-3 bg-[#1B5E45] rounded-full" />
-                       <label className="text-[10px] font-medium text-slate-400 uppercase tracking-[0.2em]">Entity Name</label>
+                       <label className="text-[10px] font-medium text-slate-400 uppercase ">Entity Name</label>
                     </div>
                     <input
                       type="text"
@@ -192,7 +192,7 @@ export default function ProfilePage() {
                   <div className="space-y-2.5">
                     <div className="flex items-center gap-2 mb-1">
                        <div className="w-1 h-3 bg-[#1B5E45] rounded-full" />
-                       <label className="text-[10px] font-medium text-slate-400 uppercase tracking-[0.2em]">Designation</label>
+                       <label className="text-[10px] font-medium text-slate-400 uppercase ">Designation</label>
                     </div>
                     <input
                       type="text"
@@ -211,7 +211,7 @@ export default function ProfilePage() {
                   <div className="md:col-span-2 space-y-2.5">
                     <div className="flex items-center gap-2 mb-1">
                        <div className="w-1 h-3 bg-[#1B5E45] rounded-full" />
-                       <label className="text-[10px] font-medium text-slate-400 uppercase tracking-[0.2em]">Headquarters</label>
+                       <label className="text-[10px] font-medium text-slate-400 uppercase ">Headquarters</label>
                     </div>
                     <div className="relative group/input">
                       <MapPin className="absolute left-6 top-5 w-4 h-4 text-slate-400 group-focus-within/input:text-[#1B5E45] transition-colors" />
@@ -233,7 +233,7 @@ export default function ProfilePage() {
                   <div className="space-y-2.5">
                     <div className="flex items-center gap-2 mb-1">
                        <div className="w-1 h-3 bg-[#1B5E45] rounded-full" />
-                       <label className="text-[10px] font-medium text-slate-400 uppercase tracking-[0.2em]">Digital Hub</label>
+                       <label className="text-[10px] font-medium text-slate-400 uppercase ">Digital Hub</label>
                     </div>
                     <div className="relative group/input">
                       <Globe className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within/input:text-[#1B5E45] transition-colors" />
@@ -263,7 +263,7 @@ export default function ProfilePage() {
                   </div>
                   <div className="space-y-1">
                     <h3 className="text-2xl font-medium text-slate-900 tracking-tighter uppercase">Personal <span className="text-slate-400">Ledger</span></h3>
-                    <p className="text-[10px] font-medium text-slate-400 uppercase tracking-widest">Direct Contact & Identity Protocol</p>
+                    <p className="text-[10px] font-medium text-slate-400 uppercase ">Direct Contact & Identity Protocol</p>
                   </div>
                 </div>
 
@@ -271,7 +271,7 @@ export default function ProfilePage() {
                   <div className="space-y-2.5">
                     <div className="flex items-center gap-2 mb-1">
                        <div className="w-1 h-3 bg-[#1B5E45] rounded-full" />
-                       <label className="text-[10px] font-medium text-slate-400 uppercase tracking-[0.2em]">Given Name</label>
+                       <label className="text-[10px] font-medium text-slate-400 uppercase ">Given Name</label>
                     </div>
                     <input
                       type="text"
@@ -290,7 +290,7 @@ export default function ProfilePage() {
                   <div className="space-y-2.5">
                     <div className="flex items-center gap-2 mb-1">
                        <div className="w-1 h-3 bg-[#1B5E45] rounded-full" />
-                       <label className="text-[10px] font-medium text-slate-400 uppercase tracking-[0.2em]">Family Name</label>
+                       <label className="text-[10px] font-medium text-slate-400 uppercase ">Family Name</label>
                     </div>
                     <input
                       type="text"
@@ -308,7 +308,7 @@ export default function ProfilePage() {
                   <div className="space-y-2.5 col-span-2 md:col-span-1">
                     <div className="flex items-center gap-2 mb-1">
                        <div className="w-1 h-3 bg-[#1B5E45] rounded-full" />
-                       <label className="text-[10px] font-medium text-slate-400 uppercase tracking-[0.2em]">Digital Mailbox</label>
+                       <label className="text-[10px] font-medium text-slate-400 uppercase ">Digital Mailbox</label>
                     </div>
                     <div className="relative group/input">
                       <Mail className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within/input:text-[#1B5E45] transition-colors" />
@@ -329,7 +329,7 @@ export default function ProfilePage() {
                   <div className="space-y-2.5 col-span-2 md:col-span-1">
                     <div className="flex items-center gap-2 mb-1">
                        <div className="w-1 h-3 bg-[#1B5E45] rounded-full" />
-                       <label className="text-[10px] font-medium text-slate-400 uppercase tracking-[0.2em]">Secure Line</label>
+                       <label className="text-[10px] font-medium text-slate-400 uppercase ">Secure Line</label>
                     </div>
                     <div className="relative group/input">
                       <Phone className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within/input:text-[#1B5E45] transition-colors" />
@@ -351,8 +351,8 @@ export default function ProfilePage() {
 
                 {isEditing && (
                   <div className="mt-12 pt-10 border-t border-slate-100 flex justify-end gap-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                    <Button variant="outline" onClick={() => setIsEditing(false)} className="px-8 h-12 rounded-xl text-[10px] font-medium uppercase tracking-widest border-slate-200">Decline Changes</Button>
-                    <Button onClick={handleSave} className="bg-slate-900 border-none text-white px-10 h-12 rounded-xl shadow-xl shadow-slate-900/20 hover:bg-slate-800 text-[10px] font-medium uppercase tracking-widest">
+                    <Button variant="outline" onClick={() => setIsEditing(false)} className="px-8 h-12 rounded-xl text-[10px] font-medium uppercase  border-slate-200">Decline Changes</Button>
+                    <Button onClick={handleSave} className="bg-slate-900 border-none text-white px-10 h-12 rounded-xl shadow-xl shadow-slate-900/20 hover:bg-slate-800 text-[10px] font-medium uppercase ">
                       <Save className="w-4 h-4 mr-2" />
                       Commit Data
                     </Button>

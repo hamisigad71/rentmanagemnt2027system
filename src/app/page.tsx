@@ -15,7 +15,7 @@ const ONBOARDING_STEPS = [
     description:
       "The most advanced property ecosystem designed for modern landlords and tenants in Kenya.",
     image:
-      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop",
+      "https://i.pinimg.com/736x/56/73/1d/56731d662b606897c1639a15e5884ee2.jpg",
     icon: <AnimatedShield />,
     accent: "Trusted",
   },
@@ -128,7 +128,7 @@ export default function OnboardingPage() {
 
           {/* Accent label */}
           <span
-            className="font-bold text-xs uppercase tracking-[0.2em] mb-3"
+            className="font-bold text-xs uppercase  mb-3"
             style={{ color: "var(--color-green-deep)" }}
           >
             {step.accent} Ecosystem

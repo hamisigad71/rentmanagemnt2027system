@@ -54,7 +54,7 @@ export default function TenantDashboard() {
               <div className="space-y-4">
                 <div className="inline-flex items-center gap-3 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/10">
                   <span className="w-2 h-2 rounded-full bg-[#3DBE7A] shadow-[0_0_8px_#3DBE7A]"></span>
-                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/80">{currentDate}</p>
+                  <p className="text-[10px] font-black uppercase  text-white/80">{currentDate}</p>
                 </div>
                 <h1 className="text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">
                   Welcome back, <br />
@@ -62,7 +62,7 @@ export default function TenantDashboard() {
                     {currentTenant.name.split(' ')[0]}
                   </span>
                 </h1>
-                <div className="flex items-center gap-4 text-white/50 text-sm font-bold uppercase tracking-widest">
+                <div className="flex items-center gap-4 text-white/50 text-sm font-bold uppercase ">
                   <div className="flex items-center gap-2">
                     <ShieldCheck className="w-4 h-4 text-[#3DBE7A]" />
                     <span>Unit {currentTenant.unitId}</span>
@@ -83,7 +83,7 @@ export default function TenantDashboard() {
                 <Button 
                   variant="outline" 
                   onClick={() => window.location.href = '/tenant/complaints'}
-                  className="bg-white/5 border-white/20 text-white hover:bg-white/10 px-8 py-3 rounded-xl text-xs font-black uppercase tracking-widest"
+                  className="bg-white/5 border-white/20 text-white hover:bg-white/10 px-8 py-3 rounded-xl text-xs font-black uppercase "
                 >
                   <AlertCircle className="w-5 h-5 mr-3" />
                   Report Issue
@@ -115,10 +115,10 @@ export default function TenantDashboard() {
                   >
                     <stat.icon className="w-6 h-6" />
                   </div>
-                  <span className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">{stat.label}</span>
+                  <span className="text-[9px] font-black text-slate-400 uppercase ">{stat.label}</span>
                 </div>
                 <h3 className="text-3xl font-black tracking-tight" style={{ color: "var(--color-text-primary)" }}>{stat.value}</h3>
-                <p className="text-[10px] font-bold uppercase tracking-widest mt-1" style={{ color: stat.color }}>{stat.sub}</p>
+                <p className="text-[10px] font-bold uppercase  mt-1" style={{ color: stat.color }}>{stat.sub}</p>
               </div>
             ))}
           </div>
@@ -137,7 +137,7 @@ export default function TenantDashboard() {
                   <h2 className="text-2xl font-black tracking-tight" style={{ color: "var(--color-text-primary)" }}>Financial Health</h2>
                   <p className="text-sm font-medium mt-1" style={{ color: "var(--color-text-muted)" }}>Current account standing</p>
                 </div>
-                <div className={`px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.2em] border ${isFullyPaid ? 'bg-[#E8F5EE] text-[#1B5E45] border-[#1B5E45]/20' : 'bg-orange-50 text-orange-600 border-orange-200'}`}>
+                <div className={`px-5 py-2 rounded-full text-[10px] font-black uppercase  border ${isFullyPaid ? 'bg-[#E8F5EE] text-[#1B5E45] border-[#1B5E45]/20' : 'bg-orange-50 text-orange-600 border-orange-200'}`}>
                   {isFullyPaid ? 'Settled' : 'Action Needed'}
                 </div>
               </div>
@@ -146,7 +146,7 @@ export default function TenantDashboard() {
                 <div className="relative pt-1">
                   <div className="flex mb-4 items-end justify-between">
                     <div>
-                      <span className="text-[11px] font-black uppercase tracking-widest px-3 py-1 bg-[#F0F5F0] rounded-lg" style={{ color: "var(--color-green-deep)" }}>
+                      <span className="text-[11px] font-black uppercase  px-3 py-1 bg-[#F0F5F0] rounded-lg" style={{ color: "var(--color-green-deep)" }}>
                         {paymentProgress.toFixed(0)}% Progress
                       </span>
                     </div>
@@ -175,7 +175,7 @@ export default function TenantDashboard() {
                     { label: "Outstanding", val: `$${currentTenant.arrears}`, color: isFullyPaid ? "var(--color-text-muted)" : "#EF4444" }
                   ].map((stat, i) => (
                     <div key={i} className="p-6 rounded-3xl bg-[#FAFAF8] border border-[#F0F5F0]">
-                      <p className="text-[9px] font-black uppercase tracking-widest mb-2 text-slate-400">{stat.label}</p>
+                      <p className="text-[9px] font-black uppercase  mb-2 text-slate-400">{stat.label}</p>
                       <p className="text-2xl font-black" style={{ color: stat.color }}>{stat.val}</p>
                     </div>
                   ))}
@@ -214,7 +214,7 @@ export default function TenantDashboard() {
                       <div className="w-10 h-10 bg-[#3DBE7A]/20 text-[#3DBE7A] rounded-xl flex items-center justify-center">
                         <Zap className="w-5 h-5" />
                       </div>
-                      <span className="font-black text-xs uppercase tracking-widest">Maintenance</span>
+                      <span className="font-black text-xs uppercase ">Maintenance</span>
                     </div>
                     <ArrowRight className="w-4 h-4 text-white/30 group-hover/link:translate-x-1 group-hover/link:text-white transition-all" />
                   </Link>
@@ -223,7 +223,7 @@ export default function TenantDashboard() {
                       <div className="w-10 h-10 bg-white/10 text-white/60 rounded-xl flex items-center justify-center">
                         <FileText className="w-5 h-5" />
                       </div>
-                      <span className="font-black text-xs uppercase tracking-widest">Lease Terms</span>
+                      <span className="font-black text-xs uppercase ">Lease Terms</span>
                     </div>
                     <ArrowRight className="w-4 h-4 text-white/30 group-hover/link:translate-x-1 group-hover/link:text-white transition-all" />
                   </Link>
@@ -258,12 +258,12 @@ export default function TenantDashboard() {
                         <p className="text-xs font-black text-slate-900 uppercase tracking-tight">{item.title}</p>
                         <p className="text-[10px] font-bold text-slate-400 mb-1">{item.date}</p>
                         {item.amount && <span className="text-[9px] font-black text-[#1B5E45] bg-[#E8F5EE] px-2 py-0.5 rounded-full">{item.amount}</span>}
-                        {item.status && <span className="text-[9px] font-black text-slate-500 bg-[#F0F5F0] px-2 py-0.5 rounded-full uppercase tracking-widest">{item.status}</span>}
+                        {item.status && <span className="text-[9px] font-black text-slate-500 bg-[#F0F5F0] px-2 py-0.5 rounded-full uppercase ">{item.status}</span>}
                       </div>
                     </div>
                   ))}
                 </div>
-                <Link href="/tenant/payments" className="block text-center text-[10px] font-black uppercase tracking-widest text-[#1B5E45] mt-8 hover:underline">
+                <Link href="/tenant/payments" className="block text-center text-[10px] font-black uppercase  text-[#1B5E45] mt-8 hover:underline">
                   Complete Ledger History
                 </Link>
               </div>

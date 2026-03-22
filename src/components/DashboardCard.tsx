@@ -69,7 +69,7 @@ export default function DashboardCard({
 
       <div className="relative z-10 flex items-start justify-between gap-4">
         <div className="space-y-1 min-w-0 flex-1">
-          <p className="text-[10px] font-bold text-[#6B7280] uppercase tracking-[0.2em] truncate font-sans">
+          <p className="text-[10px] font-bold text-[#6B7280] uppercase  truncate font-sans">
             {title}
           </p>
           <div className="flex flex-col">
@@ -106,7 +106,7 @@ export default function DashboardCard({
           ) : (
             <div className="flex items-center gap-1.5">
               <div className="w-1.5 h-1.5 rounded-full bg-[#C4D4C9] animate-pulse" />
-              <span className="text-[9px] font-bold text-[#6B7280] uppercase tracking-widest leading-none">
+              <span className="text-[9px] font-bold text-[#6B7280] uppercase  leading-none">
                 Standard Metric
               </span>
             </div>

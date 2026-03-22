@@ -154,7 +154,7 @@ export default function RegisterPage() {
                   <PlusCircle className="w-3.5 h-3.5" />
                 </div>
               </div>
-              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-3">Upload Photo</p>
+              <p className="text-[10px] font-bold text-gray-400 uppercase  mt-3">Upload Photo</p>
             </div>
 
             {/* Role Selection */}

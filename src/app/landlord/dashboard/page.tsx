@@ -61,7 +61,7 @@ export default function LandlordDashboard() {
             <h1 className="text-xl font-black tracking-tight" style={{ color: "var(--color-text-primary)" }}>
               Overview
             </h1>
-            <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>
+            <p className="text-[10px] font-bold uppercase " style={{ color: "var(--color-text-muted)" }}>
               Welcome, {userName || "Admin"}
             </p>
           </div>
@@ -116,12 +116,12 @@ export default function LandlordDashboard() {
                 >
                   <item.icon className="w-5 h-5" />
                 </div>
-                <span className="text-[10px] font-black uppercase tracking-widest text-[#1B5E45]">
+                <span className="text-[10px] font-black uppercase  text-[#1B5E45]">
                   {item.trend}
                 </span>
               </div>
               <h2 className="text-2xl font-black" style={{ color: "var(--color-text-primary)" }}>{item.value}</h2>
-              <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>{item.label}</p>
+              <p className="text-[10px] font-bold uppercase " style={{ color: "var(--color-text-muted)" }}>{item.label}</p>
             </div>
           ))}
         </div>
@@ -132,7 +132,7 @@ export default function LandlordDashboard() {
             <h3 className="text-lg font-black tracking-tight" style={{ color: "var(--color-text-primary)" }}>
               Revenue Trends
             </h3>
-            <Link href="/landlord/reports" className="text-[10px] font-black uppercase tracking-widest text-[#1B5E45] hover:underline">
+            <Link href="/landlord/reports" className="text-[10px] font-black uppercase  text-[#1B5E45] hover:underline">
               Analytics
             </Link>
           </div>
@@ -158,7 +158,7 @@ export default function LandlordDashboard() {
                 </div>
               ))}
             </div>
-            <div className="flex justify-between mt-5 px-1 text-[9px] font-black tracking-[0.2em]" style={{ color: "var(--color-text-muted)" }}>
+            <div className="flex justify-between mt-5 px-1 text-[9px] font-black " style={{ color: "var(--color-text-muted)" }}>
               <span>JAN</span><span>FEB</span><span>MAR</span><span>APR</span><span>MAY</span><span>JUN</span>
             </div>
           </div>
@@ -170,7 +170,7 @@ export default function LandlordDashboard() {
             <h3 className="text-lg font-black tracking-tight" style={{ color: "var(--color-text-primary)" }}>
               Recent Ledger
             </h3>
-            <Link href="/landlord/payments" className="text-[10px] font-black uppercase tracking-widest text-[#1B5E45] hover:underline">
+            <Link href="/landlord/payments" className="text-[10px] font-black uppercase  text-[#1B5E45] hover:underline">
               All History
             </Link>
           </div>
@@ -194,7 +194,7 @@ export default function LandlordDashboard() {
                   </div>
                   <div>
                     <p className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>{p.name}</p>
-                    <p className="text-[10px] font-bold uppercase tracking-widest mt-1" style={{ color: "var(--color-text-muted)" }}>
+                    <p className="text-[10px] font-bold uppercase  mt-1" style={{ color: "var(--color-text-muted)" }}>
                       {p.unit} • {p.time}
                     </p>
                   </div>
@@ -202,7 +202,7 @@ export default function LandlordDashboard() {
                 <div className="text-right">
                   <p className="font-black text-[#1B5E45]">{p.amount}</p>
                   <span 
-                    className={`inline-block px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-widest mt-1 border ${
+                    className={`inline-block px-3 py-1 rounded-full text-[8px] font-black uppercase  mt-1 border ${
                       p.status === 'PAID' ? 'bg-[#E8F5EE] text-[#1B5E45] border-[#1B5E45]/20' : 'bg-[#FEF3C7] text-[#92400e] border-[#92400e]/20'
                     }`}
                   >
@@ -234,8 +234,8 @@ export default function LandlordDashboard() {
             <div className="flex items-start justify-between relative z-10">
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-[8px] font-black bg-[#EF4444] text-white px-2 py-1 rounded-full tracking-widest">URGENT</span>
-                  <span className="text-[10px] font-bold tracking-widest text-[#1B5E45]">UNIT 102</span>
+                  <span className="text-[8px] font-black bg-[#EF4444] text-white px-2 py-1 rounded-full ">URGENT</span>
+                  <span className="text-[10px] font-bold  text-[#1B5E45]">UNIT 102</span>
                 </div>
                 <h4 className="text-md font-black italic" style={{ color: "var(--color-text-primary)" }}>
                   "Water leakage in master bathroom"
@@ -258,11 +258,11 @@ export default function LandlordDashboard() {
       >
         <Link href="/landlord/dashboard" className="flex flex-col items-center gap-1.5 text-[#3DBE7A]">
           <LayoutDashboard className="w-6 h-6" />
-          <span className="text-[9px] font-black uppercase tracking-widest">Home</span>
+          <span className="text-[9px] font-black uppercase ">Home</span>
         </Link>
         <Link href="/landlord/tenants" className="flex flex-col items-center gap-1.5 text-white/40 hover:text-[#3DBE7A] transition-colors">
           <Users className="w-6 h-6" />
-          <span className="text-[9px] font-black uppercase tracking-widest">Tenants</span>
+          <span className="text-[9px] font-black uppercase ">Tenants</span>
         </Link>
         
         <button 
@@ -278,11 +278,11 @@ export default function LandlordDashboard() {
         
         <Link href="/landlord/complaints" className="flex flex-col items-center gap-1.5 text-white/40 hover:text-[#3DBE7A] transition-colors">
           <ClipboardList className="w-6 h-6" />
-          <span className="text-[9px] font-black uppercase tracking-widest">Issues</span>
+          <span className="text-[9px] font-black uppercase ">Issues</span>
         </Link>
         <Link href="/landlord/profile" className="flex flex-col items-center gap-1.5 text-white/40 hover:text-[#3DBE7A] transition-colors">
           <MoreHorizontal className="w-6 h-6" />
-          <span className="text-[9px] font-black uppercase tracking-widest">More</span>
+          <span className="text-[9px] font-black uppercase ">More</span>
         </Link>
       </nav>
     </div>

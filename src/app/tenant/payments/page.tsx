@@ -47,7 +47,7 @@ function MiniBar({ pct, color = "#3DBE7A" }: { pct: number; color?: string }) {
 /* ─── Field label ────────────────────────────────────────────────────────── */
 function FieldLabel({ children }: { children: React.ReactNode }) {
   return (
-    <label className="block text-[8px] font-black uppercase tracking-[0.38em] mb-1.5"
+    <label className="block text-[8px] font-black uppercase  mb-1.5"
       style={{ color: "var(--color-text-muted)" }}>
       {children}
     </label>
@@ -100,7 +100,7 @@ export default function TenantPaymentsPage() {
               <div className="w-7 h-7 rounded-lg bg-[#1B5E45] flex items-center justify-center">
                 <CreditCard className="w-3.5 h-3.5 text-white" />
               </div>
-              <p className="text-[8px] font-black uppercase tracking-[0.45em]"
+              <p className="text-[8px] font-black uppercase "
                 style={{ color: "var(--color-text-muted)" }}>
                 Tenant Portal
               </p>
@@ -116,7 +116,7 @@ export default function TenantPaymentsPage() {
               Secure payment processing & transaction history
             </p>
           </div>
-          <button className="self-start sm:self-auto flex items-center gap-2 px-4 py-2.5 rounded-xl border text-xs font-black uppercase tracking-widest transition-all hover:bg-[#F7F8F5]"
+          <button className="self-start sm:self-auto flex items-center gap-2 px-4 py-2.5 rounded-xl border text-xs font-black uppercase  transition-all hover:bg-[#F7F8F5]"
             style={{ borderColor: "var(--color-border-light)", color: "var(--color-text-muted)" }}>
             <Download className="w-3.5 h-3.5" /> Export XLSX
           </button>
@@ -140,7 +140,7 @@ export default function TenantPaymentsPage() {
                   boxShadow: card.accent ? "0 8px 28px rgba(27,94,69,0.22)" : "var(--shadow-card)",
                 }}>
                 {card.accent && <div className="absolute -top-3 -right-3 w-12 h-12 bg-white/8 rounded-full" />}
-                <p className="text-[8px] font-black uppercase tracking-[0.35em] mb-1.5"
+                <p className="text-[8px] font-black uppercase  mb-1.5"
                   style={{ color: card.accent ? "rgba(255,255,255,0.5)" : "var(--color-text-muted)" }}>
                   {card.label}
                 </p>
@@ -180,12 +180,12 @@ export default function TenantPaymentsPage() {
                       <div className="flex items-center gap-2 mb-3">
                         <motion.span animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 2, repeat: Infinity }}
                           className="w-1.5 h-1.5 rounded-full bg-[#3DBE7A]" />
-                        <p className="text-[8px] font-black uppercase tracking-[0.42em]"
+                        <p className="text-[8px] font-black uppercase "
                           style={{ color: "var(--color-text-muted)" }}>
                           Ref: {refId}
                         </p>
                       </div>
-                      <p className="text-[8px] font-black uppercase tracking-[0.38em] mb-1.5"
+                      <p className="text-[8px] font-black uppercase  mb-1.5"
                         style={{ color: "var(--color-text-muted)" }}>
                         Current Outstanding Balance
                       </p>
@@ -194,7 +194,7 @@ export default function TenantPaymentsPage() {
                         KSh {currentTenant.arrears.toLocaleString()}
                       </p>
                     </div>
-                    <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-[9px] font-black uppercase tracking-widest ${
+                    <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-[9px] font-black uppercase  ${
                       allClear ? "bg-[#E8F5EE] border-[#C4D4C9] text-[#1B5E45]" : "bg-red-50 border-red-200 text-red-600"
                     }`}>
                       {allClear
@@ -205,7 +205,7 @@ export default function TenantPaymentsPage() {
                   </div>
                   {/* Settlement bar */}
                   <div className="relative z-10 mt-4 space-y-1.5">
-                    <div className="flex justify-between text-[8px] font-black uppercase tracking-widest"
+                    <div className="flex justify-between text-[8px] font-black uppercase "
                       style={{ color: "var(--color-text-muted)" }}>
                       <span>Settlement</span><span style={{ color: "var(--color-green-deep)" }}>{settlePct}%</span>
                     </div>
@@ -218,13 +218,13 @@ export default function TenantPaymentsPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <h4 className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Enter Payment Amount</h4>
-                      <p className="text-[9px] font-bold uppercase tracking-widest mt-0.5"
+                      <p className="text-[9px] font-bold uppercase  mt-0.5"
                         style={{ color: "var(--color-text-muted)" }}>Specify how much you want to pay</p>
                     </div>
                     <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border"
                       style={{ background: "var(--color-surface-tint)", borderColor: "var(--color-border-mid)" }}>
                       <Zap className="w-3 h-3" style={{ color: "#1B5E45" }} />
-                      <span className="text-[8px] font-black uppercase tracking-widest"
+                      <span className="text-[8px] font-black uppercase "
                         style={{ color: "#1B5E45" }}>Instant</span>
                     </div>
                   </div>
@@ -243,7 +243,7 @@ export default function TenantPaymentsPage() {
                         { label: "50%",  fn: () => setAmount(Math.round(currentTenant.arrears / 2)) },
                       ].map((btn, i) => (
                         <button key={i} onClick={btn.fn}
-                          className="px-2.5 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest border transition-all hover:bg-[#1B5E45] hover:text-white hover:border-[#1B5E45]"
+                          className="px-2.5 py-1.5 rounded-lg text-[9px] font-black uppercase  border transition-all hover:bg-[#1B5E45] hover:text-white hover:border-[#1B5E45]"
                           style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", color: "var(--color-text-muted)" }}>
                           {btn.label}
                         </button>
@@ -265,7 +265,7 @@ export default function TenantPaymentsPage() {
                   </div>
                   <div>
                     <h3 className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Payment Method</h3>
-                    <p className="text-[8px] font-black uppercase tracking-widest"
+                    <p className="text-[8px] font-black uppercase "
                       style={{ color: "var(--color-text-muted)" }}>Choose your preferred option</p>
                   </div>
                 </div>
@@ -341,7 +341,7 @@ export default function TenantPaymentsPage() {
                         </div>
                         <motion.button whileTap={{ scale: 0.97 }}
                           onClick={handlePayment}
-                          className="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl text-white text-sm font-black uppercase tracking-widest transition-all hover:-translate-y-0.5"
+                          className="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl text-white text-sm font-black uppercase  transition-all hover:-translate-y-0.5"
                           style={{ background: "linear-gradient(135deg,#1B5E45,#246B4F)", boxShadow: "0 6px 20px rgba(27,94,69,0.28)" }}>
                           Pay KSh {amount.toLocaleString()} via M-Pesa
                           <ArrowRight className="w-4 h-4" />
@@ -380,7 +380,7 @@ export default function TenantPaymentsPage() {
                         </div>
                         <motion.button whileTap={{ scale: 0.97 }}
                           onClick={handlePayment}
-                          className="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl text-white text-sm font-black uppercase tracking-widest transition-all hover:-translate-y-0.5"
+                          className="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl text-white text-sm font-black uppercase  transition-all hover:-translate-y-0.5"
                           style={{ background: "linear-gradient(135deg,#1B5E45,#246B4F)", boxShadow: "0 6px 20px rgba(27,94,69,0.28)" }}>
                           Charge KSh {amount.toLocaleString()}
                           <ArrowRight className="w-4 h-4" />
@@ -396,7 +396,7 @@ export default function TenantPaymentsPage() {
                         className="space-y-4">
                         <div className="rounded-2xl p-4 border space-y-3"
                           style={{ background: "var(--color-background-alt)", borderColor: "var(--color-border-light)" }}>
-                          <p className="text-[8px] font-black uppercase tracking-[0.38em]"
+                          <p className="text-[8px] font-black uppercase "
                             style={{ color: "var(--color-text-muted)" }}>Bank Details</p>
                           <div className="grid grid-cols-2 gap-3">
                             {[
@@ -407,7 +407,7 @@ export default function TenantPaymentsPage() {
                             ].map((row, i) => (
                               <div key={i} className="rounded-xl p-3 border"
                                 style={{ background: "var(--color-card)", borderColor: row.green ? "var(--color-border-mid)" : "var(--color-border-light)" }}>
-                                <p className="text-[7px] font-black uppercase tracking-widest mb-0.5"
+                                <p className="text-[7px] font-black uppercase  mb-0.5"
                                   style={{ color: row.green ? "#1B5E45" : "var(--color-text-muted)" }}>{row.label}</p>
                                 <p className={`text-xs font-black font-mono ${row.green ? "text-[#1B5E45]" : ""}`}
                                   style={{ color: row.green ? undefined : "var(--color-text-primary)" }}>
@@ -419,7 +419,7 @@ export default function TenantPaymentsPage() {
                         </div>
                         <motion.button whileTap={{ scale: 0.97 }}
                           onClick={handlePayment}
-                          className="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl text-white text-sm font-black uppercase tracking-widest transition-all hover:-translate-y-0.5"
+                          className="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl text-white text-sm font-black uppercase  transition-all hover:-translate-y-0.5"
                           style={{ background: "linear-gradient(135deg,#1B5E45,#246B4F)", boxShadow: "0 6px 20px rgba(27,94,69,0.28)" }}>
                           Initiate Transfer
                           <ArrowRight className="w-4 h-4" />
@@ -435,7 +435,7 @@ export default function TenantPaymentsPage() {
             <Reveal delay={0.1}>
               <div className="rounded-2xl border p-4 flex flex-col sm:flex-row items-center justify-between gap-4"
                 style={{ background: "var(--color-card)", borderColor: "var(--color-border-light)", boxShadow: "var(--shadow-card)" }}>
-                <p className="text-[8px] font-black uppercase tracking-[0.38em]"
+                <p className="text-[8px] font-black uppercase "
                   style={{ color: "var(--color-text-muted)" }}>
                   Secure Payment Partners
                 </p>
@@ -445,13 +445,13 @@ export default function TenantPaymentsPage() {
                   <div className="w-px h-4" style={{ background: "var(--color-border-light)" }} />
                   <div className="flex items-center gap-1.5">
                     <Lock className="w-3.5 h-3.5" style={{ color: "#1B5E45" }} />
-                    <span className="text-[9px] font-black uppercase tracking-widest"
+                    <span className="text-[9px] font-black uppercase "
                       style={{ color: "var(--color-green-deep)" }}>PCI-DSS</span>
                   </div>
                   <div className="w-px h-4" style={{ background: "var(--color-border-light)" }} />
                   <div className="flex items-center gap-1.5">
                     <ShieldCheck className="w-3.5 h-3.5" style={{ color: "#1B5E45" }} />
-                    <span className="text-[9px] font-black uppercase tracking-widest"
+                    <span className="text-[9px] font-black uppercase "
                       style={{ color: "var(--color-green-deep)" }}>256-bit AES</span>
                   </div>
                 </div>
@@ -479,7 +479,7 @@ export default function TenantPaymentsPage() {
                     </div>
                     <div>
                       <p className="text-sm font-black text-white">Security</p>
-                      <p className="text-[8px] font-black uppercase tracking-widest text-white/38">
+                      <p className="text-[8px] font-black uppercase  text-white/38">
                         Transaction protection
                       </p>
                     </div>
@@ -518,7 +518,7 @@ export default function TenantPaymentsPage() {
                   </div>
                   <div>
                     <p className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Payment Schedule</p>
-                    <p className="text-[8px] font-black uppercase tracking-widest"
+                    <p className="text-[8px] font-black uppercase "
                       style={{ color: "var(--color-text-muted)" }}>Upcoming due dates</p>
                   </div>
                 </div>
@@ -568,13 +568,13 @@ export default function TenantPaymentsPage() {
                 </div>
                 <div>
                   <h3 className="text-sm font-black" style={{ color: "var(--color-text-primary)" }}>Payment History</h3>
-                  <p className="text-[8px] font-black uppercase tracking-widest"
+                  <p className="text-[8px] font-black uppercase "
                     style={{ color: "var(--color-text-muted)" }}>
                     Complete transaction ledger
                   </p>
                 </div>
               </div>
-              <button className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest transition-all hover:gap-2"
+              <button className="flex items-center gap-1.5 text-[9px] font-black uppercase  transition-all hover:gap-2"
                 style={{ color: "var(--color-green-deep)" }}>
                 Export <Download className="w-3 h-3" />
               </button>
@@ -587,7 +587,7 @@ export default function TenantPaymentsPage() {
                   <tr style={{ background: "#1A1A1A" }}>
                     {["Transaction ID", "Month", "Amount", "Status", "Date"].map((h, i) => (
                       <th key={i}
-                        className="px-6 py-4 text-left text-[9px] font-black uppercase tracking-[0.3em] text-white/50">
+                        className="px-6 py-4 text-left text-[9px] font-black uppercase  text-white/50">
                         {h}
                       </th>
                     ))}
@@ -616,7 +616,7 @@ export default function TenantPaymentsPage() {
                           <div className="w-7 h-7 rounded-lg bg-[#E8F5EE] flex items-center justify-center">
                             <Calendar className="w-3.5 h-3.5" style={{ color: "#1B5E45" }} />
                           </div>
-                          <span className="text-xs font-black uppercase tracking-widest"
+                          <span className="text-xs font-black uppercase "
                             style={{ color: "var(--color-text-primary)" }}>
                             {payment.month}
                           </span>
@@ -631,7 +631,7 @@ export default function TenantPaymentsPage() {
                           text={payment.status === "completed" ? "Paid" : payment.status === "pending" ? "Pending" : "Failed"}
                           type={payment.status === "completed" ? "success" : payment.status === "pending" ? "warning" : "error"} />
                       </td>
-                      <td className="px-6 py-4 text-xs font-bold uppercase tracking-widest"
+                      <td className="px-6 py-4 text-xs font-bold uppercase "
                         style={{ color: "var(--color-text-muted)" }}>
                         {payment.date}
                       </td>
@@ -671,7 +671,7 @@ export default function TenantPaymentsPage() {
                       { label: "Date",   val: payment.date },
                     ].map((row, j) => (
                       <div key={j} className="flex items-center justify-between">
-                        <p className="text-[9px] font-black uppercase tracking-widest"
+                        <p className="text-[9px] font-black uppercase "
                           style={{ color: "var(--color-text-muted)" }}>{row.label}</p>
                         <p className={`text-xs font-black ${row.green ? "" : ""}`}
                           style={{ color: row.green ? "#1B5E45" : "var(--color-text-primary)" }}>
